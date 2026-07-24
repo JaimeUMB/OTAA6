@@ -5832,7 +5832,7 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:9998;o
       </span>
       <div class="topbar-actions">
         <button class="icon-btn" onclick="navigate('#profile')" aria-label="Profile" id="topbar-profile-btn">
-          <i data-lucide="user"></i>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px"><circle cx="12" cy="8.5" r="3.7"/><path d="M5.5 20 a6.5 6.5 0 0 1 13 0"/></svg>
         </button>
       </div>
     </header>
@@ -5851,10 +5851,10 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:9998;o
 
 <!-- Bottom nav -->
 <nav id="bot-nav">
-  <button class="nav-item" data-h="#home"><i data-lucide="house"></i><span>Home</span></button>
-  <button class="nav-item" data-h="#log"><i data-lucide="plus-circle"></i><span>Log</span></button>
-  <button class="nav-item" data-h="#plan"><i data-lucide="calendar"></i><span>Plan</span></button>
-  <button class="nav-item" data-h="#tasks"><i data-lucide="check-square"></i><span>Tasks</span></button>
+  <button class="nav-item" data-h="#home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round"><path d="M4 10.5 L12 4 L20 10.5"/><path d="M6 9.5 V20 H18 V9.5"/></svg><span>Home</span></button>
+  <button class="nav-item" data-h="#log"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 8.5 v7 M8.5 12 h7"/></svg><span>Log</span></button>
+  <button class="nav-item" data-h="#plan"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round"><rect x="4" y="5" width="16" height="15" rx="1.5"/><path d="M4 9.5 h16 M8 3 v4 M16 3 v4"/></svg><span>Plan</span></button>
+  <button class="nav-item" data-h="#tasks"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="1.5"/><path d="M8 12 l3 3 l5 -6.5"/></svg><span>Tasks</span></button>
   <button class="nav-item" data-h="#personal"><span class="nav-logo-icon"></span><span>Personal</span></button>
 </nav>
 
@@ -12103,6 +12103,14 @@ function saveShoe(){
 ═══════════════════════════════════════════════════ */
 
 
+// Inline nav icons (self-contained — no CDN dependency)
+const NAV_ICON_SVG={
+  'house':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round"><path d="M4 10.5 L12 4 L20 10.5"/><path d="M6 9.5 V20 H18 V9.5"/></svg>',
+  'plus-circle':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 8.5 v7 M8.5 12 h7"/></svg>',
+  'calendar':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round"><rect x="4" y="5" width="16" height="15" rx="1.5"/><path d="M4 9.5 h16 M8 3 v4 M16 3 v4"/></svg>',
+  'check-square':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="1.5"/><path d="M8 12 l3 3 l5 -6.5"/></svg>',
+  'user':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8.5" r="3.7"/><path d="M5.5 20 a6.5 6.5 0 0 1 13 0"/></svg>'
+};
 function buildSidebar(){
   const nav=$('#sb-nav'); if(!nav)return;
   const items=[
@@ -12114,7 +12122,7 @@ function buildSidebar(){
     {h:'#profile',ico:'user',lbl:'Profile'}
   ];
   nav.innerHTML=items.map(it=>`<button class="sb-item" data-h="${it.h}" onclick="navigate('${it.h}')">
-    ${it.ico==='__logo__'?`<span class=\"nav-logo-icon\" style=\"width:20px;height:20px;display:inline-block\"></span>`:`<i data-lucide="${it.ico}" style="width:16px;height:16px"></i>`}<span>${it.lbl}</span>
+    ${it.ico==='__logo__'?`<span class=\"nav-logo-icon\" style=\"width:20px;height:20px;display:inline-block\"></span>`:(NAV_ICON_SVG[it.ico]||'')}<span>${it.lbl}</span>
   </button>`).join('');
 }
 
