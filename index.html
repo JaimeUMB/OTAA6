@@ -6460,10 +6460,10 @@ function computeACWR() {
   }
   const ratio = chronic > 0 ? acute / chronic : 1.0;
   let zone, label, color;
-  if      (ratio < 0.8)  { zone='undertrain'; label='Undertraining ⬇️'; color='var(--text-2)';  }
+  if      (ratio < 0.8)  { zone='undertrain'; label='Undertraining'; color='var(--text-2)';  }
   else if (ratio <= 1.3) { zone='optimal';    label='On Track';       color='var(--success)'; }
   else if (ratio <= 1.5) { zone='caution';    label='High Load';      color='var(--warning)'; }
-  else                   { zone='danger';     label='Overload';        color='var(--error)';   }
+  else                   { zone='danger';     label='Overload';        color='var(--notification)';   }
   return { ratio, zone, label, color, acute, chronic };
 }
 
@@ -8107,27 +8107,31 @@ function renderHome(el){
   const _kcalShort = kcalMethod.indexOf('HR')>=0?'hr based':'acsm';
   const _wkPigment={SR:'var(--accent)',LR:'var(--dblue)',RACE:'var(--action)',PP:'var(--ochre)'};
   const _todayIso=isoToday();
-  const _wkEditorial = wd.map((d,i)=>{
+  const _wkDays = wd.map((d,i)=>{
     const _acts=getActsForDate(d);
     const _lr=_acts.find(a=>a.type==='run');
     const _pl=_sessByDate[d]||null;
     const _isT=d===_todayIso;
     const _dt=new Date(d+'T00:00:00');
-    let tag='',tagBg='',tagFg='',dotC='rgba(50,46,39,.22)',dotSize=6;
+    let tag='',tagBg='',tagFg='',dotC='rgba(50,46,39,.22)',dotSize=6,plannedRun=false;
     if(_lr){tag='✓ '+(+_lr.distance_km).toFixed(0)+'km';tagBg='var(--sage)';tagFg='#2b2e21';dotC='var(--sage)';dotSize=9;}
-    else if(_pl){const st=_pl.sessionType;if(st==='LR'||st==='SR'||st==='RACE'){tag=(_pl.km!=null?_pl.km+'km':'Run');tagBg=_wkPigment[st]||'var(--accent)';tagFg='#fff';dotC=_wkPigment[st]||'var(--accent)';dotSize=9;}else if(st==='PP'){tag='P&P';tagBg='var(--ochre)';tagFg='#231B10';dotC='var(--ochre)';dotSize=9;}}
-    const dateStyle="font-family:var(--font-ui);font-size:12px;font-weight:700;margin-top:3px;color:"+(_isT?'var(--accent)':'var(--text-muted)');
-    const dot=_isT?'<span style="width:13px;height:13px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 4px rgba(176,138,69,.2)"></span>':'<span style="width:'+dotSize+'px;height:'+dotSize+'px;border-radius:50%;background:'+dotC+'"></span>';
-    const tagEl=tag?'<span style="padding:4px 7px;border-radius:8px;font-family:var(--font-ui);font-size:10px;font-weight:700;letter-spacing:.2px;white-space:nowrap;background:'+tagBg+';color:'+tagFg+'">'+tag+'</span>':'';
-    return '<div onclick="showDayPopover(\''+d+'\',this)" style="flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;cursor:pointer">'
-      +'<div style="height:26px;display:flex;align-items:flex-end;justify-content:center">'+tagEl+'</div>'
-      +'<div style="height:18px;display:flex;align-items:center;justify-content:center">'+dot+'</div>'
-      +'<div style="font-family:var(--font-ui);font-size:8px;letter-spacing:1px;text-transform:uppercase;color:var(--text-3);font-weight:600">'+dLbls[i]+'</div>'
-      +'<div style="'+dateStyle+'">'+_dt.getDate()+'</div>'
-      +'</div>';
+    else if(_pl){const st=_pl.sessionType;if(st==='LR'||st==='SR'||st==='RACE'){plannedRun=true;tag=(_pl.km!=null?_pl.km+'km':'Run');tagBg=_wkPigment[st]||'var(--accent)';tagFg='#fff';dotC=_wkPigment[st]||'var(--accent)';dotSize=9;}else if(st==='PP'){tag='P&P';tagBg='var(--ochre)';tagFg='#231B10';dotC='var(--ochre)';dotSize=9;}}
+    return {d,dow:dLbls[i],date:_dt.getDate(),isT:_isT,tag,tagBg,tagFg,dotC,dotSize,doneRun:!!_lr,plannedRun};
+  });
+  const _wkTags = _wkDays.map(o=>'<div onclick="showDayPopover(\''+o.d+'\',this)" style="flex:1 1 0;min-width:0;height:32px;display:flex;align-items:flex-end;justify-content:center;cursor:pointer">'+(o.tag?'<span style="padding:5px 8px;border-radius:8px;font-family:var(--font-ui);font-size:10.5px;font-weight:700;letter-spacing:.2px;white-space:nowrap;background:'+o.tagBg+';color:'+o.tagFg+'">'+o.tag+'</span>':'')+'</div>').join('');
+  const _wkDots = _wkDays.map(o=>{
+    const dot=o.isT?'<span style="width:13px;height:13px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 4px rgba(176,138,69,.2)"></span>':'<span style="width:'+o.dotSize+'px;height:'+o.dotSize+'px;border-radius:50%;background:'+o.dotC+'"></span>';
+    return '<div style="flex:1 1 0;display:flex;justify-content:center;position:relative;z-index:2">'+dot+'</div>';
   }).join('');
+  const _wkLabels = _wkDays.map(o=>'<div style="flex:1 1 0;text-align:center"><div style="font-family:var(--font-ui);font-size:8px;letter-spacing:1px;text-transform:uppercase;color:var(--text-3);font-weight:600">'+o.dow+'</div><div style="font-family:var(--font-ui);font-size:12px;font-weight:700;margin-top:3px;color:'+(o.isT?'var(--accent)':'var(--text-muted)')+'">'+o.date+'</div></div>').join('');
+  const _mth=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const _wd0=new Date(wd[0]+'T00:00:00'),_wd6=new Date(wd[6]+'T00:00:00');
+  const _wkRange=_wd0.getDate()+' '+_mth[_wd0.getMonth()]+' — '+_wd6.getDate()+' '+_mth[_wd6.getMonth()];
+  const _wkDone=_wkDays.filter(o=>o.doneRun).length;
+  const _wkToGo=_wkDays.filter(o=>o.plannedRun&&!o.doneRun).length;
+  const _wkProgress=_wkDone+' done · '+_wkToGo+' to go';
   const _todayIdx=wd.indexOf(_todayIso);
-  const _wkFillPct = _todayIdx>=0 ? (7 + (_todayIdx/6)*86) : 7;
+  const _wkFillW = _todayIdx>=0 ? ((_todayIdx+0.5)/7)*86 : 0;
   const _recentEditorial = recentRuns.length ? recentRuns.map(a=>{
     const c=WK_COLORS[a.run_type]||'var(--accent)';
     const zone=(RUN_ZONE_LBL[a.run_type]||'Z2 Easy');
@@ -8240,8 +8244,17 @@ function renderHome(el){
 
   <div style="display:flex;align-items:baseline;gap:12px;padding:30px 0 0"><span style="font-family:var(--font-ui);font-size:12px;font-weight:700;color:var(--accent);letter-spacing:.5px">01</span><span style="font-family:var(--font-display);font-weight:700;font-size:24px;color:var(--text)">This week</span><span style="flex:1;height:1px;background:var(--border-hair);transform:translateY(-6px)"></span></div>
   <div style="margin-top:16px;background:var(--bg-2);border:1px solid var(--border);padding:16px 16px 15px;box-shadow:var(--shadow-inset)">
-    <div style="display:flex">${_wkEditorial}</div>
-    <div style="position:relative;height:2px;background:rgba(50,46,39,.14);margin-top:12px"><div style="position:absolute;left:0;top:0;height:2px;width:${_wkFillPct}%;background:var(--gold)"></div></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px">
+      <span style="font-family:var(--font-ui);font-size:8.5px;letter-spacing:1.4px;text-transform:uppercase;color:var(--text-3);font-weight:700">${_wkRange}</span>
+      <span style="font-family:var(--font-ui);font-size:8.5px;letter-spacing:1.4px;text-transform:uppercase;color:var(--accent);font-weight:700">${_wkProgress}</span>
+    </div>
+    <div style="display:flex">${_wkTags}</div>
+    <div style="position:relative;display:flex;align-items:center;height:18px;margin-top:8px">
+      <div style="position:absolute;left:7%;right:7%;top:50%;height:2px;transform:translateY(-1px);background:rgba(50,46,39,.18)"></div>
+      <div style="position:absolute;left:7%;width:${_wkFillW}%;top:50%;height:2px;transform:translateY(-1px);background:var(--gold)"></div>
+      ${_wkDots}
+    </div>
+    <div style="display:flex;margin-top:11px">${_wkLabels}</div>
   </div>
 
   <div style="display:flex;align-items:baseline;gap:12px;padding:32px 0 0"><span style="font-family:var(--font-ui);font-size:12px;font-weight:700;color:var(--accent);letter-spacing:.5px">02</span><span style="font-family:var(--font-display);font-weight:700;font-size:24px;color:var(--text)">Recent activity</span><span style="flex:1;height:1px;background:var(--border-hair);transform:translateY(-6px)"></span><button onclick="navigate('#history')" style="font-size:11.5px;color:var(--accent);font-weight:600;background:none;border:none;cursor:pointer;font-family:var(--font-ui)">See all →</button></div>
