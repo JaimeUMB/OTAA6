@@ -535,7 +535,7 @@ textarea.fi{resize:vertical;min-height:76px;line-height:1.5}
 .hlog-right{text-align:right;flex-shrink:0}
 .hlog-dist{font-family:var(--font-display);font-weight:900;font-size:26px;color:var(--text);letter-spacing:-1px}
 .hlog-pace{font-size:10.5px;color:var(--text-2);margin-top:1px}
-.hlog-actbtn{background:none;border:none;cursor:pointer;color:var(--text-3);display:flex;align-items:center;justify-content:center;min-width:40px;min-height:40px;border-radius:6px;flex-shrink:0}
+.hlog-actbtn{background:none;border:none;cursor:pointer;color:var(--text-3);display:flex;align-items:center;justify-content:center;min-width:40px;min-height:40px;border-radius:var(--radius-sm);flex-shrink:0}
 .hlog-actbtn:hover{background:var(--bg-3);color:var(--text)}
 .hlog-actbtn.danger:hover{color:var(--notification)}
 .hlog-empty{padding:28px 16px;text-align:center;color:var(--text-2);font-size:13px}
@@ -695,8 +695,8 @@ textarea.fi{resize:vertical;min-height:76px;line-height:1.5}
 .pcal-date-jump-btn:hover{background:var(--bg-3);color:var(--text)}
 .pcal-date-jump-btn svg{width:16px;height:16px;pointer-events:none}
 .pcal-date-jump-btn input{position:absolute;inset:0;opacity:0;cursor:pointer;border:none}
-.pcal-add-btn{width:32px;height:32px;display:flex;align-items:center;justify-content:center;border:1px solid var(--action-border);background:var(--action);color:#fbf3e2;border-radius:var(--radius-sm);cursor:pointer;transition:background 140ms ease}
-.pcal-add-btn:hover{background:var(--action-hover)}
+.pcal-add-btn{width:32px;height:32px;display:flex;align-items:center;justify-content:center;border:1px solid var(--accent-hover);background:var(--accent);color:#fff;border-radius:var(--radius-sm);cursor:pointer;transition:background 140ms ease}
+.pcal-add-btn:hover{background:var(--accent-hover)}
 .pcal-add-btn svg{width:16px;height:16px}
 .pcal-view-switch{display:flex;background:var(--bg-3);border-radius:var(--radius-sm);padding:3px;gap:0}
 .pcal-view-btn{flex:1;padding:7px 6px;font-size:12px;font-weight:600;font-family:var(--font-ui);border:none;background:transparent;color:var(--text-2);border-radius:var(--radius-sm);cursor:pointer;transition:all 140ms ease}
@@ -713,17 +713,16 @@ textarea.fi{resize:vertical;min-height:76px;line-height:1.5}
 .pcal-month-cell.pcal-outside .pcal-month-daynum{color:var(--text-3);opacity:.55}
 .pcal-month-cell.pcal-today{background:color-mix(in oklab,var(--accent) 6%,var(--bg-2))}
 .pcal-month-daynum{font-size:11px;font-weight:600;color:var(--text);font-family:var(--font-ui);padding:2px 3px}
-.pcal-month-cell.pcal-today .pcal-month-daynum{display:inline-flex;align-items:center;justify-content:center;width:19px;height:19px;padding:0;border-radius:6px;background:var(--action);color:#fbf3e2;font-weight:700}
+.pcal-month-cell.pcal-today .pcal-month-daynum{display:inline-flex;align-items:center;justify-content:center;width:19px;height:19px;padding:0;border-radius:var(--radius-sm);background:var(--accent);color:#fff;font-weight:700}
 .pcal-month-pills{display:flex;flex-direction:column;gap:2px;flex:1;min-height:0;overflow:hidden}
 .pcal-more-btn{align-self:flex-start;border:none;background:transparent;color:var(--text-3);font-size:10px;font-weight:600;font-family:var(--font-ui);cursor:pointer;padding:1px 3px}
 .pcal-more-btn:hover{color:var(--text-2)}
 
 /* ── Event pill (month cell / all-day banner / list rows) ── */
 .pcal-pill{
-  border-radius:6px;padding:3px 6px 3px 7px;font-family:var(--font-ui);
+  border-radius:var(--radius-sm);padding:3px 6px 3px 7px;font-family:var(--font-ui);
   border:1px solid var(--pcal-other-bd);border-left-width:3px;
   background:var(--pcal-other-bg);color:var(--pcal-other-tx);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.4);
   cursor:pointer;overflow:hidden;display:flex;align-items:baseline;gap:5px;min-width:0;
 }
 .pcal-pill[data-pcal-color="study"]{background:var(--pcal-study-bg);border-color:var(--pcal-study-bd);border-left-color:var(--pcal-study-bar);color:var(--pcal-study-tx)}
@@ -739,6 +738,8 @@ textarea.fi{resize:vertical;min-height:76px;line-height:1.5}
 .pcal-pill.pcal-sched-completed{background:color-mix(in oklab,var(--success) 12%,var(--bg));color:var(--success)}
 .pcal-pill.pcal-sched-missed{background:color-mix(in oklab,var(--action) 8%,var(--bg));color:var(--action)}
 .pcal-pill.pcal-sched-replacement{background:color-mix(in oklab,var(--warning) 10%,var(--bg));color:var(--warning)}
+.pcal-pill.pcal-task{background:color-mix(in oklab,var(--ochre) 14%,var(--bg));color:color-mix(in oklab,var(--ochre) 60%,var(--text));border-left-width:4px}
+.pcal-pill.pcal-task-completed{background:color-mix(in oklab,var(--success) 12%,var(--bg));color:var(--success)}
 
 /* ── Week / Day view ── */
 .pcal-week-hdr-row,.pcal-allday-row{display:flex;border-bottom:1px solid var(--border-cell);background:var(--bg-3)}
@@ -748,7 +749,7 @@ textarea.fi{resize:vertical;min-height:76px;line-height:1.5}
 .pcal-week-hdr-cell:last-child{border-right:none}
 .pcal-week-hdr-dow{font-size:10px;font-weight:600;color:var(--text-3);font-family:var(--font-ui)}
 .pcal-week-hdr-date{font-size:13px;font-weight:600;color:var(--text);font-family:var(--font-ui)}
-.pcal-week-hdr-cell.pcal-today .pcal-week-hdr-date{display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:22px;padding:0 4px;border-radius:7px;background:var(--action);color:#fbf3e2}
+.pcal-week-hdr-cell.pcal-today .pcal-week-hdr-date{display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:22px;padding:0 4px;border-radius:var(--radius-sm);background:var(--accent);color:#fff}
 .pcal-allday-row{min-height:30px}
 .pcal-allday-cell{flex:1;border-right:1px solid var(--border-hair);padding:3px;display:flex;flex-direction:column;gap:2px;cursor:pointer}
 .pcal-allday-cell:last-child{border-right:none}
@@ -763,8 +764,8 @@ textarea.fi{resize:vertical;min-height:76px;line-height:1.5}
 .pcal-day-col:last-child{border-right:none}
 .pcal-day-col-single{max-width:none}
 .pcal-timed-block{
-  position:absolute;left:3px;right:3px;border-radius:6px;padding:5px 7px;overflow:hidden;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.4);cursor:pointer;font-family:var(--font-ui);
+  position:absolute;left:3px;right:3px;border-radius:var(--radius-sm);padding:5px 7px;overflow:hidden;
+  cursor:pointer;font-family:var(--font-ui);
   border:1px solid var(--pcal-other-bd);border-left-width:4px;background:var(--pcal-other-bg);color:var(--pcal-other-tx);
 }
 .pcal-timed-block[data-pcal-color="study"]{background:var(--pcal-study-bg);border-color:var(--pcal-study-bd);border-left-color:var(--pcal-study-bar);color:var(--pcal-study-tx)}
@@ -777,13 +778,13 @@ textarea.fi{resize:vertical;min-height:76px;line-height:1.5}
 .pcal-resize-handle{position:absolute;left:0;right:0;height:7px;cursor:ns-resize}
 .pcal-resize-top{top:0}
 .pcal-resize-bottom{bottom:0}
-.pcal-now-line{position:absolute;left:0;right:0;height:0;border-top:1.5px solid var(--action);z-index:5;pointer-events:none}
-.pcal-now-line::before{content:'';position:absolute;left:-4px;top:-4px;width:8px;height:8px;border-radius:50%;background:var(--action)}
+.pcal-now-line{position:absolute;left:0;right:0;height:0;border-top:1.5px solid var(--accent);z-index:5;pointer-events:none}
+.pcal-now-line::before{content:'';position:absolute;left:-4px;top:-4px;width:8px;height:8px;border-radius:50%;background:var(--accent)}
 
 .pcal-day-hdr{display:flex;align-items:baseline;gap:8px;padding:4px 0 10px}
 .pcal-day-hdr-dow{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text-3)}
 .pcal-day-hdr-date{font-family:var(--font-display);font-size:17px;font-weight:700;color:var(--text)}
-.pcal-day-hdr-date.pcal-today{color:var(--action)}
+.pcal-day-hdr-date.pcal-today{color:var(--accent)}
 
 /* ── List view ── */
 .pcal-list-date-hdr{font-size:11px;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:.07em;padding:12px 0 6px;border-bottom:1px solid var(--border-hair);margin-bottom:6px}
@@ -796,6 +797,7 @@ textarea.fi{resize:vertical;min-height:76px;line-height:1.5}
 .pcal-list-row[data-pcal-color="personal"]{background:var(--pcal-personal-bg);border-color:var(--pcal-personal-bd);border-left-color:var(--pcal-personal-bar);color:var(--pcal-personal-tx)}
 .pcal-list-row[data-pcal-color="run"]{background:var(--pcal-run-bg);border-color:var(--pcal-run-bd);border-left-color:var(--pcal-run-bar);color:var(--pcal-run-tx)}
 .pcal-list-row.pcal-sched{background:var(--bg-2);color:var(--text)}
+.pcal-list-row.pcal-task{background:color-mix(in oklab,var(--ochre) 10%,var(--bg-2));color:color-mix(in oklab,var(--ochre) 60%,var(--text));border-left-color:var(--ochre)}
 .pcal-list-row-title{font-size:13px;font-weight:600;display:flex;align-items:center;gap:6px}
 .pcal-list-row-sub{font-size:11px;opacity:.75;flex-shrink:0}
 .pcal-daylist{max-height:52vh;overflow-y:auto}
@@ -10054,7 +10056,7 @@ function pcalPillDescFromEvent(ev){
 const PCAL_SESSION_COLOR={
   LR:'var(--dblue)', SR_Easy:'var(--success)', 'SR_Easy+Strides':'var(--success)',
   SR_Tempo:'var(--accent)', SR_Intervals:'var(--terra-tan)', SR_RacePace:'var(--accent)',
-  SR_Shakeout:'var(--success)', PP:'var(--accent)', RACE:'var(--action)'
+  SR_Shakeout:'var(--success)', PP:'var(--accent)', RACE:'var(--accent)'
 };
 function pcalSessionColor(sessionType,srType){
   if(sessionType==='SR'&&srType){
@@ -10130,7 +10132,27 @@ function pcalSchedPseudoEvents(dateIso,idx){
   (idx.replByDate.get(dateIso)||[]).forEach(r=>{
     const km=r.makeupKm!=null?r.makeupKm:r.plannedKm;
     const {name,detail}=pcalSessionLabel(r.baseSessionType, km, r.zone, null, true);
-    out.push({readOnly:true, id:'sched-repl-'+dateIso+'-'+r.baseSessionType, title:name, detail, color:'var(--warning)', state:'replacement'});
+    out.push({readOnly:true, kind:'sched', id:'sched-repl-'+dateIso+'-'+r.baseSessionType, title:name, detail, color:'var(--warning)', state:'replacement'});
+  });
+  return out;
+}
+// ── Task deadlines from AppState.tasks — read-only, generated on the fly
+// (never stored in AppState.events), same treatment as SCHEDULE sessions ──
+function pcalTaskPseudoEvents(dateIso){
+  const T=AppState.tasks;
+  if(!T||!Array.isArray(T.lists)) return [];
+  const out=[];
+  T.lists.forEach((list,li)=>{
+    (list.items||[]).forEach(item=>{
+      if(item.due===dateIso){
+        out.push({readOnly:true, kind:'task', id:'task-'+item.id, title:item.title, detail:list.name, color:'var(--ochre)', state:item.done?'completed':null});
+      }
+      (item.subtasks||[]).forEach(sub=>{
+        if(sub.due===dateIso){
+          out.push({readOnly:true, kind:'task', id:'task-'+item.id+'-'+sub.id, title:sub.title, detail:item.title, color:'var(--ochre)', state:sub.done?'completed':null});
+        }
+      });
+    });
   });
   return out;
 }
@@ -10138,8 +10160,10 @@ function pcalSchedPseudoEvents(dateIso,idx){
 /* ── Pill / block markup ─────────────────────────────────────────── */
 function pcalPillHtml(p){
   if(p.readOnly){
-    const stateCls=p.state?` pcal-sched-${p.state}`:'';
-    return `<div class="pcal-pill pcal-sched${stateCls}" style="border-left-color:${p.color}" onclick="event.stopPropagation();pcalOpenSchedEvent('${p.id}')" title="${pcalEsc(p.title)}">
+    const kind=p.kind||'sched';
+    const stateCls=p.state?` pcal-${kind}-${p.state}`:'';
+    const openFn=kind==='task'?'pcalOpenTaskEvent':'pcalOpenSchedEvent';
+    return `<div class="pcal-pill pcal-${kind}${stateCls}" style="border-left-color:${p.color}" onclick="event.stopPropagation();${openFn}('${p.id}')" title="${pcalEsc(p.title)}">
       <span class="pcal-pill-title">${pcalEsc(p.title)}</span>
       ${p.detail?`<span class="pcal-pill-detail">${pcalEsc(p.detail)}</span>`:''}
     </div>`;
@@ -10252,7 +10276,8 @@ function pcalRenderMonth(idx){
     const isToday=dateIso===todayIso;
     const real=getEventsForDate(dateIso).map(pcalPillDescFromEvent);
     const sched=pcalSchedPseudoEvents(dateIso,idx);
-    const all=[...sched,...real];
+    const tasks=pcalTaskPseudoEvents(dateIso);
+    const all=[...sched,...tasks,...real];
     const shown=all.slice(0,3);
     const overflow=all.length-shown.length;
     html+=`<div class="pcal-month-cell${isToday?' pcal-today':''}${inMonth?'':' pcal-outside'}"
@@ -10288,7 +10313,8 @@ function pcalRenderWeek(idx){
     const dayEvents=getEventsForDate(d);
     const real=dayEvents.filter(e=>e.allDay||e.date!==e.endDate).map(pcalPillDescFromEvent);
     const sched=pcalSchedPseudoEvents(d,idx);
-    const all=[...sched,...real];
+    const tasks=pcalTaskPseudoEvents(d);
+    const all=[...sched,...tasks,...real];
     html+=`<div class="pcal-allday-cell" ondragover="pcalDayDragOver(event)" ondrop="pcalDayDrop(event,'${d}')" onclick="pcalCellClick(event,'${d}')">
       ${all.map(p=>pcalPillHtml(p)).join('')}
     </div>`;
@@ -10316,7 +10342,8 @@ function pcalRenderDay(idx){
   const allDayReal=dayEvents.filter(e=>e.allDay||e.date!==e.endDate).map(pcalPillDescFromEvent);
   const timedReal=dayEvents.filter(e=>!e.allDay && e.date===e.endDate && e.startTime && e.endTime);
   const sched=pcalSchedPseudoEvents(d,idx);
-  const bannerItems=[...sched,...allDayReal];
+  const tasks=pcalTaskPseudoEvents(d);
+  const bannerItems=[...sched,...tasks,...allDayReal];
 
   let html=`<div class="pcal-day-hdr">
     <span class="pcal-day-hdr-dow">${PCAL_WD_SHORT[(pcalParse(d).getUTCDay()+6)%7]}</span>
@@ -10353,6 +10380,18 @@ function pcalRenderList(){
       const l=byDate.get(s.date)||[]; l.push({__sched:true,session:s}); byDate.set(s.date,l);
     });
   });
+  (AppState.tasks&&AppState.tasks.lists?AppState.tasks.lists:[]).forEach(list=>{
+    (list.items||[]).forEach(item=>{
+      if(item.due&&item.due>=startIso&&item.due<=endIso){
+        const l=byDate.get(item.due)||[]; l.push({__task:true,pid:'task-'+item.id,title:item.title,detail:list.name,done:item.done}); byDate.set(item.due,l);
+      }
+      (item.subtasks||[]).forEach(sub=>{
+        if(sub.due&&sub.due>=startIso&&sub.due<=endIso){
+          const l=byDate.get(sub.due)||[]; l.push({__task:true,pid:'task-'+item.id+'-'+sub.id,title:sub.title,detail:item.title,done:sub.done}); byDate.set(sub.due,l);
+        }
+      });
+    });
+  });
   const dates=[...byDate.keys()].sort();
   if(!dates.length) return `<div class="pcal-empty">No upcoming events. Tap + to add one.</div>`;
   let html='';
@@ -10365,6 +10404,11 @@ function pcalRenderList(){
         html+=`<div class="pcal-list-row pcal-sched" style="border-left-color:${pcalSessionColor(s.sessionType,s.type||null)}" onclick="pcalOpenSchedEvent('sched-${d}-${s.sessionType}')">
           <div class="pcal-list-row-title">${pcalEsc(name)}</div>
           <div class="pcal-list-row-sub">${pcalEsc(detail)}</div>
+        </div>`;
+      } else if(item.__task){
+        html+=`<div class="pcal-list-row pcal-task" onclick="pcalOpenTaskEvent('${item.pid}')">
+          <div class="pcal-list-row-title">${pcalEsc(item.title)}${item.done?' <span style="opacity:.6">✓</span>':''}</div>
+          <div class="pcal-list-row-sub">${pcalEsc(item.detail)}</div>
         </div>`;
       } else {
         const doneCount=(item.todos||[]).filter(t=>t.done).length;
@@ -10511,9 +10555,10 @@ function pcalOpenDayOverflow(dateIso){
   const idx=pcalBuildScheduleIndex();
   const real=getEventsForDate(dateIso).map(pcalPillDescFromEvent);
   const sched=pcalSchedPseudoEvents(dateIso,idx);
-  const all=[...sched,...real];
+  const tasks=pcalTaskPseudoEvents(dateIso);
+  const all=[...sched,...tasks,...real];
   const rows=all.map(p=>p.readOnly
-    ? `<div class="pcal-list-row pcal-sched" style="border-left-color:${p.color}" onclick="closeSheet();pcalOpenSchedEvent('${p.id}')">
+    ? `<div class="pcal-list-row pcal-${p.kind||'sched'}" style="border-left-color:${p.color}" onclick="closeSheet();${p.kind==='task'?'pcalOpenTaskEvent':'pcalOpenSchedEvent'}('${p.id}')">
          <div class="pcal-list-row-title">${pcalEsc(p.title)}</div>
          <div class="pcal-list-row-sub">${pcalEsc(p.detail||'')}</div>
        </div>`
@@ -10756,6 +10801,59 @@ function pcalToggleSchedComplete(dateIso,checked){
   showToast(checked?'Session marked complete ✓':'Marked incomplete');
   closeSheet();
   pcalRender();
+}
+
+/* ── Read-only task-deadline sheet ────────────────────────────────── */
+// pseudoId is 'task-<itemId>' or 'task-<itemId>-<subId>' — task ids (tskId())
+// never contain '-', so the first dash after the prefix safely splits them.
+function pcalFindTask(itemId,subId){
+  let listIdx=-1, item=null;
+  (AppState.tasks&&AppState.tasks.lists?AppState.tasks.lists:[]).forEach((list,li)=>{
+    const it=(list.items||[]).find(i=>i.id===itemId);
+    if(it){ listIdx=li; item=it; }
+  });
+  if(!item) return null;
+  const sub=subId?(item.subtasks||[]).find(s=>s.id===subId):null;
+  return {listIdx, item, sub};
+}
+function pcalOpenTaskEvent(pseudoId){
+  const rest=pseudoId.slice(5);
+  const dashIdx=rest.indexOf('-');
+  const itemId=dashIdx===-1?rest:rest.slice(0,dashIdx);
+  const subId=dashIdx===-1?null:rest.slice(dashIdx+1);
+  const found=pcalFindTask(itemId,subId);
+  if(!found){ showToast('Task not found'); return; }
+  const {listIdx,item,sub}=found;
+  const title=sub?sub.title:item.title;
+  const due=sub?sub.due:item.due;
+  const done=sub?sub.done:item.done;
+  const listName=AppState.tasks.lists[listIdx].name;
+  openSheet(`
+    <div class="sh-ttl">${pcalEsc(title)}</div>
+    <div style="font-size:13px;color:var(--text-2);margin-bottom:4px">${pcalEsc(listName)}${sub?' · '+pcalEsc(item.title):''}</div>
+    <div style="font-size:13px;color:var(--text);margin-bottom:16px">Due ${fmtDate(due)}</div>
+    <div style="font-size:11px;color:var(--text-3);margin-bottom:18px">From your task list · read-only here</div>
+    <label style="display:flex;align-items:center;gap:10px;padding:10px 0;border-top:1px solid var(--border);cursor:pointer">
+      <input type="checkbox" ${done?'checked':''} style="width:18px;height:18px;accent-color:var(--accent)" onchange="pcalToggleTaskDone('${itemId}','${subId||''}',this.checked)">
+      <span style="font-size:14px;color:var(--text)">Mark as done</span>
+    </label>
+    <button type="button" class="btn btn-secondary btn-full" style="margin-top:14px" onclick="pcalOpenInTasks(${listIdx},'${itemId}')">Open in Tasks →</button>
+  `);
+}
+function pcalToggleTaskDone(itemId,subId,checked){
+  const found=pcalFindTask(itemId,subId||null);
+  if(!found) return;
+  if(found.sub) found.sub.done=checked; else found.item.done=checked;
+  saveState();
+  showToast(checked?'Marked done ✓':'Marked not done');
+  closeSheet();
+  pcalRender();
+}
+function pcalOpenInTasks(listIdx,itemId){
+  AppState.tasks.activeList=listIdx;
+  closeSheet();
+  navigate('#tasks');
+  if(typeof tskOpenSheet==='function') tskOpenSheet(itemId);
 }
 
 function markPlanDone(id,type){
@@ -12626,7 +12724,23 @@ function _cloudSectionHtml(){
   const C = window.Cloud;
   const icoCloud='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="16" height="16"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>';
   const wrap=(body)=>body;
-  if (!C || !C.configured) {
+  // window.Cloud is only ever undefined when the Firebase module's own
+  // `import` statements failed (network/CDN blocked) — the module's very
+  // first synchronous line sets window.Cloud, before it even looks at
+  // firebaseConfig, so a *genuinely* blank config still reaches that line
+  // and reports configured:false honestly. Don't conflate the two: an
+  // unreachable CDN isn't "not configured", it's just offline right now.
+  if (!C) {
+    return wrap(`<div class="prof-row no-hover">
+      <div class="prof-row-ico" style="background:color-mix(in oklab,var(--warning) 14%,var(--bg-3));color:var(--warning)">${icoCloud}</div>
+      <div class="prof-row-body"><div class="prof-key">Cloud sync</div></div>
+      <span class="prof-val">Unavailable</span>
+    </div>
+    <div style="font-size:11px;color:var(--text-3);padding:10px 16px 4px;line-height:1.5">
+      Couldn't load the Firebase SDK (offline, or the CDN is blocked in this environment). Your data is still safe in this browser's local storage — reload with a normal internet connection to enable sync.
+    </div>`);
+  }
+  if (!C.configured) {
     return wrap(`<div class="prof-row no-hover">
       <div class="prof-row-ico" style="background:color-mix(in oklab,var(--text-3) 14%,var(--bg-3));color:var(--text-2)">${icoCloud}</div>
       <div class="prof-row-body"><div class="prof-key">Cloud sync</div></div>
