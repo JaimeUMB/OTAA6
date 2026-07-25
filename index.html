@@ -2862,38 +2862,6 @@ textarea.fi{resize:vertical;min-height:76px;line-height:1.5}
   box-shadow: none !important;
 }
 
-/* ── EXERCISE ROW INPUTS (inline-styled, need higher specificity) ── */
-#pg-log #cal-form #cal-ex-list input[type="text"],
-#pg-log #cal-form #cal-ex-list input[type="number"],
-#pg-log #cal-form #cal-ex-list select {
-  background: var(--bg) !important;
-  border: 1.5px solid var(--border) !important;
-  border-radius:0 !important;
-  color: var(--text) !important;
-  font-size: 13px !important;
-  transition: border-color 150ms ease, box-shadow 150ms ease !important;
-}
-#pg-log #cal-form #cal-ex-list input:focus,
-#pg-log #cal-form #cal-ex-list select:focus {
-  border-color: var(--accent) !important;
-  box-shadow:none !important;
-  outline: none !important;
-}
-/* Delete button on exercise rows */
-#pg-log #cal-form .ex-del {
-  background: transparent !important;
-  border: 1px solid var(--border) !important;
-  border-radius: 6px !important;
-  color: var(--text-3) !important;
-  cursor: pointer !important;
-  transition: background 140ms, color 140ms !important;
-}
-#pg-log #cal-form .ex-del:hover {
-  background: color-mix(in oklab, #B5461E 10%, var(--bg-2)) !important;
-  color: #B5461E !important;
-  border-color: color-mix(in oklab, #B5461E 30%, var(--border)) !important;
-}
-
 /* Add exercise button */
 #pg-log #cal-form .btn.btn-secondary[onclick="addCalEx()"] {
   background: var(--bg) !important;
@@ -3588,79 +3556,6 @@ textarea.fi{resize:vertical;min-height:76px;line-height:1.5}
    ║  A. EXERCISE ROWS — form exercise entry blocks               ║
    ╚═══════════════════════════════════════════════════════════════╝ */
 
-/* Each exercise block becomes an elevated card */
-#pg-log #cal-form #cal-ex-list > [id^="cal-ex-"] {
-  background: var(--bg) !important;
-  border: 1.5px solid var(--border) !important;
-  border-bottom-width: 1.5px !important;
-  border-radius:0 !important;
-  padding: 12px 14px !important;
-  margin-bottom: 10px !important;
-}
-/* Last row: no bottom margin needed before the Add button */
-#pg-log #cal-form #cal-ex-list > [id^="cal-ex-"]:last-child {
-  margin-bottom: 0 !important;
-}
-
-/* Header label row inside each exercise card */
-#pg-log #cal-form #cal-ex-list > [id^="cal-ex-"] > div:first-child {
-  font-size: 9px !important;
-  letter-spacing: 0 !important;
-  font-weight: 700 !important;
-  color: var(--text-3) !important;
-  text-transform: uppercase !important;
-  margin-bottom: 6px !important;
-  padding-bottom: 6px !important;
-  border-bottom: 1px solid var(--border) !important;
-}
-/* Input row: all inputs inside exercise card */
-#pg-log #cal-form #cal-ex-list input[type="text"],
-#pg-log #cal-form #cal-ex-list input[type="number"],
-#pg-log #cal-form #cal-ex-list select {
-  background: var(--bg-2) !important;
-  border: 1.5px solid var(--border) !important;
-  border-radius:0 !important;
-  color: var(--text) !important;
-  font-size: 13px !important;
-  padding: 8px 10px !important;
-  transition: border-color 150ms ease, box-shadow 150ms ease !important;
-  outline: none !important;
-}
-#pg-log #cal-form #cal-ex-list input:focus,
-#pg-log #cal-form #cal-ex-list select:focus {
-  border-color: var(--accent) !important;
-  box-shadow:none !important;
-}
-/* Done checkbox in exercise row */
-#pg-log #cal-form #cal-ex-list input[type="checkbox"].ex-done-cb {
-  width: 16px !important;
-  height: 16px !important;
-  cursor: pointer !important;
-}
-/* When done checkbox checked → line-through the name input visually */
-#pg-log #cal-form #cal-ex-list .ex-done-cb:checked ~ input[type="text"] {
-  text-decoration: line-through !important;
-  color: var(--text-3) !important;
-}
-/* Load row (bodyweight / weighted select) */
-#pg-log #cal-form #cal-ex-list > [id^="cal-ex-"] > div:last-child {
-  margin-top: 8px !important;
-  padding-top: 8px !important;
-  border-top: 1px solid color-mix(in oklab, var(--border) 60%, transparent) !important;
-}
-/* Load type select + kg input */
-#pg-log #cal-form #cal-ex-list select[id^="cal-ld-"],
-#pg-log #cal-form #cal-ex-list input[id^="cak-"] {
-  font-size: 12px !important;
-  padding: 6px 10px !important;
-}
-/* kg label */
-#pg-log #cal-form #cal-ex-list [id^="cal-kg-"] span {
-  font-size: 12px !important;
-  font-weight: 600 !important;
-  color: var(--text-2) !important;
-}
-
 /* ╔═══════════════════════════════════════════════════════════════╗
    ║  B. SAVED WORKOUTS LIST — below the log form                 ║
    ╚═══════════════════════════════════════════════════════════════╝ */
@@ -4025,104 +3920,6 @@ textarea.fi{resize:vertical;min-height:76px;line-height:1.5}
      - type/sets/reps each get ~77px in row 2
    ═══════════════════════════════════════════════════════════════════ */
 
-@media (max-width: 480px) {
-
-  /* ── Hide column header labels row (misaligns with 2-row layout) */
-  #pg-log #cal-form #cal-ex-list > [id^="cal-ex-"] > div:first-child {
-    display: none !important;
-  }
-
-  /* ── Input row: switch to 5-col × 2-row grid ─────────────────── */
-  #pg-log #cal-form #cal-ex-list > [id^="cal-ex-"] > div:nth-child(2) {
-    display: grid !important;
-    grid-template-columns: 22px 1fr 1fr 1fr 30px !important;
-    grid-template-rows: auto auto !important;
-    gap: 7px 6px !important;
-    align-items: center !important;
-    margin-bottom: 8px !important;
-  }
-
-  /* Row 1: ☐ [Name input spans cols 2-4] [✕] */
-  #pg-log #cal-form #cal-ex-list input.ex-done-cb {
-    grid-column: 1 !important;
-    grid-row: 1 !important;
-    align-self: center !important;
-    justify-self: center !important;
-  }
-  #pg-log #cal-form #cal-ex-list input[id^="can-"] {
-    grid-column: 2 / 5 !important;
-    grid-row: 1 !important;
-    width: 100% !important;
-    font-size: 14px !important;
-    padding: 10px 12px !important;
-  }
-  #pg-log #cal-form #cal-ex-list button.ex-del {
-    grid-column: 5 !important;
-    grid-row: 1 !important;
-    align-self: center !important;
-    justify-self: end !important;
-    width: 30px !important;
-    height: 36px !important;
-    flex-shrink: 0 !important;
-  }
-
-  /* Row 2: [Type ▼] in col 2, [Sets] in col 3, [Reps] in col 4
-     Col 1 + col 5 remain empty → creates visual indent on left */
-  #pg-log #cal-form #cal-ex-list select[id^="cat-"] {
-    grid-column: 2 !important;
-    grid-row: 2 !important;
-    width: 100% !important;
-    font-size: 12px !important;
-    padding: 8px 6px !important;
-    text-align: center !important;
-  }
-  #pg-log #cal-form #cal-ex-list input[id^="ca1-"] {
-    grid-column: 3 !important;
-    grid-row: 2 !important;
-    width: 100% !important;
-    text-align: center !important;
-    font-size: 14px !important;
-    padding: 8px 4px !important;
-  }
-  #pg-log #cal-form #cal-ex-list input[id^="ca2-"] {
-    grid-column: 4 !important;
-    grid-row: 2 !important;
-    width: 100% !important;
-    text-align: center !important;
-    font-size: 14px !important;
-    padding: 8px 4px !important;
-  }
-
-  /* ── Load row: flex, full width, comfortable height ──────────── */
-  #pg-log #cal-form #cal-ex-list > [id^="cal-ex-"] > div:last-child {
-    display: flex !important;
-    align-items: center !important;
-    gap: 8px !important;
-    flex-wrap: wrap !important;
-  }
-  #pg-log #cal-form #cal-ex-list select[id^="cal-ld-"] {
-    flex: 1 !important;
-    min-width: 120px !important;
-    font-size: 13px !important;
-    padding: 9px 10px !important;
-  }
-  #pg-log #cal-form #cal-ex-list input[id^="cak-"] {
-    width: 68px !important;
-    font-size: 13px !important;
-    padding: 9px 10px !important;
-    text-align: center !important;
-  }
-  #pg-log #cal-form #cal-ex-list [id^="cal-kg-"] span {
-    font-size: 13px !important;
-    font-weight: 600 !important;
-  }
-
-  /* ── Exercise card: slightly less padding on mobile ───────────── */
-  #pg-log #cal-form #cal-ex-list > [id^="cal-ex-"] {
-    padding: 10px 12px !important;
-  }
-
-} /* end @media (max-width: 480px) */
 
 /* ── END MOBILE EXERCISE LAYOUT FIX ─────────────────────────────── */
 
@@ -5773,6 +5570,57 @@ textarea.fi{resize:vertical;min-height:76px;line-height:1.5}
   border-radius:0 !important;
 }
 body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:9998;opacity:.5;mix-blend-mode:multiply;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.14'/%3E%3C/svg%3E");background-size:140px 140px}
+
+/* ═══════════════════════════════════════════════════════════════════
+   LOG BOOK — Editorial form styling (mockup-exact). Scoped to #pg-log so
+   other pages' form inputs are untouched. Placed last to win source order.
+   ═══════════════════════════════════════════════════════════════════ */
+/* placeholders + native chrome */
+#pg-log input::placeholder,#pg-log textarea::placeholder{color:var(--placeholder)!important;opacity:1}
+#pg-log input[type=number]::-webkit-outer-spin-button,#pg-log input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+#pg-log input[type=number]{-moz-appearance:textfield}
+#pg-log .lg-date::-webkit-calendar-picker-indicator{opacity:.55;cursor:pointer}
+#pg-log input:focus,#pg-log textarea:focus,#pg-log select:focus{border-color:var(--accent)!important}
+/* run-type / cal-type toggle pills (form-scoped to beat prior overrides) */
+#pg-log #run-form .run-type-btn,#pg-log #cal-form .cal-type-btn{border-radius:0!important;padding:14px 0!important;font-size:15px!important;font-weight:700!important;letter-spacing:.3px!important;background:var(--bg-3)!important;border:1px solid rgba(50,46,39,.3)!important;color:#5b564b!important;transition:all 150ms ease!important}
+#pg-log #run-form .run-type-btn:hover,#pg-log #cal-form .cal-type-btn:hover{border-color:var(--accent)!important;color:var(--accent)!important}
+#pg-log #run-form .run-type-btn.active[data-type="Short Run"]{background:var(--action)!important;border:1px solid var(--action-border)!important;color:#FBF3E2!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.14)!important}
+#pg-log #run-form .run-type-btn.active[data-type="Long Run"]{background:#6E8390!important;border:1px solid #566a76!important;color:#F1F4F6!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.18)!important}
+#pg-log #cal-form .cal-type-btn.active[data-type="Pull & Push"]{background:var(--action)!important;border:1px solid var(--action-border)!important;color:#FBF3E2!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.14)!important}
+#pg-log #cal-form .cal-type-btn.active[data-type="Prehab"]{background:var(--sage)!important;border:1px solid #5f6b49!important;color:#F1F3EC!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.18)!important}
+/* reading type + subtype pills */
+#pg-log #rd-form .rd-type-btn,#pg-log #rd-form .rd-subtype-btn{border-radius:0!important;padding:14px 0!important;font-size:15px!important;font-weight:700!important;letter-spacing:.2px!important;background:var(--bg-3)!important;border:1px solid rgba(50,46,39,.3)!important;color:#5b564b!important;transition:all 150ms ease!important}
+#pg-log #rd-form .rd-subtype-btn{font-size:14px!important;padding:13px 0!important}
+#pg-log #rd-form .rd-type-btn.active[data-type="reading"]{background:var(--accent)!important;border:1px solid #8f5f48!important;color:#FBF3E2!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.16)!important}
+#pg-log #rd-form .rd-type-btn.active[data-type="writing"]{background:var(--ochre)!important;border:1px solid #9c8047!important;color:#2c2410!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.22)!important}
+#pg-log #rd-form .rd-type-btn.active[data-type="editing"]{background:var(--dblue)!important;border:1px solid #566a76!important;color:#F1F4F6!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.18)!important}
+#pg-log #rd-form .rd-subtype-btn.active[data-subtype="character_study"]{background:var(--terra-tan)!important;border:1px solid #997261!important;color:#2c2016!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.2)!important}
+#pg-log #rd-form .rd-subtype-btn.active[data-subtype="sensory_mapping"]{background:var(--sage)!important;border:1px solid #5f6b49!important;color:#F1F3EC!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.16)!important}
+#pg-log #rd-form .rd-subtype-btn.active[data-subtype="narrative_writing"]{background:var(--ochre)!important;border:1px solid #9c8047!important;color:#2c2410!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.22)!important}
+#pg-log #rd-book{-webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23B27A5F' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9 l6 6 l6 -6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center}
+/* RPE gradient slider — editorial (form-scoped to beat prior overrides) */
+#pg-log .rpe-slider,#pg-log #run-form .rpe-slider,#pg-log #cal-form .rpe-slider{-webkit-appearance:none!important;appearance:none!important;width:100%!important;height:6px!important;border-radius:999px!important;background:linear-gradient(90deg,#7E8A66,#C4A56A 45%,#B08A45 65%,#B5461E)!important;outline:none!important;margin:0!important;cursor:pointer!important}
+#pg-log .rpe-slider::-webkit-slider-thumb,#pg-log #run-form .rpe-slider::-webkit-slider-thumb,#pg-log #cal-form .rpe-slider::-webkit-slider-thumb{-webkit-appearance:none!important;width:20px!important;height:20px!important;border-radius:50%!important;background:#EDE6D7!important;border:3px solid #B5461E!important;box-shadow:0 1px 3px rgba(40,36,29,.35)!important;cursor:pointer!important}
+#pg-log .rpe-slider::-moz-range-thumb,#pg-log #run-form .rpe-slider::-moz-range-thumb,#pg-log #cal-form .rpe-slider::-moz-range-thumb{width:20px!important;height:20px!important;border-radius:50%!important;background:#EDE6D7!important;border:3px solid #B5461E!important;box-shadow:0 1px 3px rgba(40,36,29,.35)!important;cursor:pointer!important}
+/* calisthenics exercise card (mockup-exact) */
+#pg-log #cal-ex-list{display:flex!important;flex-direction:column!important;gap:12px!important}
+#pg-log #cal-ex-list .cal-ex-card{display:block!important;border:1px solid var(--border-input)!important;background:#E5DBC7!important;padding:13px 12px 14px!important;margin:0!important;border-radius:0!important}
+#pg-log #cal-ex-list .cal-ex-top{display:flex!important;align-items:center!important;gap:10px!important}
+#pg-log #cal-ex-list .ex-done-cb{-webkit-appearance:none;appearance:none;flex:0 0 auto!important;width:30px!important;height:30px!important;border:1px solid rgba(50,46,39,.4)!important;background:#EFE8D9!important;border-radius:0!important;margin:0!important;cursor:pointer;position:relative}
+#pg-log #cal-ex-list .ex-done-cb:checked{background:var(--action)!important;border-color:var(--action-border)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.14)}
+#pg-log #cal-ex-list .ex-done-cb:checked::after{content:"";position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23FBF3E2' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 12.5 l4 4 L18 7'/%3E%3C/svg%3E") center/16px no-repeat}
+#pg-log #cal-ex-list .cal-ex-name{flex:1 1 auto!important;min-width:0!important;background:#EFE8D9!important;border:1px solid rgba(50,46,39,.24)!important;box-shadow:inset 0 1px 2px rgba(50,46,39,.06)!important;border-radius:0!important;padding:12px 14px!important;font-family:var(--font-ui)!important;font-size:15px!important;font-weight:500!important;color:var(--text)!important;outline:none!important}
+#pg-log #cal-ex-list .cal-ex-del{flex:0 0 auto!important;width:40px!important;height:44px!important;background:none!important;border:1px solid rgba(50,46,39,.2)!important;border-radius:0!important;color:var(--text-3)!important;font-size:20px!important;line-height:1!important;cursor:pointer;display:flex!important;align-items:center;justify-content:center;padding:0!important}
+#pg-log #cal-ex-list .cal-ex-grid{display:grid!important;grid-template-columns:1.05fr 1fr 1fr!important;gap:9px!important;margin-top:11px!important}
+#pg-log #cal-ex-list .cal-ex-num{min-width:0!important;width:100%!important;background:#EFE8D9!important;border:1px solid rgba(50,46,39,.24)!important;border-radius:0!important;padding:11px 0!important;text-align:center!important;font-family:var(--font-display)!important;font-size:19px!important;font-weight:700!important;color:var(--text)!important;outline:none!important}
+#pg-log #cal-ex-list .cal-ex-hr{height:1px!important;background:var(--border-hair)!important;margin:13px 0!important}
+#pg-log #cal-ex-list .cal-ex-load{display:flex!important;align-items:center!important;gap:9px!important}
+#pg-log #cal-ex-list .cal-ex-loadsel{flex:1 1 auto!important}
+#pg-log #cal-ex-list .cal-box-sel{background:#EFE8D9!important;border:1px solid rgba(50,46,39,.24)!important;border-radius:0!important;padding:12px 14px!important;padding-right:34px!important;font-family:var(--font-ui)!important;font-size:15px!important;font-weight:500!important;color:var(--text)!important;outline:none!important;cursor:pointer;-webkit-appearance:none!important;appearance:none!important;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238a8477' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8 9 l4 -4 l4 4 M8 15 l4 4 l4 -4'/%3E%3C/svg%3E")!important;background-repeat:no-repeat!important;background-position:right 12px center!important}
+#pg-log #cal-ex-list .cal-typesel{font-size:13px!important;font-weight:600!important;color:var(--text-2)!important;padding:11px 12px!important;padding-right:30px!important}
+#pg-log #cal-ex-list .cal-ex-kg{display:none;align-items:center;gap:5px}
+#pg-log #cal-ex-list .cal-ex-kgi{width:60px!important;padding:11px 8px!important;text-align:center!important;background:#EFE8D9!important;border:1px solid rgba(50,46,39,.24)!important;border-radius:0!important;font-family:var(--font-ui)!important;font-size:14px!important;color:var(--text)!important;outline:none!important}
+#pg-log #cal-ex-list .cal-ex-kg span{font-size:13px;color:var(--text-2);font-weight:500}
 </style>
 </head>
 <body>
@@ -8724,32 +8572,61 @@ function renderReadingHome(el,sliderHtml){
 
 function renderReadingLog(container){
   const recentBooks=[...new Map(AppState.activities.filter(a=>a.type==='reading'&&(!a.activity_type||a.activity_type==='reading')&&a.book_name).sort((a,b)=>b.date.localeCompare(a.date)).map(a=>[a.book_name,a.date])).keys()].slice(0,30);
+  const L='font-family:var(--font-ui);font-size:10px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--text-muted)';
+  const SUB='color:#a49d8e;letter-spacing:.6px';
+  const FLD='width:100%;background:var(--bg-3);border:1px solid var(--border-input);box-shadow:inset 0 1px 2px rgba(50,46,39,.07);color:var(--text);outline:none';
+  const BTN='padding:14px 0;font-family:var(--font-ui);font-size:15px;font-weight:700;letter-spacing:.2px;cursor:pointer';
+  const SBTN='padding:13px 0;font-family:var(--font-ui);font-size:14px;font-weight:700;letter-spacing:.2px;cursor:pointer';
   container.innerHTML=`<datalist id="rd-books-dl">${recentBooks.map(b=>`<option value="${b.replace(/"/g,'&quot;')}">`).join('')}</datalist>
-  <form id="rd-form" onsubmit="saveReading(event)">
-    <div class="fg"><label class="fl">Date</label><input type="date" class="fi" id="rd-date" value="${iso(TODAY)}" max="${iso(TODAY)}" autocomplete="off"></div>
-    <div class="fg"><label class="fl">Activity type</label>
-      <div class="rd-type-row" id="rd-activity-type-row">
-        <button type="button" class="rd-type-btn active" data-type="reading" onclick="setRdType('reading')">Reading</button>
-        <button type="button" class="rd-type-btn" data-type="writing" onclick="setRdType('writing')">Writing</button>
-        <button type="button" class="rd-type-btn" data-type="editing" onclick="setRdType('editing')">Editing</button>
-      </div></div>
-    <div class="fg" id="rd-fg-writing-subtype" style="display:none"><label class="fl">Writing type</label>
-      <div class="rd-type-row">
-        <button type="button" class="rd-subtype-btn active" data-subtype="character_study" onclick="setRdWritingSubtype('character_study')">Character Study</button>
-        <button type="button" class="rd-subtype-btn" data-subtype="sensory_mapping" onclick="setRdWritingSubtype('sensory_mapping')">Sensory Mapping</button>
-        <button type="button" class="rd-subtype-btn" data-subtype="narrative_writing" onclick="setRdWritingSubtype('narrative_writing')">Narrative Writing</button>
-      </div></div>
-    <div class="fg" id="rd-fg-book"><label class="fl">Book</label><input type="text" class="fi" id="rd-book" placeholder="Book title" list="rd-books-dl" autocomplete="on"></div>
-    <div class="fg"><label class="fl">Duration (minutes)</label>
-      <input type="number" class="fi" id="rd-dur" placeholder="Duration in minutes" min="1">
+  <form id="rd-form" onsubmit="saveReading(event)" style="border:1px solid var(--border);background:var(--bg-2);box-shadow:var(--shadow-inset);padding:20px 16px 18px">
+
+    <div style="${L};margin-bottom:9px">Date</div>
+    <input type="date" class="lg-date" id="rd-date" value="${iso(TODAY)}" max="${iso(TODAY)}" autocomplete="off"
+      style="${FLD};padding:13px 14px;font-family:var(--font-display);font-size:21px;font-weight:700;letter-spacing:.3px;text-align:center">
+
+    <div style="${L};margin:20px 0 9px">Activity type</div>
+    <div class="rd-type-row" id="rd-activity-type-row" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px">
+      <button type="button" class="rd-type-btn active" data-type="reading" onclick="setRdType('reading')" style="${BTN}">Reading</button>
+      <button type="button" class="rd-type-btn" data-type="writing" onclick="setRdType('writing')" style="${BTN}">Writing</button>
+      <button type="button" class="rd-type-btn" data-type="editing" onclick="setRdType('editing')" style="${BTN}">Editing</button>
     </div>
-    <div class="fg" id="rd-fg-pages"><label class="fl">Pages read</label><input type="number" class="fi" id="rd-pages" placeholder="0" min="0"></div>
-    <div class="fg" id="rd-fg-words" style="display:none"><label class="fl">Words written</label><input type="number" class="fi" id="rd-words" placeholder="0" min="0"></div>
-    <div class="fg"><label class="fl">Notes</label><textarea class="fi" id="rd-notes" placeholder="How did it go?" rows="2" style="resize:vertical" maxlength="280"></textarea></div>
-    <button type="submit" class="btn btn-primary btn-full">Save Session</button>
+
+    <div id="rd-fg-book">
+      <div style="${L};margin:20px 0 9px">Book</div>
+      <input type="text" class="rd-book-inp" id="rd-book" placeholder="Book title" list="rd-books-dl" autocomplete="on"
+        style="${FLD};padding:14px 16px;font-family:var(--font-ui);font-size:16px;font-weight:500">
+    </div>
+
+    <div id="rd-fg-writing-subtype" style="display:none">
+      <div style="${L};margin:20px 0 9px">Writing type</div>
+      <div class="rd-type-row" style="display:grid;grid-template-columns:1fr 1fr;gap:9px">
+        <button type="button" class="rd-subtype-btn active" data-subtype="character_study" onclick="setRdWritingSubtype('character_study')" style="${SBTN}">Character Study</button>
+        <button type="button" class="rd-subtype-btn" data-subtype="sensory_mapping" onclick="setRdWritingSubtype('sensory_mapping')" style="${SBTN}">Sensory Mapping</button>
+        <button type="button" class="rd-subtype-btn" data-subtype="narrative_writing" onclick="setRdWritingSubtype('narrative_writing')" style="grid-column:1 / -1;${SBTN}">Narrative Writing</button>
+      </div>
+    </div>
+
+    <div style="${L};margin:20px 0 9px">Duration <span style="${SUB}">minutes</span></div>
+    <input type="number" id="rd-dur" placeholder="Duration in minutes" min="1" style="${FLD};padding:13px 16px;font-family:var(--font-ui);font-size:16px;font-weight:500">
+
+    <div id="rd-fg-pages">
+      <div style="${L};margin:20px 0 9px">Pages read</div>
+      <input type="number" id="rd-pages" placeholder="0" min="0" style="${FLD};padding:13px 16px;font-family:var(--font-display);font-size:20px;font-weight:700">
+    </div>
+    <div id="rd-fg-words" style="display:none">
+      <div style="${L};margin:20px 0 9px">Words written</div>
+      <input type="number" id="rd-words" placeholder="0" min="0" style="${FLD};padding:13px 16px;font-family:var(--font-display);font-size:20px;font-weight:700">
+    </div>
+
+    <div style="height:1px;background:rgba(50,46,39,.2);margin:24px 0"></div>
+
+    <div style="${L};margin-bottom:9px">Notes</div>
+    <textarea id="rd-notes" placeholder="How did it go?" rows="2" maxlength="280"
+      style="${FLD};padding:14px 16px;min-height:96px;font-family:var(--font-display);font-style:italic;font-size:16px;line-height:1.5;resize:vertical"></textarea>
+
+    <button type="submit" style="width:100%;margin-top:20px;background:var(--action);border:1px solid var(--action-border);color:#FBF3E2;padding:16px;font-family:var(--font-ui);font-size:16px;font-weight:700;letter-spacing:.5px;cursor:pointer;box-shadow:inset 0 1px 0 rgba(255,255,255,.14)">Save Session</button>
   </form>`;
   _createIcons();}
-
 function saveReading(e){
   e.preventDefault();
   const actType=document.querySelector('.rd-type-btn.active')?.dataset.type||'reading';
@@ -8763,6 +8640,10 @@ function saveReading(e){
 
 function renderLog(el){
   calExCount=3;
+  const L='font-family:var(--font-ui);font-size:10px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--text-muted)';
+  const SUB='color:#a49d8e;letter-spacing:.6px';
+  const FLD='width:100%;background:var(--bg-3);border:1px solid var(--border-input);box-shadow:inset 0 1px 2px rgba(50,46,39,.07);color:var(--text);outline:none';
+  const DIV='height:1px;background:rgba(50,46,39,.2)';
   el.innerHTML=`
     <div class="mode-slider">
       <button class="mode-btn${AppState.ui.logMode==='running'?' active':''}" onclick="setLogMode('running')">
@@ -8775,38 +8656,50 @@ function renderLog(el){
     ${AppState.ui.logMode==='running'?`
       <div id="log-form"></div>
     `:AppState.ui.logMode==='calisthenics'?`
-      <form id="cal-form" novalidate onsubmit="saveCalisthenics(event)">
-        <div class="fg"><label class="fl">Date</label><input type="date" class="fi" id="cal-date" value="${iso(TODAY)}" max="${iso(TODAY)}"></div>
-        <div class="fg"><label class="fl">Workout type</label>
-          <div class="rd-type-row">
-            <button type="button" class="cal-type-btn active" data-type="Pull & Push" onclick="setCalType('Pull & Push')">Pull &amp; Push</button>
-            <button type="button" class="cal-type-btn" data-type="Prehab" onclick="setCalType('Prehab')">Prehab</button>
-          </div>
+      <form id="cal-form" novalidate onsubmit="saveCalisthenics(event)" style="border:1px solid var(--border);background:var(--bg-2);box-shadow:var(--shadow-inset);padding:20px 16px 18px">
+
+        <div style="${L};margin-bottom:9px">Date</div>
+        <input type="date" class="lg-date" id="cal-date" value="${iso(TODAY)}" max="${iso(TODAY)}"
+          style="${FLD};padding:13px 14px;font-family:var(--font-display);font-size:21px;font-weight:700;letter-spacing:.3px;text-align:center">
+
+        <div style="${L};margin:20px 0 9px">Workout type</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <button type="button" class="cal-type-btn active" data-type="Pull & Push" onclick="setCalType('Pull & Push')" style="padding:14px 0;font-family:var(--font-ui);font-size:15px;font-weight:700;letter-spacing:.3px;cursor:pointer">Pull &amp; Push</button>
+          <button type="button" class="cal-type-btn" data-type="Prehab" onclick="setCalType('Prehab')" style="padding:14px 0;font-family:var(--font-ui);font-size:15px;font-weight:700;letter-spacing:.3px;cursor:pointer">Prehab</button>
         </div>
-        <div class="fg" id="cal-ex-section"><label class="fl">Exercises</label>
-          <div id="cal-ex-list">${[0,1,2].map(i=>mkCalExRow(i)).join('')}</div>
-          <button type="button" onclick="addCalEx()" class="btn btn-secondary" style="margin-top:8px;min-height:38px;padding:7px 12px;font-size:13px">
-            <i data-lucide="plus" style="width:13px;height:13px"></i> Add exercise
+
+        <div style="${DIV};margin:22px 0"></div>
+
+        <div id="cal-ex-section">
+          <div style="${L};margin-bottom:12px">Exercises</div>
+          <div id="cal-ex-list" style="display:flex;flex-direction:column;gap:12px">${[0,1,2].map(i=>mkCalExRow(i)).join('')}</div>
+          <button type="button" onclick="addCalEx()" style="width:100%;margin-top:12px;background:none;border:1px dashed rgba(50,46,39,.4);color:var(--text-muted);padding:15px;font-family:var(--font-ui);font-size:14px;font-weight:600;letter-spacing:.3px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:9px">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5 v14 M5 12 h14"/></svg>Add exercise
           </button>
         </div>
         ${buildPrehabChecklist()}
-        <div class="fg">
-          <label class="fl">Duration (minutes)</label>
-          <input type="number" class="fi" id="cal-dur" placeholder="Duration in minutes" min="1">
+
+        <div style="${DIV};margin:22px 0"></div>
+
+        <div style="${L};margin-bottom:9px">Duration <span style="${SUB}">minutes</span></div>
+        <input type="number" id="cal-dur" placeholder="Duration in minutes" min="1" style="${FLD};padding:13px 16px;font-family:var(--font-ui);font-size:16px;font-weight:500">
+
+        <div style="display:flex;align-items:center;gap:12px;margin:22px 0 14px">
+          <span style="${L}">RPE</span>
+          <span id="rpe-cal-badge" style="border:1px solid rgba(126,138,102,.7);background:rgba(126,138,102,.14);border-radius:999px;padding:4px 12px;font-family:var(--font-ui);font-size:12px;font-weight:700;color:#5c6a44;letter-spacing:0;text-transform:none">5 · Moderate</span>
         </div>
-        <div class="fg">
-          <label class="fl">RPE<span id="rpe-cal-badge" style="display:inline-flex;align-items:center;margin-left:8px;padding:1px 8px;border-radius:20px;font-size:11px;font-weight:700;border:1.5px solid var(--success);color:var(--success);background:color-mix(in oklab,var(--success) 10%,var(--bg-2));transition:all 200ms;letter-spacing:0;text-transform:none">5 · Moderate</span></label>
-          <input type="range" class="rpe-slider" id="rpe-cal" min="1" max="10" value="5"
-            oninput="updRpe('cal')">
-          <div class="rpe-lbls"><span>1</span><span style="left:44.4%">5</span><span>10</span></div>
-        </div>
-        <div class="fg"><label class="fl">Notes</label>
-          <textarea class="fi" id="cal-notes" placeholder="How did it feel?" rows="2" style="resize:vertical" maxlength="280"></textarea>
-        </div>
-        <button type="submit" class="btn btn-primary btn-full">Save Session</button>
-        <button type="button" class="btn btn-secondary btn-full" style="margin-top:8px" onclick="saveWorkoutTemplate()">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="flex-shrink:0"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
-          Save as Template
+        <input type="range" class="rpe-slider" id="rpe-cal" min="1" max="10" value="5" oninput="updRpe('cal')">
+        <div class="rpe-lbls" style="display:flex;justify-content:space-between;margin-top:9px;font-family:var(--font-ui);font-size:11px;color:var(--text-3);font-weight:600"><span>1</span><span>5</span><span>10</span></div>
+
+        <div style="${DIV};margin:24px 0"></div>
+
+        <div style="${L};margin-bottom:9px">Notes</div>
+        <textarea id="cal-notes" placeholder="How did it feel?" rows="2" maxlength="280"
+          style="${FLD};padding:14px 16px;min-height:86px;font-family:var(--font-display);font-style:italic;font-size:16px;line-height:1.5;resize:vertical"></textarea>
+
+        <button type="submit" style="width:100%;margin-top:18px;background:var(--action);border:1px solid var(--action-border);color:#FBF3E2;padding:16px;font-family:var(--font-ui);font-size:16px;font-weight:700;letter-spacing:.5px;cursor:pointer;box-shadow:inset 0 1px 0 rgba(255,255,255,.14)">Save Session</button>
+        <button type="button" onclick="saveWorkoutTemplate()" style="width:100%;margin-top:10px;background:var(--bg-3);border:1px solid rgba(50,46,39,.3);color:var(--text-2);padding:15px;font-family:var(--font-ui);font-size:15px;font-weight:600;letter-spacing:.3px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:9px">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4 h11 l4 4 v12 H5 Z"/><path d="M8 4 v5 h7 V4 M8 20 v-6 h9 v6"/></svg>Save as Template
         </button>
       </form>
       <div id="sw-list-section" style="margin-top:4px"></div>
@@ -8844,40 +8737,79 @@ function setLogMode(mode){
 
 function renderLogForm(){
   const c=$('#log-form'); if(!c)return;
-  c.innerHTML=`<form id="run-form" onsubmit="saveRun(event)">
-      <div class="fg"><label class="fl">Date</label><input type="date" class="fi" id="rd" value="${iso(TODAY)}" max="${iso(TODAY)}"></div>
-      <div class="fg"><label class="fl">Run type</label><div class="rd-type-row">
-        ${['Short Run','Long Run'].map((t,i)=>`<button type="button" class="run-type-btn${i===0?' active':''}" data-type="${t}" onclick="setRunType('${t}')">${t}</button>`).join('')}
-      </div></div>
-      <div class="fg"><label class="fl">Distance (km)</label><input type="number" class="fi" id="rdist" step="0.1" min="0.1" placeholder="10.0" oninput="calcPace()"></div>
-      <div class="fg"><label class="fl">Duration (hh : mm : ss)</label>
-        <div class="dur-row">
-          <input type="number" class="fi" id="dh" placeholder="00" min="0" max="23" style="text-align:center" oninput="calcPace()">
-          <span class="dur-sep">:</span>
-          <input type="number" class="fi" id="dm" placeholder="00" min="0" max="59" style="text-align:center" oninput="calcPace()">
-          <span class="dur-sep">:</span>
-          <input type="number" class="fi" id="ds" placeholder="00" min="0" max="59" style="text-align:center" oninput="calcPace()">
+  const L='font-family:var(--font-ui);font-size:10px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--text-muted)';
+  const SUB='color:#a49d8e;letter-spacing:.6px';
+  const FLD='width:100%;background:var(--bg-3);border:1px solid var(--border-input);box-shadow:inset 0 1px 2px rgba(50,46,39,.07);color:var(--text);outline:none';
+  const DIV='height:1px;background:rgba(50,46,39,.2)';
+  c.innerHTML=`<form id="run-form" onsubmit="saveRun(event)" style="border:1px solid var(--border);background:var(--bg-2);box-shadow:var(--shadow-inset);padding:20px 16px 18px">
+
+      <div style="${L};margin-bottom:9px">Date</div>
+      <input type="date" class="lg-date" id="rd" value="${iso(TODAY)}" max="${iso(TODAY)}"
+        style="${FLD};padding:13px 14px;font-family:var(--font-display);font-size:21px;font-weight:700;letter-spacing:.3px;text-align:center">
+
+      <div style="${L};margin:20px 0 9px">Run type</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        ${['Short Run','Long Run'].map((t,i)=>`<button type="button" class="run-type-btn${i===0?' active':''}" data-type="${t}" onclick="setRunType('${t}')" style="padding:14px 0;font-family:var(--font-ui);font-size:15px;font-weight:700;letter-spacing:.3px;cursor:pointer">${t}</button>`).join('')}
+      </div>
+
+      <div style="${DIV};margin:22px 0"></div>
+
+      <div style="${L};margin-bottom:9px">Distance (km)</div>
+      <input type="number" id="rdist" step="0.1" min="0.1" placeholder="10.0" oninput="calcPace()"
+        style="${FLD};padding:12px 16px;font-family:var(--font-display);font-size:30px;font-weight:800;letter-spacing:-.5px">
+
+      <div style="${L};margin:20px 0 9px">Duration <span style="${SUB}">hh : mm : ss</span></div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <input type="number" id="dh" placeholder="00" min="0" max="23" oninput="calcPace()" style="flex:1 1 0;${FLD};padding:12px 0;text-align:center;font-family:var(--font-display);font-size:32px;font-weight:800;letter-spacing:-.5px">
+        <span style="font-family:var(--font-display);font-size:24px;color:var(--placeholder)">:</span>
+        <input type="number" id="dm" placeholder="00" min="0" max="59" oninput="calcPace()" style="flex:1 1 0;${FLD};padding:12px 0;text-align:center;font-family:var(--font-display);font-size:32px;font-weight:800;letter-spacing:-.5px">
+        <span style="font-family:var(--font-display);font-size:24px;color:var(--placeholder)">:</span>
+        <input type="number" id="ds" placeholder="00" min="0" max="59" oninput="calcPace()" style="flex:1 1 0;${FLD};padding:12px 0;text-align:center;font-family:var(--font-display);font-size:32px;font-weight:800;letter-spacing:-.5px">
+      </div>
+
+      <div style="${L};margin:20px 0 9px">Avg pace <span style="${SUB}">— auto</span></div>
+      <input type="text" id="rpace" placeholder="—" readonly
+        style="width:100%;background:var(--field);border:1px dashed rgba(50,46,39,.3);padding:14px 16px;font-family:var(--font-display);font-size:22px;color:var(--placeholder);outline:none;cursor:default">
+
+      <div style="${L};margin:20px 0 9px">Zone <span style="${SUB}">— from avg pace</span></div>
+      <input type="text" id="rpace-zone" placeholder="Enter distance &amp; time first" readonly
+        style="width:100%;background:rgba(181,70,30,.07);border:1px solid rgba(181,70,30,.45);padding:14px 16px;font-family:var(--font-display);font-size:22px;font-weight:700;color:var(--action);outline:none;cursor:default">
+      <div id="pace-zone-table-wrap" style="display:none;margin-top:20px">
+        <div style="${L};margin-bottom:10px">Pace zone reference</div>
+        <div style="border:1px solid var(--border-input);background:var(--bg-3)">
+          <div style="display:grid;grid-template-columns:.55fr 1.1fr 1.1fr;padding:10px 12px;border-bottom:1px solid rgba(50,46,39,.24);font-family:var(--font-ui);font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--text-3);font-weight:700">
+            <span>Zone</span><span>Name</span><span style="text-align:right">Pace /km</span>
+          </div>
+          <div id="pace-zone-rows"></div>
         </div>
       </div>
-      <div class="fg"><label class="fl">Avg pace — auto calculated</label>
-        <input type="text" class="fi" id="rpace" placeholder="—" readonly style="color:var(--text-2);cursor:default">
+
+      <div style="${DIV};margin:24px 0"></div>
+
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+        <span style="${L}">RPE</span>
+        <span id="rpe-r-badge" style="border:1px solid rgba(126,138,102,.7);background:rgba(126,138,102,.14);border-radius:999px;padding:4px 12px;font-family:var(--font-ui);font-size:12px;font-weight:700;color:#5c6a44;letter-spacing:0;text-transform:none">5 · Moderate</span>
       </div>
-      <div class="fg"><label class="fl">Zone — from avg pace</label><input type="text" class="fi" id="rpace-zone" placeholder="Enter distance &amp; time first" readonly style="color:var(--accent);font-weight:600;cursor:default;font-size:15px;"></div><div class="fg" id="pace-zone-table-wrap" style="display:none"><label class="fl" style="margin-bottom:6px">Pace zone reference</label><table id="pace-zone-table" style="width:100%;border-collapse:collapse;font-size:12px;"><thead><tr><th style="text-align:left;padding:4px 6px;color:var(--text-3);font-weight:600;border-bottom:1px solid var(--border)">Zone</th><th style="text-align:left;padding:4px 6px;color:var(--text-3);font-weight:600;border-bottom:1px solid var(--border)">Name</th><th style="text-align:right;padding:4px 6px;color:var(--text-3);font-weight:600;border-bottom:1px solid var(--border)">Pace range /km</th></tr></thead><tbody id="pace-zone-rows"></tbody></table></div>
-      <div class="fg">
-        <label class="fl">RPE<span id="rpe-r-badge" style="display:inline-flex;align-items:center;margin-left:8px;padding:1px 8px;border-radius:20px;font-size:11px;font-weight:700;border:1.5px solid var(--success);color:var(--success);background:color-mix(in oklab,var(--success) 10%,var(--bg-2));transition:all 200ms;letter-spacing:0;text-transform:none">5 · Moderate</span></label>
-        <input type="range" class="rpe-slider" id="rpe-r" min="1" max="10" value="5" oninput="updRpe('r')">
-        <div class="rpe-lbls"><span>1</span><span style="left:44.4%">5</span><span>10</span></div>
-      </div>
-      <div class="fg"><label class="fl">Avg HR (bpm, optional)</label><input type="number" class="fi" id="rhr" placeholder="155" min="30" max="220"></div>
-      <div class="fg"><label class="fl">Elevation (m, optional)</label><input type="number" class="fi" id="relev" placeholder="80" min="0"></div>
-      <div class="fg"><label class="fl">Steps <span style="font-weight:400;color:var(--text-3)">(optional — estimated if blank)</span></label>
-        <input type="number" class="fi" id="rsteps" placeholder="e.g. 9 400" min="100" max="100000">
-      </div>
-      <div class="fg"><label class="fl">Notes</label>
-        <textarea class="fi" id="rnotes" placeholder="How did it feel?" maxlength="280" oninput="updChar('r')"></textarea>
-        <div class="char-cnt"><span id="rc">0</span>/280</div>
-      </div>
-      <button type="submit" class="btn btn-primary btn-full">Save Run</button>
+      <input type="range" class="rpe-slider" id="rpe-r" min="1" max="10" value="5" oninput="updRpe('r')">
+      <div class="rpe-lbls" style="display:flex;justify-content:space-between;margin-top:9px;font-family:var(--font-ui);font-size:11px;color:var(--text-3);font-weight:600"><span>1</span><span>5</span><span>10</span></div>
+
+      <div style="${L};margin:22px 0 9px">Avg HR <span style="${SUB}">bpm · optional</span></div>
+      <input type="number" id="rhr" placeholder="155" min="30" max="220" style="${FLD};padding:13px 16px;font-family:var(--font-ui);font-size:17px;font-weight:600">
+
+      <div style="${L};margin:20px 0 9px">Elevation <span style="${SUB}">m · optional</span></div>
+      <input type="number" id="relev" placeholder="80" min="0" style="${FLD};padding:13px 16px;font-family:var(--font-ui);font-size:17px;font-weight:600">
+
+      <div style="${L};margin:20px 0 9px">Steps <span style="${SUB}">optional — estimated if blank</span></div>
+      <input type="number" id="rsteps" placeholder="e.g. 9 400" min="100" max="100000" style="${FLD};padding:13px 16px;font-family:var(--font-ui);font-size:17px;font-weight:500">
+
+      <div style="${DIV};margin:24px 0"></div>
+
+      <div style="${L};margin-bottom:9px">Notes</div>
+      <textarea id="rnotes" placeholder="How did it feel?" maxlength="280" oninput="updChar('r')"
+        style="${FLD};padding:14px 16px;min-height:86px;font-family:var(--font-display);font-style:italic;font-size:16px;line-height:1.5;resize:vertical"></textarea>
+      <div style="text-align:right;font-family:var(--font-ui);font-size:11px;color:#a49d8e;font-weight:600;margin-top:8px"><span id="rc">0</span> / 280</div>
+
+      <button type="submit" style="width:100%;margin-top:18px;background:var(--action);border:1px solid var(--action-border);color:#FBF3E2;padding:16px;font-family:var(--font-ui);font-size:16px;font-weight:700;letter-spacing:.5px;cursor:pointer;box-shadow:inset 0 1px 0 rgba(255,255,255,.14)">Save Run</button>
     </form>`;
 }
 function mkExRow(i){
@@ -8898,40 +8830,33 @@ function addEx(){
 function rmEx(i){ const r=$(`#ex-${i}`); if(r)r.remove(); }
 
 function mkCalExRow(i){
-  return `<div class="ex-row" id="cal-ex-${i}" style="display:block;margin-bottom:12px;border-bottom:1px solid var(--border);padding-bottom:8px">
-    <div style="display:grid;grid-template-columns:22px 1fr 78px 40px 40px 30px;gap:5px;font-size:10px;color:var(--text-3);font-weight:600;margin-bottom:3px;align-items:center">
-      <span></span><span>Name</span><span>Type</span><span id="cal-hdr-sets-${i}">Sets</span><span>Reps</span><span></span>
+  return `<div class="ex-row cal-ex-card" id="cal-ex-${i}">
+    <div class="cal-ex-top">
+      <input type="checkbox" class="ex-done-cb" title="Mark done">
+      <input type="text" placeholder="Exercise name" id="can-${i}" class="cal-ex-name">
+      <button type="button" class="ex-del cal-ex-del" onclick="rmCalEx(${i})">&times;</button>
     </div>
-    <div style="display:grid;grid-template-columns:22px 1fr 78px 40px 40px 30px;gap:5px;align-items:center;margin-bottom:6px">
-      <input type="checkbox" class="ex-done-cb" title="Mark done" style="width:15px;height:15px;accent-color:var(--success);cursor:pointer;margin:0">
-      <input type="text" placeholder="Exercise name" id="can-${i}"
-        style="padding:9px 10px;background:var(--bg-2);border:1.5px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-size:13px;font-family:var(--font-ui);outline:none;width:100%">
-      <select id="cat-${i}" onchange="updCalExType(${i})"
-        style="padding:9px 6px;background:var(--bg-2);border:1.5px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-size:12px;font-family:var(--font-ui);outline:none;cursor:pointer;width:100%">
+    <div class="cal-ex-grid">
+      <select id="cat-${i}" onchange="updCalExType(${i})" class="cal-box-sel cal-typesel">
         <option value="sets">Sets</option>
         <option value="emom">EMOM</option>
       </select>
-      <input type="number" id="ca1-${i}" placeholder="3" min="1" max="99"
-        style="padding:9px 4px;text-align:center;background:var(--bg-2);border:1.5px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-size:13px;font-family:var(--font-ui);outline:none;width:100%">
-      <input type="number" id="ca2-${i}" placeholder="10" min="1" max="999"
-        style="padding:9px 4px;text-align:center;background:var(--bg-2);border:1.5px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-size:13px;font-family:var(--font-ui);outline:none;width:100%">
-      <button type="button" class="ex-del" onclick="rmCalEx(${i})"><i data-lucide="x" style="width:12px;height:12px"></i></button>
+      <input type="number" id="ca1-${i}" placeholder="3" min="1" max="99" class="cal-ex-num">
+      <input type="number" id="ca2-${i}" placeholder="10" min="1" max="999" class="cal-ex-num">
     </div>
-    <div style="display:flex;align-items:center;gap:8px">
-      <select id="cal-ld-${i}" onchange="updCalLoad(${i})"
-        style="padding:6px 10px;background:var(--bg-2);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-size:12px;font-family:var(--font-ui);outline:none;cursor:pointer">
+    <div class="cal-ex-hr"></div>
+    <div class="cal-ex-load">
+      <select id="cal-ld-${i}" onchange="updCalLoad(${i})" class="cal-box-sel cal-ex-loadsel">
         <option value="bw">Bodyweight</option>
         <option value="wt">Weighted</option>
       </select>
-      <div id="cal-kg-${i}" style="display:none;align-items:center;gap:4px">
-        <input type="number" id="cak-${i}" placeholder="0" min="0" step="0.5"
-          style="width:55px;padding:6px 8px;text-align:center;background:var(--bg-2);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-size:12px;font-family:var(--font-ui);outline:none">
-        <span style="font-size:12px;color:var(--text-2);font-weight:500">kg</span>
+      <div id="cal-kg-${i}" class="cal-ex-kg">
+        <input type="number" id="cak-${i}" placeholder="0" min="0" step="0.5" class="cal-ex-kgi">
+        <span>kg</span>
       </div>
     </div>
   </div>`;
 }
-
 function addCalEx(){
   if(calExCount>=8)return;
   const list=$('#cal-ex-list'); if(!list)return;
@@ -8985,12 +8910,12 @@ function updateZoneFromPace(paceSecPerKm){
   ];
 
   if(tbody){
-    tbody.innerHTML=ZONES.map(z=>
-      '<tr>'
-      +'<td style="padding:5px 6px;color:'+z.color+';font-weight:700;border-bottom:1px solid var(--border)">'+z.key+'</td>'
-      +'<td style="padding:5px 6px;color:var(--text-2);border-bottom:1px solid var(--border)">'+z.name+'</td>'
-      +'<td style="padding:5px 6px;text-align:right;color:var(--text);font-variant-numeric:tabular-nums;border-bottom:1px solid var(--border)">'+z.range+'</td>'
-      +'</tr>'
+    tbody.innerHTML=ZONES.map((z,i)=>
+      '<div style="display:grid;grid-template-columns:.55fr 1.1fr 1.1fr;align-items:center;padding:12px'+(i<ZONES.length-1?';border-bottom:1px solid rgba(50,46,39,.14)':'')+'">'
+      +'<span style="font-family:var(--font-ui);font-size:13px;font-weight:700;letter-spacing:.3px;color:'+z.color+'">'+z.key+'</span>'
+      +'<span style="font-family:var(--font-ui);font-size:13px;font-weight:500;color:#4c4740">'+z.name+'</span>'
+      +'<span style="font-family:var(--font-ui);font-size:12.5px;font-weight:600;color:#4c4740;text-align:right;font-variant-numeric:tabular-nums">'+z.range+'</span>'
+      +'</div>'
     ).join('');
   }
   if(tableWrap) tableWrap.style.display='block';
