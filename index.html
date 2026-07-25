@@ -516,25 +516,46 @@ textarea.fi{resize:vertical;min-height:76px;line-height:1.5}
 }
 .f-chip.active{background:var(--accent);border-color:var(--accent);color:#fff}
 
-/* ── HISTORY ────────────────────────────────────────── */
-.hist-week{margin-bottom:20px}
-.hist-wk-hdr{
-  font-size:11px;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:.08em;
-  padding:4px 0 8px;border-bottom:1px solid var(--border);margin-bottom:6px;
-  display:flex;justify-content:space-between;
-}
-.hist-row{
-  display:flex;align-items:center;gap:10px;padding:9px 10px;
-  border-radius:var(--radius-sm);cursor:pointer;transition:background 140ms ease;
-}
-.hist-row:hover{background:var(--bg-2)}
+/* ── HISTORY — matches the "This week" section on the home pages ───── */
+.hlog-sec{margin-bottom:30px}
+.hlog-sec:last-child{margin-bottom:0}
+.hlog-sec-hdr{display:flex;align-items:baseline;gap:12px;margin-bottom:16px}
+.hlog-sec-num{font-family:var(--font-ui);font-size:12px;font-weight:700;color:var(--accent);letter-spacing:.5px;white-space:nowrap}
+.hlog-sec-ttl{font-family:var(--font-display);font-weight:700;font-size:22px;color:var(--text)}
+.hlog-sec-rule{flex:1;height:1px;background:var(--border-hair);transform:translateY(-6px)}
+.hlog-sec-meta{font-size:10.5px;letter-spacing:1.4px;text-transform:uppercase;color:var(--text-3);font-weight:600;white-space:nowrap}
 
-.hist-body{flex:1;min-width:0}
-.hist-ttl{font-size:13px;font-weight:600;color:var(--text)}
-.hist-sub{font-size:11px;color:var(--text-2)}
-.hist-right{text-align:right;flex-shrink:0}
-.hist-dist{font-size:14px;font-weight:700;color:var(--text)}
-.hist-pace{font-size:11px;color:var(--text-2)}
+.hlog-strip{background:var(--bg-2);border:1px solid var(--border);padding:16px 16px 15px;box-shadow:var(--shadow-inset)}
+.hlog-strip-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+.hlog-strip-range{font-family:var(--font-ui);font-size:8.5px;letter-spacing:1.4px;text-transform:uppercase;color:var(--text-3);font-weight:700}
+.hlog-strip-stat{font-family:var(--font-ui);font-size:8.5px;letter-spacing:1.4px;text-transform:uppercase;color:var(--accent);font-weight:700}
+.hlog-tags{display:flex}
+.hlog-tag-cell{flex:1 1 0;min-width:0;height:32px;display:flex;align-items:flex-end;justify-content:center}
+.hlog-tag{padding:5px 7px;border-radius:8px;font-family:var(--font-ui);font-size:10px;font-weight:700;letter-spacing:.1px;white-space:nowrap}
+.hlog-track{position:relative;display:flex;align-items:center;height:18px;margin-top:8px}
+.hlog-track-bg{position:absolute;left:7%;right:7%;top:50%;height:2px;transform:translateY(-1px);background:rgba(50,46,39,.18)}
+.hlog-track-dot-wrap{flex:1 1 0;display:flex;justify-content:center;position:relative;z-index:2}
+.hlog-track-dot{border-radius:50%;display:inline-block}
+.hlog-labels{display:flex;margin-top:11px}
+.hlog-label-cell{flex:1 1 0;text-align:center}
+.hlog-label-dow{font-family:var(--font-ui);font-size:8px;letter-spacing:1px;text-transform:uppercase;color:var(--text-3);font-weight:600}
+.hlog-label-date{font-family:var(--font-ui);font-size:12px;font-weight:700;margin-top:3px;color:var(--text-muted)}
+.hlog-label-date.today{color:var(--accent)}
+
+.hlog-list{margin-top:14px;border:1px solid var(--border);background:var(--bg-2);box-shadow:var(--shadow-inset)}
+.hlog-row{display:flex;align-items:center;gap:8px;padding:14px;border-top:1px solid var(--border-hair)}
+.hlog-row:first-child{border-top:none}
+.hlog-ico{width:36px;height:36px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.hlog-body{flex:1;min-width:0}
+.hlog-ttl{font-family:var(--font-ui);font-size:14px;font-weight:600;color:var(--text)}
+.hlog-sub{font-family:var(--font-ui);font-size:11px;color:var(--text-2);margin-top:2px}
+.hlog-right{text-align:right;flex-shrink:0}
+.hlog-dist{font-family:var(--font-display);font-weight:900;font-size:19px;color:var(--text);letter-spacing:-.3px}
+.hlog-pace{font-size:10.5px;color:var(--text-2);margin-top:1px}
+.hlog-actbtn{background:none;border:none;cursor:pointer;color:var(--text-3);display:flex;align-items:center;justify-content:center;min-width:40px;min-height:40px;border-radius:6px;flex-shrink:0}
+.hlog-actbtn:hover{background:var(--bg-3);color:var(--text)}
+.hlog-actbtn.danger:hover{color:var(--notification)}
+.hlog-empty{padding:28px 16px;text-align:center;color:var(--text-2);font-size:13px}
 
 /* ── PLAN ───────────────────────────────────────────── */
 .phase-banner{
@@ -9668,6 +9689,71 @@ function setHistFilt(f){
   renderHistList();
 }
 
+// ── Day-strip tag for a single activity — shared colour language with the
+// row icons below and with the "This week" strips on the home pages ──────
+const HLOG_RUN_COL={'Easy':'var(--success)','Recovery':'var(--success)','Long Run':'#6E8390','Tempo':'var(--accent)','Interval':'var(--notification)','Race':'#B5461E','Shakeout':'var(--success)'};
+function hlogTag(a){
+  if(a.type==='run'){
+    const c=HLOG_RUN_COL[a.run_type]||WK_COLORS[a.run_type]||'var(--accent)';
+    return {label:Math.round(a.distance_km||0)+'km', color:c, priority:0};
+  }
+  if(a.type==='calisthenics'){
+    const wt=a.workout_type||'';
+    const c=wt==='Push'?'#C99C89':wt==='Prehab'?(a.prehab_complete===false?'var(--gold)':'var(--success)'):'var(--accent)';
+    const lbl=wt==='Pull & Push'?'P&P':wt==='Pull'?'Pull':wt==='Push'?'Push':wt==='Prehab'?'Prehab':'Cal';
+    return {label:lbl, color:c, priority:1};
+  }
+  if(a.type==='reading'){
+    const at=a.activity_type||'reading';
+    if(at==='writing') return {label:(a.words_written||0)+'w', color:'#C99C89', priority:2};
+    if(at==='editing') return {label:(a.duration_min||0)+'m', color:'var(--success)', priority:2};
+    return {label:(a.pages_read||0)+'pp', color:'#6E8390', priority:2};
+  }
+  return {label:(a.duration_min||0)+'m', color:'#C99C89', priority:3};
+}
+// Builds the tag-row / dot-track / day-label rows for one week's mini "This
+// week"-style strip — same structure as renderHome()'s _wkTags/_wkDots/_wkLabels.
+function hlogStripHtml(weekStartDate, weekActs){
+  const dLbls=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  const dates=getWeekDates(weekStartDate);
+  const todayIso=isoToday();
+  const byDate={};
+  weekActs.forEach(a=>{ (byDate[a.date]=byDate[a.date]||[]).push(a); });
+  let tagCells='', dotCells='', labelCells='';
+  dates.forEach((d,i)=>{
+    const dayActs=(byDate[d]||[]).slice().sort((x,y)=>hlogTag(x).priority-hlogTag(y).priority);
+    const primary=dayActs[0];
+    const isT=d===todayIso;
+    const dt=new Date(d+'T00:00:00');
+    let tagHtml='', dotColor='rgba(50,46,39,.22)', dotSize=6;
+    if(primary){
+      const t=hlogTag(primary);
+      const extra=dayActs.length>1?` <span style="opacity:.65">+${dayActs.length-1}</span>`:'';
+      tagHtml=`<span class="hlog-tag" style="background:color-mix(in oklab,${t.color} 16%,var(--bg-2));color:${t.color};border:1px solid color-mix(in oklab,${t.color} 30%,var(--border))">${t.label}${extra}</span>`;
+      dotColor=t.color; dotSize=9;
+    }
+    tagCells+=`<div class="hlog-tag-cell">${tagHtml}</div>`;
+    const dot=isT
+      ?`<span class="hlog-track-dot" style="width:13px;height:13px;background:var(--gold);box-shadow:0 0 0 4px rgba(176,138,69,.2)"></span>`
+      :`<span class="hlog-track-dot" style="width:${dotSize}px;height:${dotSize}px;background:${dotColor}"></span>`;
+    dotCells+=`<div class="hlog-track-dot-wrap">${dot}</div>`;
+    labelCells+=`<div class="hlog-label-cell"><div class="hlog-label-dow">${dLbls[i]}</div><div class="hlog-label-date${isT?' today':''}">${dt.getDate()}</div></div>`;
+  });
+  return `<div class="hlog-tags">${tagCells}</div>
+    <div class="hlog-track"><div class="hlog-track-bg"></div>${dotCells}</div>
+    <div class="hlog-labels">${labelCells}</div>`;
+}
+// ISO-8601 week number ("W30" badge in the section header)
+function hlogISOWeek(dateIso){
+  const d=new Date(dateIso+'T00:00:00Z');
+  const day=(d.getUTCDay()+6)%7;
+  d.setUTCDate(d.getUTCDate()-day+3);
+  const firstThu=new Date(Date.UTC(d.getUTCFullYear(),0,4));
+  const fDay=(firstThu.getUTCDay()+6)%7;
+  firstThu.setUTCDate(firstThu.getUTCDate()-fDay+3);
+  return 1+Math.round((d-firstThu)/(7*86400000));
+}
+
 function renderHistList(){
   const lEl=$('#hist-list'); if(!lEl)return;
   let acts=[...AppState.activities].sort((a,b)=>b.date.localeCompare(a.date));
@@ -9679,18 +9765,36 @@ function renderHistList(){
     const ms=new Date(TODAY.getFullYear(),TODAY.getMonth(),1);
     acts=acts.filter(a=>a.date>=iso(ms));
   }
-  if(!acts.length){ lEl.innerHTML='<div style="color:var(--text-2);font-size:13px;padding:20px 0;text-align:center">No activities found.</div>'; return; }
+  if(!acts.length){ lEl.innerHTML='<div class="hlog-empty">No activities found.</div>'; return; }
   const weeks={};
   acts.forEach(a=>{
     const k=iso(getWeekStart(new Date(a.date+'T00:00:00')));
     if(!weeks[k]) weeks[k]={start:new Date(k+'T00:00:00'),acts:[]};
     weeks[k].acts.push(a);
   });
+  const thisWkStart=iso(getWeekStart(TODAY));
+  const lastWkStart=(()=>{ const d=new Date(thisWkStart+'T00:00:00'); d.setDate(d.getDate()-7); return iso(d); })();
   let html='';
   Object.keys(weeks).sort().reverse().forEach(k=>{
     const w=weeks[k]; const we=new Date(w.start); we.setDate(we.getDate()+6);
     const wkm=w.acts.filter(a=>a.type==='run').reduce((s,a)=>s+a.distance_km,0);
-    html+=`<div class="hist-week"><div class="hist-wk-hdr"><span>${fmtDateSh(k)} – ${fmtDateSh(iso(we))}</span>${wkm>0?`<span class="num">${wkm.toFixed(1)} km</span>`:''}</div>`;
+    const metaTxt=wkm>0?wkm.toFixed(1)+' km':w.acts.length+(w.acts.length===1?' session':' sessions');
+    const secTitle=k===thisWkStart?'This week':k===lastWkStart?'Last week':(fmtDateSh(k)+' – '+fmtDateSh(iso(we)));
+    html+=`<div class="hlog-sec">
+      <div class="hlog-sec-hdr">
+        <span class="hlog-sec-num">W${hlogISOWeek(k)}</span>
+        <span class="hlog-sec-ttl">${secTitle}</span>
+        <span class="hlog-sec-rule"></span>
+        <span class="hlog-sec-meta">${metaTxt}</span>
+      </div>
+      <div class="hlog-strip">
+        <div class="hlog-strip-hdr">
+          <span class="hlog-strip-range">${fmtDateSh(k)} – ${fmtDateSh(iso(we))}</span>
+          <span class="hlog-strip-stat">${w.acts.length} logged</span>
+        </div>
+        ${hlogStripHtml(w.start,w.acts)}
+      </div>
+      <div class="hlog-list">`;
     w.acts.forEach(a=>{
       const _calWt=a.workout_type||'';
       const _rdAt=a.activity_type||'reading';
@@ -9763,19 +9867,19 @@ function renderHistList(){
       const dist=a.type==='run'?`${a.distance_km.toFixed(1)} km`:a.type==='reading'?(_rdAt==='reading'&&a.pages_read?a.pages_read+' pp':_rdAt==='writing'&&a.words_written?(+a.words_written).toLocaleString()+' w':a.duration_min+'m'):`${a.duration_min} min`;
       const sub=a.type==='run'?fmtDur(a.duration_sec):a.type==='calisthenics'?(a.duration_min+' min'):a.type==='reading'?(a.duration_min+' min'):(a.session_type||'Strength');
       const btnStyle='background:none;border:none;cursor:pointer;color:var(--text-3);display:flex;align-items:center;justify-content:center;min-width:44px;min-height:44px;border-radius:6px';
-      html+=`<div class="hist-row" id="hist-row-${a.id}" style="cursor:default">
+      html+=`<div class="hlog-row" id="hist-row-${a.id}">
         <div style="cursor:pointer;display:flex;align-items:center;gap:8px;flex:1;min-width:0" onclick="showActSheet('${a.id}')">
-          <div class="hist-ico" style="background:color-mix(in oklab,${c} 12%,var(--bg-3))">${icoHtml}</div>
-          <div class="hist-body" style="min-width:0"><div class="hist-ttl">${ttl}</div><div class="hist-sub">${fmtDateSh(a.date)} · ${sub}</div>${a.hr_flag?`<div style="font-size:10px;color:var(--warning);margin-top:2px">⚠️ ${a.hr_flag}</div>`:''}</div>
+          <div class="hlog-ico" style="background:color-mix(in oklab,${c} 12%,var(--bg-3))">${icoHtml}</div>
+          <div class="hlog-body"><div class="hlog-ttl">${ttl}</div><div class="hlog-sub">${fmtDateSh(a.date)} · ${sub}</div>${a.hr_flag?`<div style="font-size:10px;color:var(--warning);margin-top:2px">⚠️ ${a.hr_flag}</div>`:''}</div>
         </div>
-        <div style="display:flex;align-items:center;gap:0;flex-shrink:0">
-          <div class="hist-right" onclick="showActSheet('${a.id}')" style="cursor:pointer"><div class="hist-dist num">${dist}</div>${a.type==='run'?`<div class="hist-pace num">${fmtPace(a.avg_pace_sec_per_km)}/km</div>`:''}</div>
-          <button title="Edit" onclick="editActivity('${a.id}')" style="${btnStyle}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4z"/></svg></button>
-          <button title="Delete" onclick="confirmDeleteActivity('${a.id}')" style="${btnStyle};color:#B5461E"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg></button>
+        <div style="display:flex;align-items:center;flex-shrink:0">
+          <div class="hlog-right num" onclick="showActSheet('${a.id}')" style="cursor:pointer"><div class="hlog-dist">${dist}</div>${a.type==='run'?`<div class="hlog-pace">${fmtPace(a.avg_pace_sec_per_km)}/km</div>`:''}</div>
+          <button title="Edit" class="hlog-actbtn" onclick="editActivity('${a.id}')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4z"/></svg></button>
+          <button title="Delete" class="hlog-actbtn danger" onclick="confirmDeleteActivity('${a.id}')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg></button>
         </div>
       </div>`;
     });
-    html+='</div>';
+    html+='</div></div>';
   });
   lEl.innerHTML=html;
 }
