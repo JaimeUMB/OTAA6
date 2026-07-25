@@ -5621,6 +5621,55 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:9998;o
 #pg-log #cal-ex-list .cal-ex-kg{display:none;align-items:center;gap:5px}
 #pg-log #cal-ex-list .cal-ex-kgi{width:60px!important;padding:11px 8px!important;text-align:center!important;background:#EFE8D9!important;border:1px solid rgba(50,46,39,.24)!important;border-radius:0!important;font-family:var(--font-ui)!important;font-size:14px!important;color:var(--text)!important;outline:none!important}
 #pg-log #cal-ex-list .cal-ex-kg span{font-size:13px;color:var(--text-2);font-weight:500}
+
+/* ═══════════════════════════════════════════════════════════════════
+   TASKS — Editorial styling (mockup-exact). Scoped to #pg-tasks so the
+   task edit sheets/overlays keep their own styling. Placed last.
+   ═══════════════════════════════════════════════════════════════════ */
+/* list tab nav — underline tabs */
+#pg-tasks .tsk-lists{gap:22px!important;border-bottom:1px solid var(--border-hair)!important;margin-bottom:0!important;padding:0!important}
+#pg-tasks .tsk-list-pill{flex-shrink:0!important;padding:0 0 13px!important;font-size:15px!important;font-weight:500!important;color:var(--nav-inactive)!important;background:transparent!important;border:none!important;border-bottom:2px solid transparent!important;border-radius:0!important;gap:8px!important;margin-bottom:-1px!important}
+#pg-tasks .tsk-list-pill:hover:not(.active){color:var(--text-2)!important;background:transparent!important}
+#pg-tasks .tsk-list-pill.active{color:var(--text)!important;font-weight:700!important;border-bottom-color:var(--accent)!important}
+#pg-tasks .tsk-list-pill svg,#pg-tasks .tsk-list-pill i{width:16px!important;height:16px!important}
+/* sort row */
+#pg-tasks .tsk-sort-row{gap:6px!important;align-items:center!important;padding:16px 0 0!important;margin-bottom:0!important}
+#pg-tasks .tsk-sort-label{font-size:9px!important;font-weight:700!important;letter-spacing:1.2px!important;text-transform:uppercase!important;color:var(--text-3)!important;margin-right:4px!important}
+#pg-tasks .tsk-sort-btn{border-radius:0!important;padding:5px 12px!important;font-size:12px!important;font-weight:500!important;color:var(--nav-inactive)!important;background:transparent!important;border:1px solid transparent!important}
+#pg-tasks .tsk-sort-btn:hover:not(.active){background:transparent!important;color:var(--text-2)!important}
+#pg-tasks .tsk-sort-btn.active{background:#DCD2BC!important;border:1px solid rgba(50,46,39,.2)!important;color:var(--text)!important;font-weight:700!important}
+/* task list panel */
+#pg-tasks #tsk-todo-wrap{border:1px solid var(--border);background:var(--bg-2);box-shadow:var(--shadow-inset);margin-top:16px}
+#pg-tasks #tsk-todo-wrap:empty{display:none}
+#pg-tasks .tsk-item{margin:0!important;padding:15px 16px!important;gap:14px!important;align-items:flex-start!important;border-radius:0!important;border-top:1px solid var(--border-hair)!important;min-height:0!important;background:transparent!important}
+#pg-tasks .tsk-item:hover{background:transparent!important}
+#pg-tasks .tsk-item:hover .tsk-more{opacity:.7!important}
+#pg-tasks .tsk-check{width:20px!important;height:20px!important;border-radius:5px!important;border:1.5px solid rgba(50,46,39,.4)!important;margin-top:1px!important;background:transparent!important}
+#pg-tasks .tsk-check.done{background:var(--action)!important;border-color:var(--action)!important}
+#pg-tasks .tsk-check.done svg{color:#FBF3E2!important}
+#pg-tasks .tsk-body{padding-top:0!important}
+#pg-tasks .tsk-title{font-size:16px!important;font-weight:500!important;color:var(--text)!important;line-height:1.3!important;letter-spacing:.1px!important}
+#pg-tasks .tsk-title.done{color:var(--placeholder)!important}
+/* inline subtasks — indented left-rail */
+#pg-tasks .tsk-inline-subs{margin-top:9px!important;padding-left:18px!important;border-left:1px solid var(--border-input)!important;display:flex!important;flex-direction:column!important;gap:0!important}
+#pg-tasks .tsk-inline-sub{padding:8px 0!important;gap:12px!important;align-items:center!important}
+#pg-tasks .tsk-sub-check{width:17px!important;height:17px!important;border-radius:4px!important;border:1.5px solid rgba(50,46,39,.35)!important;background:transparent!important}
+#pg-tasks .tsk-sub-check.done{background:var(--action)!important;border-color:var(--action)!important;color:#FBF3E2!important}
+#pg-tasks .tsk-inline-sub-lbl{font-size:14px!important;font-weight:500!important;color:var(--text-muted)!important}
+#pg-tasks .tsk-inline-sub-lbl.done{color:var(--placeholder)!important;text-decoration:line-through!important;text-decoration-color:rgba(50,46,39,.4)!important}
+/* completed divider */
+#pg-tasks .tsk-completed-hdr{font-size:9px!important;font-weight:700!important;letter-spacing:1.4px!important;text-transform:uppercase!important;color:var(--text-3)!important}
+/* add-a-task row */
+#pg-tasks .tsk-add-bar{margin-top:16px!important;padding:0!important;gap:14px!important;align-items:center!important;background:transparent!important;border:none!important}
+#pg-tasks .tsk-add-icon{width:20px!important;height:20px!important;flex:0 0 auto!important;border:1.5px dashed rgba(50,46,39,.4)!important;border-radius:5px!important;background:transparent!important;color:var(--action)!important}
+#pg-tasks .tsk-add-input{font-family:var(--font-ui)!important;font-size:16px!important;font-weight:500!important;color:var(--text)!important;background:transparent!important;border:none!important;padding:0!important}
+#pg-tasks .tsk-add-input::placeholder{color:var(--nav-inactive)!important;opacity:1}
+/* recipes cards */
+#pg-tasks #rcp-list{display:flex!important;flex-direction:column!important;gap:10px!important}
+#pg-tasks #rcp-list .feed-card{border:1px solid var(--border)!important;background:var(--bg-2)!important;box-shadow:var(--shadow-inset)!important;border-radius:0!important;padding:13px 14px!important;gap:14px!important}
+#pg-tasks #rcp-list .feed-icon{width:42px!important;height:42px!important;flex:0 0 auto!important;border-radius:0!important;background:#E4D8C0!important;border:1px solid var(--border-cell)!important;color:var(--action)!important}
+#pg-tasks #rcp-list .feed-ttl{font-family:var(--font-ui)!important;font-size:16px!important;font-weight:700!important;color:var(--text)!important;letter-spacing:.1px!important}
+#pg-tasks #rcp-list .feed-meta{font-size:8px!important;font-weight:600!important;letter-spacing:1px!important;text-transform:uppercase!important;color:var(--text-3)!important;margin-top:5px!important}
 </style>
 </head>
 <body>
@@ -10149,16 +10198,18 @@ function renderTasks(el){
   const _dueTodayCount=todo.filter(i=>i.due===_today).length
     +_openSubs.filter(s=>s.due===_today).length;
   const _kpiHtml=`
-    <div class="tsk-kpi-row">
-      <div class="tsk-kpi-widget">
-        <span class="tsk-kw-lbl">Total Tasks</span>
-        <span class="tsk-kw-val">${_totalOpen}</span>
-        <span class="tsk-kw-sub">${_totalOpen===1?'task or subtask':'tasks & subtasks'}</span>
-      </div>
-      <div class="tsk-kpi-widget today-card">
-        <span class="tsk-kw-lbl">Due Today</span>
-        <span class="tsk-kw-val">${_dueTodayCount}</span>
-        <span class="tsk-kw-sub">${_dueTodayCount===1?'task or subtask due':'tasks & subtasks due'}</span>
+    <div style="border:1px solid var(--border);background:var(--bg-2);box-shadow:var(--shadow-inset);margin-bottom:20px">
+      <div style="display:grid;grid-template-columns:1fr 1fr">
+        <div style="padding:14px 14px 13px;border-right:1px solid var(--border-cell);display:flex;flex-direction:column;min-height:112px">
+          <div style="display:flex;align-items:center;justify-content:space-between"><span style="font-family:var(--font-ui);font-size:8.5px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--text-2)">Total Tasks</span><span style="width:7px;height:7px;background:var(--text)"></span></div>
+          <div style="font-family:var(--font-display);font-weight:900;font-size:52px;line-height:1;color:var(--text);letter-spacing:-1.5px;margin:12px 0 auto">${_totalOpen}</div>
+          <div style="padding-top:9px;border-top:1px solid var(--border-cell);font-family:var(--font-ui);font-size:8px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--text-3)">${_totalOpen===1?'task or subtask':'tasks &amp; subtasks'}</div>
+        </div>
+        <div style="padding:14px 14px 13px;display:flex;flex-direction:column;min-height:112px">
+          <div style="display:flex;align-items:center;justify-content:space-between"><span style="font-family:var(--font-ui);font-size:8.5px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--text-2)">Due Today</span><span style="width:7px;height:7px;background:var(--action)"></span></div>
+          <div style="font-family:var(--font-display);font-weight:900;font-size:52px;line-height:1;color:var(--action);letter-spacing:-1.5px;margin:12px 0 auto">${_dueTodayCount}</div>
+          <div style="padding-top:9px;border-top:1px solid var(--border-cell);font-family:var(--font-ui);font-size:8px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--action)">${_dueTodayCount===1?'subtask due':'subtasks due'}</div>
+        </div>
       </div>
     </div>`;
 
@@ -10168,12 +10219,12 @@ function renderTasks(el){
     const l=T.lists[0], i=0;
     return `<button class="tsk-list-pill${(tskView==='lists'&&i===T.activeList)?' active':''}"
       onclick="tskSwitchList(${i})">
-      <i data-lucide="shopping-cart" style="width:13px;height:13px"></i>${l.name}
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><circle cx="9" cy="20" r="1.3"/><circle cx="17" cy="20" r="1.3"/><path d="M2 3 h3 l2.4 12 h10 l2-8 H6"/></svg>${l.name}
     </button>`;
   })();
   const _recipesPillHtml=`<button class="tsk-list-pill${tskView==='recipes'?' active':''}"
       onclick="rcpShowRecipes()">
-      <i data-lucide="chef-hat" style="width:13px;height:13px"></i>Recipes
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M6 10 a6 6 0 0 1 12 0 Z"/><path d="M5 13 h14 M7 16 h10"/></svg>Recipes
     </button>`;
   const _customPillsHtml=T.lists.slice(1).map((l,idx)=>{
     const i=idx+1;
@@ -10184,8 +10235,8 @@ function renderTasks(el){
     </button>`;
   }).join('');
   const pillsHtml=_shopPillHtml+_recipesPillHtml+_customPillsHtml+
-    `<button class="tsk-list-pill" onclick="tskNewList()" style="padding:5px 10px" aria-label="New list">
-      <i data-lucide="plus" style="width:14px;height:14px"></i>
+    `<button class="tsk-list-pill" onclick="tskNewList()" aria-label="New list">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" width="16" height="16"><path d="M12 5v14M5 12h14"/></svg>
     </button>`;
 
   // ── Recipes space: swap in the recipe browser instead of the task list body ──
@@ -10790,8 +10841,8 @@ function rcpBodyHtml(){
   const recipes=AppState.recipes||[];
   const cardsHtml=recipes.length?recipes.map(r=>`
     <div class="feed-card" onclick="rcpOpenSheet('${r.id}')">
-      <div class="feed-icon" style="background:color-mix(in oklab,var(--accent) 14%,var(--bg-2));color:var(--accent)">
-        <i data-lucide="utensils" style="width:17px;height:17px"></i>
+      <div class="feed-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="26" height="26"><path d="M7 3 v5 M10 3 v5 M13 3 v5 M10 8 v13 M7 8 h6"/><path d="M17.5 3 c-1.6 .9 -1.6 5.3 0 6.2 V21"/></svg>
       </div>
       <div class="feed-body">
         <div class="feed-ttl">${r.name}</div>
@@ -10799,14 +10850,14 @@ function rcpBodyHtml(){
       </div>
     </div>`).join(''):`
     <div style="padding:44px 0 32px;text-align:center">
-      <div style="opacity:.25;margin-bottom:10px;display:flex;justify-content:center"><i data-lucide="chef-hat" style="width:28px;height:28px"></i></div>
+      <div style="opacity:.25;margin-bottom:10px;display:flex;justify-content:center"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" width="28" height="28"><path d="M6 10 a6 6 0 0 1 12 0 Z"/><path d="M5 13 h14 M7 16 h10"/></svg></div>
       <div style="font-size:14px;font-weight:500;color:var(--text-3)">No recipes yet</div>
       <div style="font-size:12px;color:var(--text-3);margin-top:4px;opacity:.7">Tap "Add Recipe" to save your first one</div>
     </div>`;
   return `
     <div id="rcp-list">${cardsHtml}</div>
     <button class="btn btn-primary btn-full" style="margin-top:14px" onclick="rcpAddRecipe()">
-      <i data-lucide="plus" style="width:14px;height:14px"></i> Add Recipe
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" width="16" height="16"><path d="M12 5v14M5 12h14"/></svg> Add Recipe
     </button>`;
 }
 
