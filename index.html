@@ -536,23 +536,6 @@ textarea.fi{resize:vertical;min-height:76px;line-height:1.5}
 .hist-dist{font-size:14px;font-weight:700;color:var(--text)}
 .hist-pace{font-size:11px;color:var(--text-2)}
 
-/* ── CALENDAR ───────────────────────────────────────── */
-.cal-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
-.cal-mo{font-family:var(--font-display);font-size:18px;color:var(--text)}
-.cal-hdrs{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-bottom:3px}
-.cal-hdr-cell{font-size:9px;font-weight:700;color:var(--text-3);text-align:center;padding:3px 0;text-transform:uppercase}
-.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
-.cal-day{
-  aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
-  border-radius:var(--radius-sm);font-size:11px;font-weight:600;cursor:pointer;
-  transition:all 140ms ease;position:relative;
-}
-.cal-day:hover{opacity:.8}
-.cal-day.today{box-shadow: inset 0 0 0 1.5px var(--accent)}
-.cal-day.empty{cursor:default}
-.cal-day-n{font-size:12px;font-weight:600;color:var(--text);z-index:1}
-.cal-day-dot{width:5px;height:5px;border-radius:50%;margin-top:2px}
-
 /* ── PLAN ───────────────────────────────────────────── */
 .phase-banner{
   background:var(--accent);color:#fff;padding:12px 14px;
@@ -676,140 +659,194 @@ textarea.fi{resize:vertical;min-height:76px;line-height:1.5}
 /* ── CALISTHENICS VOLUME CHART ───────────────── */
 .cal-vol-wrap{background:var(--bg-2);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:4px}
 
-/* ─── MARATHON CALENDAR ─────────────────────────────────────── */
+/* ═══════════════════════════════════════════════════════════════════
+   PLAN CALENDAR — Notion-Calendar-style Month/Week/Day/List UI
+   Styled from One-Thing-After-Another-Plan.html. Design-specific tokens
+   (event colour palette, hour-row height) live here; everything else reuses
+   the app's existing --bg/--text/--border/--accent/--font-* variables.
+   ═══════════════════════════════════════════════════════════════════ */
 :root{
-  /* Phase accent colours */
-  --arc-phase-base:#6E8390;
-  --arc-phase-build:var(--accent);
-  --arc-phase-peak:#B5461E;
-  --arc-phase-taper:var(--success);
-  /* Pill state colours (Prompt 2 exact spec) */
-  --arc-pill-done-bg:rgba(126,138,102,0.15);
-  --arc-pill-done-txt:var(--success);
-  --arc-pill-done-border:rgba(126,138,102,0.5);
-  --arc-pill-miss-bg:rgba(181,70,30,0.12);
-  --arc-pill-miss-txt:#B5461E;
-  --arc-pill-miss-border:#B5461E;
-  --arc-pill-repl-bg:rgba(176,138,69,0.12);
-  --arc-pill-repl-txt:var(--warning);
-  --arc-pill-repl-border:var(--warning);
-}
-/* List container */
-.arc-calendar-list{display:flex;flex-direction:column;gap:12px;padding-bottom:32px;}
-
-/* Week card — Prompt 2 step 6 */
-.arc-week-card{
-  background:var(--bg-2);
-  border:1px solid var(--border);
-  border-radius:var(--radius);
-  padding:12px 14px;
+  /* Event colour palette — bg / border / left-bar / text per category */
+  --pcal-study-bg:#EAD9CD;    --pcal-study-bd:rgba(122,58,32,.35); --pcal-study-bar:#B5461E; --pcal-study-tx:#8a3c1e;
+  --pcal-meal-bg:#E0E4D2;     --pcal-meal-bd:rgba(76,81,56,.32);   --pcal-meal-bar:#7E8A66;  --pcal-meal-tx:#4c5330;
+  --pcal-shop-bg:#ECE3CB;     --pcal-shop-bd:rgba(106,83,32,.32);  --pcal-shop-bar:#B08A45;  --pcal-shop-tx:#6a5320;
+  --pcal-personal-bg:#DCE1E4; --pcal-personal-bd:rgba(63,74,82,.32); --pcal-personal-bar:#6E8390; --pcal-personal-tx:#3f4a52;
+  --pcal-run-bg:#E9DDD3;      --pcal-run-bd:rgba(122,78,58,.35);   --pcal-run-bar:#B27A5F;   --pcal-run-tx:#7a4e3a;
+  --pcal-other-bg:var(--bg-3); --pcal-other-bd:var(--border);      --pcal-other-bar:var(--text-3); --pcal-other-tx:var(--text-2);
+  --pcal-hour-h:52px; /* px per hour, week/day time grid */
 }
 
-/* Week header */
-.arc-week-hdr{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px;}
-.arc-week-title-group{display:flex;flex-direction:column;gap:2px;}
+/* ── Toolbar: nav arrows / Today / date-jump / add / view switcher ── */
+.pcal-toolbar{margin-bottom:12px}
+.pcal-toolbar-top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.pcal-nav-group{display:flex;align-items:center;gap:4px}
+.pcal-nav-btn{width:32px;height:32px;display:flex;align-items:center;justify-content:center;border:1px solid var(--border);background:var(--bg-2);color:var(--text-2);border-radius:var(--radius-sm);cursor:pointer;transition:all 140ms ease}
+.pcal-nav-btn:hover{background:var(--bg-3);color:var(--text)}
+.pcal-nav-btn svg{width:16px;height:16px}
+.pcal-today-btn{padding:0 12px;height:32px;border:1px solid var(--border);background:var(--bg-2);color:var(--text-2);border-radius:var(--radius-sm);font-size:12px;font-weight:600;font-family:var(--font-ui);cursor:pointer;transition:all 140ms ease}
+.pcal-today-btn:hover{background:var(--bg-3);color:var(--text)}
+.pcal-period-lbl{font-family:var(--font-display);font-size:18px;font-weight:700;color:var(--text);flex:1;min-width:120px}
+.pcal-toolbar-actions{display:flex;align-items:center;gap:6px}
+.pcal-date-jump-btn{position:relative;width:32px;height:32px;display:flex;align-items:center;justify-content:center;border:1px solid var(--border);background:var(--bg-2);color:var(--text-2);border-radius:var(--radius-sm);cursor:pointer;overflow:hidden}
+.pcal-date-jump-btn:hover{background:var(--bg-3);color:var(--text)}
+.pcal-date-jump-btn svg{width:16px;height:16px;pointer-events:none}
+.pcal-date-jump-btn input{position:absolute;inset:0;opacity:0;cursor:pointer;border:none}
+.pcal-add-btn{width:32px;height:32px;display:flex;align-items:center;justify-content:center;border:1px solid var(--action-border);background:var(--action);color:#fbf3e2;border-radius:var(--radius-sm);cursor:pointer;transition:background 140ms ease}
+.pcal-add-btn:hover{background:var(--action-hover)}
+.pcal-add-btn svg{width:16px;height:16px}
+.pcal-view-switch{display:flex;background:var(--bg-3);border-radius:var(--radius-sm);padding:3px;gap:0}
+.pcal-view-btn{flex:1;padding:7px 6px;font-size:12px;font-weight:600;font-family:var(--font-ui);border:none;background:transparent;color:var(--text-2);border-radius:var(--radius-sm);cursor:pointer;transition:all 140ms ease}
+.pcal-view-btn.active{background:var(--bg);color:var(--text)}
+.pcal-view-body{position:relative}
 
-/* Typography — Prompt 2 step 2 */
-.arc-week-title{font-family:var(--font-display);font-size:16px;font-weight:600;color:var(--text);}
-.arc-week-dates{font-size:11px;color:var(--text-3);font-family:var(--font-ui);}
+/* ── Month view ── */
+.pcal-dow-row{display:grid;grid-template-columns:repeat(7,1fr);border-bottom:1px solid var(--border-cell);background:var(--bg-3)}
+.pcal-dow-cell{padding:7px 0;text-align:center;font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-3);font-family:var(--font-ui)}
+.pcal-month-grid{display:grid;grid-template-columns:repeat(7,1fr);grid-auto-rows:minmax(76px,1fr);border-left:1px solid var(--border-cell);border-top:1px solid var(--border-cell)}
+.pcal-month-cell{border-right:1px solid var(--border-cell);border-bottom:1px solid var(--border-cell);padding:4px;display:flex;flex-direction:column;gap:2px;cursor:pointer;background:var(--bg-2);transition:background 140ms ease}
+.pcal-month-cell:hover{background:var(--bg-3)}
+.pcal-month-cell.pcal-outside{background:var(--bg);color:var(--text-3)}
+.pcal-month-cell.pcal-outside .pcal-month-daynum{color:var(--text-3);opacity:.55}
+.pcal-month-cell.pcal-today{background:color-mix(in oklab,var(--accent) 6%,var(--bg-2))}
+.pcal-month-daynum{font-size:11px;font-weight:600;color:var(--text);font-family:var(--font-ui);padding:2px 3px}
+.pcal-month-cell.pcal-today .pcal-month-daynum{display:inline-flex;align-items:center;justify-content:center;width:19px;height:19px;padding:0;border-radius:6px;background:var(--action);color:#fbf3e2;font-weight:700}
+.pcal-month-pills{display:flex;flex-direction:column;gap:2px;flex:1;min-height:0;overflow:hidden}
+.pcal-more-btn{align-self:flex-start;border:none;background:transparent;color:var(--text-3);font-size:10px;font-weight:600;font-family:var(--font-ui);cursor:pointer;padding:1px 3px}
+.pcal-more-btn:hover{color:var(--text-2)}
 
-.arc-week-badges{display:flex;flex-wrap:wrap;gap:5px;align-items:center;}
-.arc-badge{
-  display:inline-flex;align-items:center;padding:2px 8px;
-  border-radius:999px;font-size:10px;letter-spacing:.07em;
-  text-transform:uppercase;border:1px solid transparent;
-  font-family:var(--font-ui);font-weight:600;
+/* ── Event pill (month cell / all-day banner / list rows) ── */
+.pcal-pill{
+  border-radius:6px;padding:3px 6px 3px 7px;font-family:var(--font-ui);
+  border:1px solid var(--pcal-other-bd);border-left-width:3px;
+  background:var(--pcal-other-bg);color:var(--pcal-other-tx);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.4);
+  cursor:pointer;overflow:hidden;display:flex;align-items:baseline;gap:5px;min-width:0;
 }
-.arc-badge-phase{background:var(--bg-3);border-color:var(--border);}
-.arc-phase-base {color:var(--arc-phase-base);}
-.arc-phase-build{color:var(--arc-phase-build);}
-.arc-phase-peak {color:var(--arc-phase-peak);}
-.arc-phase-taper{color:var(--arc-phase-taper);}
-.arc-badge-deload{color:#9EAAB2;border-color:rgba(56,189,248,.4);background:rgba(56,189,248,.08);}
-.arc-badge-race  {color:var(--accent);border-color:rgba(232,71,10,.35);background:rgba(232,71,10,.08);}
+.pcal-pill[data-pcal-color="study"]{background:var(--pcal-study-bg);border-color:var(--pcal-study-bd);border-left-color:var(--pcal-study-bar);color:var(--pcal-study-tx)}
+.pcal-pill[data-pcal-color="meal"]{background:var(--pcal-meal-bg);border-color:var(--pcal-meal-bd);border-left-color:var(--pcal-meal-bar);color:var(--pcal-meal-tx)}
+.pcal-pill[data-pcal-color="shop"]{background:var(--pcal-shop-bg);border-color:var(--pcal-shop-bd);border-left-color:var(--pcal-shop-bar);color:var(--pcal-shop-tx)}
+.pcal-pill[data-pcal-color="personal"]{background:var(--pcal-personal-bg);border-color:var(--pcal-personal-bd);border-left-color:var(--pcal-personal-bar);color:var(--pcal-personal-tx)}
+.pcal-pill[data-pcal-color="run"]{background:var(--pcal-run-bg);border-color:var(--pcal-run-bd);border-left-color:var(--pcal-run-bar);color:var(--pcal-run-tx)}
+.pcal-pill[data-pcal-color="other"]{border-left-color:var(--pcal-other-bar)}
+.pcal-pill-title{font-size:11px;font-weight:600;line-height:1.25;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pcal-pill-detail{font-size:10px;font-weight:500;opacity:.75;white-space:nowrap;flex-shrink:0}
+.pcal-pill-badge{margin-left:auto;flex-shrink:0;font-size:9px;font-weight:700;padding:1px 5px;border-radius:99px;background:rgba(255,255,255,.5);color:inherit}
+.pcal-pill.pcal-sched{background:var(--bg);color:var(--text);border-left-width:4px}
+.pcal-pill.pcal-sched-completed{background:color-mix(in oklab,var(--success) 12%,var(--bg));color:var(--success)}
+.pcal-pill.pcal-sched-missed{background:color-mix(in oklab,var(--action) 8%,var(--bg));color:var(--action)}
+.pcal-pill.pcal-sched-replacement{background:color-mix(in oklab,var(--warning) 10%,var(--bg));color:var(--warning)}
 
-/* Day grid — 7 cols */
-.arc-day-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px;align-items:stretch;}
-@media(max-width:680px){.arc-day-grid{grid-template-columns:repeat(4,minmax(0,1fr));}}
-@media(max-width:440px){.arc-day-grid{grid-template-columns:repeat(3,minmax(0,1fr));}}
+/* ── Week / Day view ── */
+.pcal-week-hdr-row,.pcal-allday-row{display:flex;border-bottom:1px solid var(--border-cell);background:var(--bg-3)}
+.pcal-gutter-spacer{flex:0 0 44px;border-right:1px solid var(--border-hair)}
+.pcal-allday-lbl{display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text-3);text-align:center}
+.pcal-week-hdr-cell{flex:1;padding:7px 4px;display:flex;flex-direction:column;align-items:center;gap:2px;border-right:1px solid var(--border-hair);cursor:pointer}
+.pcal-week-hdr-cell:last-child{border-right:none}
+.pcal-week-hdr-dow{font-size:10px;font-weight:600;color:var(--text-3);font-family:var(--font-ui)}
+.pcal-week-hdr-date{font-size:13px;font-weight:600;color:var(--text);font-family:var(--font-ui)}
+.pcal-week-hdr-cell.pcal-today .pcal-week-hdr-date{display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:22px;padding:0 4px;border-radius:7px;background:var(--action);color:#fbf3e2}
+.pcal-allday-row{min-height:30px}
+.pcal-allday-cell{flex:1;border-right:1px solid var(--border-hair);padding:3px;display:flex;flex-direction:column;gap:2px;cursor:pointer}
+.pcal-allday-cell:last-child{border-right:none}
+.pcal-allday-row-day .pcal-allday-cell{border-right:none}
 
-/* Day cell — Prompt 2 step 6 */
-.arc-day-cell{
-  background:var(--bg-3);
-  border-radius:var(--radius-sm);
-  border:1px solid var(--border);
-  padding:7px;
-  min-height:100px;
-  display:flex;flex-direction:column;justify-content:space-between;
-  height:100%;
+.pcal-timegrid-scroll{overflow-y:auto;overflow-x:hidden;max-height:56vh;background:var(--bg-2);border:1px solid var(--border-cell);border-top:none}
+.pcal-timegrid{position:relative;display:flex}
+.pcal-hour-gutter{flex:0 0 44px;position:relative;border-right:1px solid var(--border-hair)}
+.pcal-hour-lbl{position:absolute;right:6px;transform:translateY(-50%);font-size:9px;font-weight:600;color:var(--text-3);font-family:var(--font-ui);white-space:nowrap}
+.pcal-day-col{flex:1;position:relative;border-right:1px solid var(--border-hair);cursor:pointer;
+  background-image:repeating-linear-gradient(to bottom,transparent 0,transparent calc(var(--pcal-hour-h) - 1px),var(--border-hair) calc(var(--pcal-hour-h) - 1px),var(--border-hair) var(--pcal-hour-h));}
+.pcal-day-col:last-child{border-right:none}
+.pcal-day-col-single{max-width:none}
+.pcal-timed-block{
+  position:absolute;left:3px;right:3px;border-radius:6px;padding:5px 7px;overflow:hidden;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.4);cursor:pointer;font-family:var(--font-ui);
+  border:1px solid var(--pcal-other-bd);border-left-width:4px;background:var(--pcal-other-bg);color:var(--pcal-other-tx);
 }
-.arc-day-cell.arc-today{box-shadow: inset 0 0 0 1.5px var(--accent);}
+.pcal-timed-block[data-pcal-color="study"]{background:var(--pcal-study-bg);border-color:var(--pcal-study-bd);border-left-color:var(--pcal-study-bar);color:var(--pcal-study-tx)}
+.pcal-timed-block[data-pcal-color="meal"]{background:var(--pcal-meal-bg);border-color:var(--pcal-meal-bd);border-left-color:var(--pcal-meal-bar);color:var(--pcal-meal-tx)}
+.pcal-timed-block[data-pcal-color="shop"]{background:var(--pcal-shop-bg);border-color:var(--pcal-shop-bd);border-left-color:var(--pcal-shop-bar);color:var(--pcal-shop-tx)}
+.pcal-timed-block[data-pcal-color="personal"]{background:var(--pcal-personal-bg);border-color:var(--pcal-personal-bd);border-left-color:var(--pcal-personal-bar);color:var(--pcal-personal-tx)}
+.pcal-timed-block[data-pcal-color="run"]{background:var(--pcal-run-bg);border-color:var(--pcal-run-bd);border-left-color:var(--pcal-run-bar);color:var(--pcal-run-tx)}
+.pcal-timed-title{font-size:12px;font-weight:600;line-height:1.2}
+.pcal-timed-sub{font-size:9.5px;font-weight:500;opacity:.75;margin-top:2px;display:flex;align-items:center;gap:5px}
+.pcal-resize-handle{position:absolute;left:0;right:0;height:7px;cursor:ns-resize}
+.pcal-resize-top{top:0}
+.pcal-resize-bottom{bottom:0}
+.pcal-now-line{position:absolute;left:0;right:0;height:0;border-top:1.5px solid var(--action);z-index:5;pointer-events:none}
+.pcal-now-line::before{content:'';position:absolute;left:-4px;top:-4px;width:8px;height:8px;border-radius:50%;background:var(--action)}
 
-/* Day cell header */
-.arc-day-hdr{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px;}
-/* Typography — Prompt 2 step 2 */
-.arc-day-name{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--text-3);font-weight:700;font-family:var(--font-ui);}
-.arc-day-date{font-size:11px;color:var(--text-3);font-family:var(--font-ui);}
-.arc-day-body{flex:1;display:flex;flex-direction:column;gap:3px;}
-.arc-day-footer{margin-top:5px;}
+.pcal-day-hdr{display:flex;align-items:baseline;gap:8px;padding:4px 0 10px}
+.pcal-day-hdr-dow{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text-3)}
+.pcal-day-hdr-date{font-family:var(--font-display);font-size:17px;font-weight:700;color:var(--text)}
+.pcal-day-hdr-date.pcal-today{color:var(--action)}
 
-/* Rest label */
-.arc-rest-label{font-size:11px;color:var(--text-3);text-align:center;padding:3px 0;font-family:var(--font-ui);}
+/* ── List view ── */
+.pcal-list-date-hdr{font-size:11px;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:.07em;padding:12px 0 6px;border-bottom:1px solid var(--border-hair);margin-bottom:6px}
+.pcal-list-date-hdr:first-child{padding-top:0}
+.pcal-list-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 10px;margin-bottom:5px;border-radius:var(--radius-sm);border:1px solid var(--pcal-other-bd);border-left-width:3px;background:var(--pcal-other-bg);color:var(--pcal-other-tx);cursor:pointer;transition:filter 140ms ease}
+.pcal-list-row:hover{filter:brightness(.97)}
+.pcal-list-row[data-pcal-color="study"]{background:var(--pcal-study-bg);border-color:var(--pcal-study-bd);border-left-color:var(--pcal-study-bar);color:var(--pcal-study-tx)}
+.pcal-list-row[data-pcal-color="meal"]{background:var(--pcal-meal-bg);border-color:var(--pcal-meal-bd);border-left-color:var(--pcal-meal-bar);color:var(--pcal-meal-tx)}
+.pcal-list-row[data-pcal-color="shop"]{background:var(--pcal-shop-bg);border-color:var(--pcal-shop-bd);border-left-color:var(--pcal-shop-bar);color:var(--pcal-shop-tx)}
+.pcal-list-row[data-pcal-color="personal"]{background:var(--pcal-personal-bg);border-color:var(--pcal-personal-bd);border-left-color:var(--pcal-personal-bar);color:var(--pcal-personal-tx)}
+.pcal-list-row[data-pcal-color="run"]{background:var(--pcal-run-bg);border-color:var(--pcal-run-bd);border-left-color:var(--pcal-run-bar);color:var(--pcal-run-tx)}
+.pcal-list-row.pcal-sched{background:var(--bg-2);color:var(--text)}
+.pcal-list-row-title{font-size:13px;font-weight:600;display:flex;align-items:center;gap:6px}
+.pcal-list-row-sub{font-size:11px;opacity:.75;flex-shrink:0}
+.pcal-daylist{max-height:52vh;overflow-y:auto}
+.pcal-empty{padding:28px 16px;text-align:center;color:var(--text-3);font-size:13px}
 
-/* Session pill — stacked layout so full label is always readable */
-.arc-session-pill{
-  border-radius:var(--radius-sm);
-  padding:5px 8px 5px 10px;
-  font-family:var(--font-ui);
-  display:block;
-  background:var(--bg);
-  border:1px solid var(--border);
-  border-left-width:3px;
-  width:100%;
+/* ── Quick-create / detail sheet content ── */
+.pcal-qc-row{display:flex;gap:10px}
+.pcal-swatch-row{display:flex;gap:8px;flex-wrap:wrap}
+.pcal-swatch{width:28px;height:28px;border-radius:50%;border:2px solid transparent;cursor:pointer;padding:0;background:var(--pcal-other-bar)}
+.pcal-swatch[data-pcal-color="study"]{background:var(--pcal-study-bar)}
+.pcal-swatch[data-pcal-color="meal"]{background:var(--pcal-meal-bar)}
+.pcal-swatch[data-pcal-color="shop"]{background:var(--pcal-shop-bar)}
+.pcal-swatch[data-pcal-color="personal"]{background:var(--pcal-personal-bar)}
+.pcal-swatch[data-pcal-color="run"]{background:var(--pcal-run-bar)}
+.pcal-swatch.active{border-color:var(--text)}
+.pcal-detail-hdr{margin-bottom:12px}
+.pcal-detail-title{font-size:17px;font-weight:700;font-family:var(--font-display);border:none;background:transparent;padding:6px 0}
+.pcal-detail-title.fi{border:1.5px solid transparent}
+.pcal-detail-title.fi:focus{border-color:var(--accent)}
+.pcal-detail-actions{display:flex;gap:8px;margin-top:18px}
+.pcal-detail-actions .btn{flex:1}
+.pcal-delete-btn{flex:1;display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:48px;border:1px solid var(--border);border-radius:var(--radius);background:transparent;color:var(--text-3);font-size:14px;font-weight:600;font-family:var(--font-ui);cursor:pointer;transition:all 140ms ease}
+.pcal-delete-btn:hover{border-color:var(--notification);color:var(--notification);background:color-mix(in oklab,var(--notification) 6%,transparent)}
+.pcal-delete-btn svg{width:15px;height:15px}
+
+/* ── Todo block (inside the event detail sheet) ── */
+.pcal-todo-block{margin-top:18px;padding-top:14px;border-top:1px solid var(--border)}
+.pcal-todo-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.pcal-todo-count{font-size:10px;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:.06em}
+.pcal-todo-add-row{display:flex;gap:6px;margin-bottom:8px}
+.pcal-todo-add-row .fi{flex:1}
+.pcal-todo-add-btn{width:44px;flex-shrink:0;display:flex;align-items:center;justify-content:center;border:1.5px solid var(--border);background:var(--bg-2);color:var(--text-2);border-radius:var(--radius-sm);cursor:pointer}
+.pcal-todo-add-btn:hover{background:var(--bg-3);color:var(--text)}
+.pcal-todo-add-btn svg{width:15px;height:15px}
+.pcal-todo-list{display:flex;flex-direction:column}
+.pcal-todo-row{display:flex;align-items:center;gap:6px;padding:6px 0;border-bottom:1px solid var(--border-hair)}
+.pcal-todo-row:last-child{border-bottom:none}
+.pcal-todo-row .tsk-drag-handle{opacity:.4}
+.pcal-todo-row:hover .tsk-drag-handle{opacity:.8}
+.pcal-todo-cb{width:16px;height:16px;accent-color:var(--success);cursor:pointer;flex-shrink:0}
+.pcal-todo-text{flex:1;font-size:13px;color:var(--text);outline:none;padding:2px 4px;border-radius:4px;min-width:0}
+.pcal-todo-text:focus{background:var(--bg-3)}
+.pcal-todo-text.done{text-decoration:line-through;color:var(--text-3)}
+.pcal-todo-del{border:none;background:transparent;color:var(--text-3);cursor:pointer;flex-shrink:0;width:22px;height:22px;display:flex;align-items:center;justify-content:center;border-radius:4px}
+.pcal-todo-del:hover{background:var(--bg-3);color:var(--notification)}
+.pcal-todo-del svg{width:12px;height:12px}
+
+@media(max-width:520px){
+  .pcal-month-grid{grid-auto-rows:minmax(58px,1fr)}
+  .pcal-pill-detail{display:none}
+  .pcal-period-lbl{font-size:15px}
 }
-.arc-session-pill.arc-completed{
-  background:var(--arc-pill-done-bg);
-  border-color:var(--arc-pill-done-border);
-  color:var(--arc-pill-done-txt);
-}
-.arc-session-pill.arc-missed{
-  background:var(--arc-pill-miss-bg);
-  border-color:var(--arc-pill-miss-border);
-  color:var(--arc-pill-miss-txt);
-}
-.arc-session-pill.arc-replacement{
-  background:var(--arc-pill-repl-bg);
-  border-color:var(--arc-pill-repl-border);
-  color:var(--arc-pill-repl-txt);
-}
-/* Line 1: session type name */
-.arc-pill-name{
-  display:block;
-  font-size:12px;
-  font-weight:600;
-  color:inherit;
-  line-height:1.3;
-  white-space:normal;
-  word-break:break-word;
-}
-/* Line 2: details (km, zone, type) */
-.arc-pill-detail{
-  display:block;
-  font-size:11px;
-  color:var(--text-2);
-  line-height:1.3;
-  margin-top:1px;
-  white-space:normal;
-}
-.arc-session-pill.arc-completed .arc-pill-detail,
-.arc-session-pill.arc-missed    .arc-pill-detail,
-.arc-session-pill.arc-replacement .arc-pill-detail{
-  color:inherit;
-  opacity:0.8;
-}
-/* Tag badge removed from pills — info now inline */
-.arc-pill-tag{ display:none; }
-/* ─── END MARATHON CALENDAR ─────────────────────────────────── */
+/* ═══════════════════════════════════════════════════════════════════
+   END PLAN CALENDAR
+   ═══════════════════════════════════════════════════════════════════ */
 
 /* ── READING & WRITING ──────────────────────────────────── */
 :root{--rd-blue:#6E8390;--rd-purple:#C99C89;--rd-teal:#7E8A66}
@@ -3303,17 +3340,12 @@ textarea.fi{resize:vertical;min-height:76px;line-height:1.5}
 
 
 /* ═══════════════════════════════════════════════════════════════════
-   TRAINING PLAN PAGE — PREMIUM AESTHETIC REDESIGN
-   Layers:
-     1. Phase Banner   — gradient card with larger type + glass badges
-     2. Week Cards     — elevated cards, current week orange accent ring
-     3. Phase Badges   — tinted backgrounds per phase colour
-     4. Day Cells      — lighter bg, today warm tint
-     5. Session Pills  — refined radius, state backgrounds more vivid
-     6. Done Checkbox  — larger hit target, cleaner label
+   TRAINING PLAN PAGE — PHASE BANNER AESTHETIC REDESIGN
+   (The calendar itself — month/week/day/list, event pills, day cells —
+   is styled in the "PLAN CALENDAR" block further up this stylesheet.)
    ═══════════════════════════════════════════════════════════════════ */
 
-/* ── 1. PHASE BANNER ─────────────────────────────────────────────── */
+/* ── PHASE BANNER ─────────────────────────────────────────────── */
 #pg-plan .phase-banner {
   background: var(--accent) !important;
   border-radius:0 !important;
@@ -3367,178 +3399,6 @@ textarea.fi{resize:vertical;min-height:76px;line-height:1.5}
 #pg-plan .phase-banner .badge-warn {
   background: rgba(255,255,255,0.15) !important;
   color: rgba(255,255,255,0.9) !important;
-}
-
-/* ── 2. WEEK CARDS ───────────────────────────────────────────────── */
-#pg-plan .arc-week-card {
-  background: var(--bg-2) !important;
-  border: 1px solid var(--border) !important;
-  border-radius:0 !important;
-  padding: 14px 16px !important;
-  transition: box-shadow 160ms ease, border-color 160ms ease !important;
-  box-shadow:none !important;
-}
-/* Current week — orange accent ring */
-#pg-plan .arc-week-card:has(.arc-today) {
-  border-color: color-mix(in oklab, var(--accent) 38%, var(--border)) !important;
-  background: color-mix(in oklab, var(--accent) 2.5%, var(--bg-2)) !important;
-  box-shadow: 0 0 0 1px color-mix(in oklab, var(--accent) 18%, transparent) !important;
-}
-#pg-plan .arc-calendar-list {
-  gap: 14px !important;
-}
-
-/* ── 3. WEEK HEADER ──────────────────────────────────────────────── */
-#pg-plan .arc-week-hdr {
-  margin-bottom: 12px !important;
-}
-#pg-plan .arc-week-title {
-  font-size: 15px !important;
-  font-weight: 700 !important;
-  letter-spacing: -0.01em !important;
-  color: var(--text) !important;
-}
-#pg-plan .arc-week-dates {
-  font-size: 11px !important;
-  color: var(--text-3) !important;
-  margin-top: 1px !important;
-}
-
-/* ── 4. PHASE BADGES — tinted bg per phase ───────────────────────── */
-/* Base → blue tint */
-#pg-plan .arc-badge.arc-badge-phase.arc-phase-base {
-  background: color-mix(in oklab, var(--arc-phase-base) 12%, var(--bg-2)) !important;
-  border-color: color-mix(in oklab, var(--arc-phase-base) 30%, var(--border)) !important;
-  color: var(--arc-phase-base) !important;
-}
-/* Build → orange tint */
-#pg-plan .arc-badge.arc-badge-phase.arc-phase-build {
-  background: color-mix(in oklab, var(--accent) 12%, var(--bg-2)) !important;
-  border-color: color-mix(in oklab, var(--accent) 30%, var(--border)) !important;
-  color: var(--accent) !important;
-}
-/* Peak → red tint */
-#pg-plan .arc-badge.arc-badge-phase.arc-phase-peak {
-  background: color-mix(in oklab, var(--arc-phase-peak) 12%, var(--bg-2)) !important;
-  border-color: color-mix(in oklab, var(--arc-phase-peak) 30%, var(--border)) !important;
-  color: var(--arc-phase-peak) !important;
-}
-/* Taper → green tint */
-#pg-plan .arc-badge.arc-badge-phase.arc-phase-taper {
-  background: color-mix(in oklab, var(--arc-phase-taper) 12%, var(--bg-2)) !important;
-  border-color: color-mix(in oklab, var(--arc-phase-taper) 30%, var(--border)) !important;
-  color: var(--arc-phase-taper) !important;
-}
-/* Deload / Race badges — already good, minor polish */
-#pg-plan .arc-badge-deload {
-  border-radius: 99px !important;
-  font-weight: 700 !important;
-}
-#pg-plan .arc-badge-race {
-  border-radius: 99px !important;
-  font-weight: 700 !important;
-}
-
-/* ── 5. DAY CELLS ────────────────────────────────────────────────── */
-#pg-plan .arc-day-cell {
-  background: var(--bg) !important;
-  border: 1px solid var(--border) !important;
-  border-radius:0 !important;
-  padding: 8px !important;
-  min-height: 96px !important;
-  transition: background 200ms ease !important;
-}
-/* Today cell — warm tint + inset orange ring */
-#pg-plan .arc-day-cell.arc-today {
-  background: color-mix(in oklab, var(--accent) 5%, var(--bg)) !important;
-  border-color: color-mix(in oklab, var(--accent) 35%, var(--border)) !important;
-  box-shadow: inset 0 0 0 1.5px var(--accent) !important;
-}
-#pg-plan .arc-day-name {
-  font-size: 9px !important;
-  font-weight: 700 !important;
-  text-transform: uppercase !important;
-  letter-spacing: .05em !important;
-  color: var(--text-3) !important;
-}
-#pg-plan .arc-day-date {
-  font-size: 11px !important;
-  color: var(--text-3) !important;
-  font-weight: 500 !important;
-}
-/* Today: accent date number */
-#pg-plan .arc-day-cell.arc-today .arc-day-date {
-  color: var(--accent) !important;
-  font-weight: 700 !important;
-}
-#pg-plan .arc-rest-label {
-  font-size: 11px !important;
-  color: var(--text-3) !important;
-  font-style: italic !important;
-  opacity: 0.7 !important;
-}
-
-/* ── 6. SESSION PILLS ────────────────────────────────────────────── */
-/* Default (upcoming) — warm bg, refined radius */
-#pg-plan .arc-session-pill {
-  border-radius: 7px !important;
-  padding: 5px 7px 5px 9px !important;
-  background: var(--bg-2) !important;
-  border: 1px solid var(--border) !important;
-  border-left-width: 3px !important;
-  transition: background 150ms ease !important;
-}
-#pg-plan .arc-pill-name {
-  font-size: 11px !important;
-  font-weight: 700 !important;
-  line-height: 1.3 !important;
-  letter-spacing: .01em !important;
-}
-#pg-plan .arc-pill-detail {
-  font-size: 10px !important;
-  line-height: 1.3 !important;
-  margin-top: 2px !important;
-  color: var(--text-2) !important;
-  opacity: 0.85 !important;
-}
-/* Completed — richer green tint */
-#pg-plan .arc-session-pill.arc-completed {
-  background: color-mix(in oklab, var(--success) 10%, var(--bg)) !important;
-  border-color: color-mix(in oklab, var(--success) 35%, var(--border)) !important;
-}
-/* Missed — richer red tint */
-#pg-plan .arc-session-pill.arc-missed {
-  background: color-mix(in oklab, #B5461E 8%, var(--bg)) !important;
-  border-color: color-mix(in oklab, #B5461E 30%, var(--border)) !important;
-}
-/* Replacement — richer amber tint */
-#pg-plan .arc-session-pill.arc-replacement {
-  background: color-mix(in oklab, var(--warning) 10%, var(--bg)) !important;
-  border-color: color-mix(in oklab, var(--warning) 35%, var(--border)) !important;
-}
-
-/* ── 7. DONE CHECKBOX ────────────────────────────────────────────── */
-#pg-plan .arc-day-footer label {
-  font-size: 11px !important;
-  color: var(--text-3) !important;
-  gap: 5px !important;
-  padding: 2px 0 !important;
-  user-select: none !important;
-  font-weight: 500 !important;
-}
-#pg-plan .arc-day-footer label:hover {
-  color: var(--text-2) !important;
-}
-#pg-plan .arc-day-footer .arc-chk {
-  width: 14px !important;
-  height: 14px !important;
-  cursor: pointer !important;
-  border-radius: 3px !important;
-}
-/* When checked, label text turns accent */
-#pg-plan .arc-day-footer:has(.arc-chk:checked) label {
-  color: var(--accent) !important;
-  font-weight: 600 !important;
 }
 
 /* ── END PLAN PAGE REDESIGN ──────────────────────────────────────── */
@@ -5951,7 +5811,10 @@ const AppState = {
   tasks: { lists:[{id:'general',name:'General',items:[]}], activeList:0, sort:'manual' },
   recipes: [],
   journal: [],
-  savedWorkouts: []
+  savedWorkouts: [],
+  // Plan-page calendar events. Shape: {id,title,date,endDate,allDay,startTime,
+  // endTime,color,notes,location,recurrence,todos:[{id,text,done,order}]}
+  events: []
 };
 
 
@@ -6019,6 +5882,7 @@ function _serializeState() {
     pfFinance:  AppState.pfFinance??null,
     journal:    AppState.journal??[],
     savedWorkouts: AppState.savedWorkouts??[],
+    events:     AppState.events??[],
     ui: {
       theme:     AppState.ui.theme,
       onboarded: AppState.ui.onboarded,
@@ -6117,6 +5981,7 @@ function _applyLoadedState(saved) {
     AppState.pfFinance  = saved.pfFinance  ?? null;
     AppState.journal    = saved.journal    ?? [];
     AppState.savedWorkouts = saved.savedWorkouts ?? [];
+    AppState.events     = saved.events     ?? [];
     AppState.tasks      = saved.tasks      ?? { lists:[{id:'general',name:'General',items:[]}], activeList:0, sort:'manual' };
     AppState.recipes    = saved.recipes    ?? [];
     AppState.ui.theme     = saved.ui?.theme     ?? AppState.ui.theme;
@@ -9954,12 +9819,6 @@ function doImport(n){
 }
 
 /* ═══════════════════════════════════════════════════
-   PLAN
-═══════════════════════════════════════════════════ */
-let planMo = new Date(TODAY.getFullYear(), TODAY.getMonth(), 1);
-
-
-/* ═══════════════════════════════════════════════════
    NEW: "PLAN ADJUSTED" BANNER + ADAPTATION HISTORY (Plan page)
 ═══════════════════════════════════════════════════ */
 // NEW: dismissible banner shown whenever an adaptation has occurred that the
@@ -10045,17 +9904,843 @@ function renderPlan(el){
       </div>
     </div>
     ${_adaptBannerHtml()}
-    <div id="cal-week-root"></div>
+    <div id="pcal-root"></div>
   `;
-  const _planCalEl=document.getElementById('cal-week-root');
-  if(_planCalEl){
-    const _savedId=_planCalEl.id;
-    _planCalEl.setAttribute('id','calendar-root');
-    try{ window.APP.renderCalendar(); window.APP.scrollToCurrentWeek(); }
-    finally{ _planCalEl.setAttribute('id',_savedId); }
+  if(window.APP){
+    window.APP.renderCalendar();
+    window.APP.scrollToCurrentWeek();
   }
   _createIcons();
 }
+
+/* ═══════════════════════════════════════════════════════════════════
+   PLAN CALENDAR — Notion-Calendar-style Month/Week/Day/List UI
+   Data model: AppState.events (persisted via the app's existing
+   saveState()/loadState()/_serializeState()/_applyLoadedState()).
+   Read-only training sessions come straight from window.APP.SCHEDULE and
+   are generated on the fly here — never written into AppState.events.
+═══════════════════════════════════════════════════════════════════ */
+const PCAL_COLORS=['study','meal','shop','personal','run','other'];
+const PCAL_COLOR_LABEL={study:'Study',meal:'Meal',shop:'Shopping',personal:'Personal',run:'Run',other:'Other'};
+const PCAL_DAY_START=6, PCAL_DAY_END=23; // time-grid hour range (06:00–23:00)
+const PCAL_MON=['January','February','March','April','May','June','July','August','September','October','November','December'];
+const PCAL_WD_SHORT=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+
+let pcalView='month';           // 'month' | 'week' | 'day' | 'list'
+let pcalAnchor=iso(TODAY);      // ISO date the current view is centred on
+let pcalDragEventId=null;
+let pcalResizeState=null;
+
+function pcalId(){ return 'ev'+Date.now().toString(36)+Math.random().toString(36).slice(2,6); }
+function pcalTodoId(){ return 'td'+Date.now().toString(36)+Math.random().toString(36).slice(2,5); }
+function pcalHourPx(){ return parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--pcal-hour-h'))||52; }
+function pcalEsc(s){ return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+/* ── UTC-safe date helpers (mirrors iso()/TODAY used elsewhere in the app) ── */
+function pcalParse(s){ const p=s.split('-').map(Number); return new Date(Date.UTC(p[0],p[1]-1,p[2])); }
+function pcalFmt(d){ return d.getUTCFullYear()+'-'+String(d.getUTCMonth()+1).padStart(2,'0')+'-'+String(d.getUTCDate()).padStart(2,'0'); }
+function pcalShift(dateIso,n){ const d=pcalParse(dateIso); d.setUTCDate(d.getUTCDate()+n); return pcalFmt(d); }
+function pcalWeekStart(dateIso){ const d=pcalParse(dateIso); const dow=(d.getUTCDay()+6)%7; d.setUTCDate(d.getUTCDate()-dow); return pcalFmt(d); }
+function pcalMonthStart(dateIso){ const d=pcalParse(dateIso); return d.getUTCFullYear()+'-'+String(d.getUTCMonth()+1).padStart(2,'0')+'-01'; }
+function pcalTimeToMin(t){ if(!t) return 0; const [h,m]=t.split(':').map(Number); return h*60+(m||0); }
+function pcalMinToTime(min){ min=((Math.round(min)%1440)+1440)%1440; const h=Math.floor(min/60), m=min%60; return String(h).padStart(2,'0')+':'+String(m).padStart(2,'0'); }
+
+/* ── CRUD: AppState.events ─────────────────────────────────────────── */
+function createEvent(data){
+  const ev={
+    id:pcalId(), title:(data.title||'Untitled').trim()||'Untitled',
+    date:data.date, endDate:data.endDate||data.date,
+    allDay:!!data.allDay, startTime:data.startTime||null, endTime:data.endTime||null,
+    color:data.color||'other', notes:data.notes||'', location:data.location||'',
+    recurrence:data.recurrence||'none', todos:[]
+  };
+  if(ev.endDate<ev.date) ev.endDate=ev.date;
+  AppState.events.push(ev);
+  saveState();
+  return ev;
+}
+function updateEvent(id,patch){
+  const ev=AppState.events.find(e=>e.id===id); if(!ev) return null;
+  Object.assign(ev,patch);
+  if(ev.endDate<ev.date) ev.endDate=ev.date;
+  saveState();
+  return ev;
+}
+function deleteEvent(id){
+  const i=AppState.events.findIndex(e=>e.id===id); if(i===-1) return;
+  AppState.events.splice(i,1);
+  saveState();
+}
+function addTodo(eventId,text){
+  const ev=AppState.events.find(e=>e.id===eventId); if(!ev||!text||!text.trim()) return null;
+  const t={id:pcalTodoId(),text:text.trim(),done:false,order:ev.todos.length};
+  ev.todos.push(t);
+  saveState();
+  return t;
+}
+function toggleTodo(eventId,todoId){
+  const ev=AppState.events.find(e=>e.id===eventId); if(!ev) return;
+  const t=ev.todos.find(x=>x.id===todoId); if(!t) return;
+  t.done=!t.done;
+  saveState();
+}
+function editTodo(eventId,todoId,text){
+  const ev=AppState.events.find(e=>e.id===eventId); if(!ev) return;
+  const t=ev.todos.find(x=>x.id===todoId); if(!t) return;
+  if(text&&text.trim()) t.text=text.trim();
+  saveState();
+}
+function deleteTodo(eventId,todoId){
+  const ev=AppState.events.find(e=>e.id===eventId); if(!ev) return;
+  ev.todos=ev.todos.filter(t=>t.id!==todoId);
+  saveState();
+}
+function reorderTodos(eventId,fromId,toId){
+  const ev=AppState.events.find(e=>e.id===eventId); if(!ev||fromId===toId) return;
+  const list=ev.todos;
+  const fi=list.findIndex(t=>t.id===fromId), ti=list.findIndex(t=>t.id===toId);
+  if(fi===-1||ti===-1) return;
+  const [moved]=list.splice(fi,1);
+  list.splice(ti,0,moved);
+  list.forEach((t,i)=>t.order=i);
+  saveState();
+}
+function expandRecurring(event,rangeStart,rangeEnd){
+  // ISO dates in [rangeStart,rangeEnd] this event occurs on. Recurring
+  // events keep their original date→endDate span at every occurrence.
+  const span=Math.round((pcalParse(event.endDate||event.date)-pcalParse(event.date))/86400000);
+  const out=[];
+  if(!event.recurrence||event.recurrence==='none'){
+    if((event.endDate||event.date)>=rangeStart && event.date<=rangeEnd) out.push(event.date);
+    return out;
+  }
+  let cursor=event.date, guard=0;
+  while(cursor<=rangeEnd && guard<730){
+    guard++;
+    const occEnd=pcalShift(cursor,span);
+    if(occEnd>=rangeStart) out.push(cursor);
+    if(event.recurrence==='daily') cursor=pcalShift(cursor,1);
+    else if(event.recurrence==='weekly') cursor=pcalShift(cursor,7);
+    else if(event.recurrence==='monthly'){ const d=pcalParse(cursor); d.setUTCMonth(d.getUTCMonth()+1); cursor=pcalFmt(d); }
+    else break;
+  }
+  return out;
+}
+function getEventsForDate(d){
+  return AppState.events.filter(e=>{
+    if(!e.recurrence||e.recurrence==='none') return d>=e.date && d<=(e.endDate||e.date);
+    return expandRecurring(e,d,d).length>0;
+  });
+}
+function getEventsInRange(startIso,endIso){
+  return AppState.events.filter(e=>{
+    if(!e.recurrence||e.recurrence==='none') return (e.endDate||e.date)>=startIso && e.date<=endIso;
+    return expandRecurring(e,startIso,endIso).length>0;
+  });
+}
+function pcalPillDescFromEvent(ev){
+  return {
+    readOnly:false, id:ev.id, title:ev.title, color:ev.color||'other',
+    allDay:!!ev.allDay, startTime:ev.startTime, endTime:ev.endTime,
+    todos:ev.todos||[], detail:(!ev.allDay&&ev.startTime)?ev.startTime:''
+  };
+}
+
+/* ── Read-only training sessions from window.APP.SCHEDULE ───────────
+   Never stored in AppState.events; generated fresh on every render. ── */
+const PCAL_SESSION_COLOR={
+  LR:'var(--dblue)', SR_Easy:'var(--success)', 'SR_Easy+Strides':'var(--success)',
+  SR_Tempo:'var(--accent)', SR_Intervals:'var(--terra-tan)', SR_RacePace:'var(--accent)',
+  SR_Shakeout:'var(--success)', PP:'var(--accent)', RACE:'var(--action)'
+};
+function pcalSessionColor(sessionType,srType){
+  if(sessionType==='SR'&&srType){
+    const exact='SR_'+srType; if(PCAL_SESSION_COLOR[exact]) return PCAL_SESSION_COLOR[exact];
+    const word='SR_'+srType.split('+')[0]; return PCAL_SESSION_COLOR[word]||'var(--text-3)';
+  }
+  return PCAL_SESSION_COLOR[sessionType]||'var(--text-3)';
+}
+function pcalSessionLabel(type,km,zone,srType,isRepl){
+  let name='',detail=''; const kmStr=km!=null?km+' km':'';
+  if(type==='LR'){ name='Long Run'; detail=[kmStr,zone].filter(Boolean).join(' · '); }
+  else if(type==='SR'){ name='Short Run & Prehab'; detail=[kmStr,srType,zone].filter(Boolean).join(' · '); }
+  else if(type==='PP'){ name='Pull & Push'; detail=''; }
+  else if(type==='RACE'){ name='Race Day 🏁'; detail=[kmStr||'42.2 km',zone].filter(Boolean).join(' · '); }
+  else { name=type||'Session'; detail=[kmStr,srType,zone].filter(Boolean).join(' · '); }
+  if(isRepl) name='↩ '+name;
+  return {name,detail};
+}
+function pcalBuildScheduleIndex(){
+  const APP=window.APP||{};
+  const sched=APP.SCHEDULE||[];
+  const schedByDate=new Map();
+  sched.forEach(week=>{
+    (week.sessions||[]).forEach(s=>{
+      if(!s||!s.date) return;
+      const l=schedByDate.get(s.date)||[]; l.push(s); schedByDate.set(s.date,l);
+    });
+  });
+  const weekMeta=[];
+  sched.forEach((week,wi)=>{
+    const sess=week.sessions||[];
+    if(!sess.length){ weekMeta[wi]=null; return; }
+    let first=sess[0];
+    for(let i=1;i<sess.length;i++){ if(sess[i].date<first.date) first=sess[i]; }
+    const mon=pcalShift(first.date,-(typeof first.dayIndex==='number'?first.dayIndex:0));
+    weekMeta[wi]={mon};
+  });
+  const dateToWeek=new Map();
+  weekMeta.forEach((m,wi)=>{ if(!m) return; for(let d=0;d<7;d++) dateToWeek.set(pcalShift(m.mon,d),wi); });
+  const replByDate=new Map();
+  try{
+    const missed=(APP.detectMissedSessions?APP.detectMissedSessions():[])||[];
+    missed.forEach(m=>{
+      const act=m.replacementAction||{};
+      if(!act.action||act.action.indexOf('MAKEUP')!==0||typeof act.day!=='number') return;
+      const wi=dateToWeek.get(m.date); if(wi==null) return;
+      const meta=weekMeta[wi]; if(!meta) return;
+      const dateIso=pcalShift(meta.mon,act.day);
+      const baseKm=typeof m.plannedKm==='number'?m.plannedKm:null;
+      const mkm=typeof act.makeupKm==='number'?act.makeupKm:(baseKm!==null&&typeof act.distanceScale==='number'?Math.round(baseKm*act.distanceScale*10)/10:null);
+      const l=replByDate.get(dateIso)||[];
+      l.push({baseSessionType:m.sessionType, plannedKm:baseKm, zone:act.zone||m.plannedZone||null, makeupKm:mkm});
+      replByDate.set(dateIso,l);
+    });
+  }catch(e){ console.warn('Plan calendar: missed-session lookup failed', e); }
+  return {schedByDate,replByDate};
+}
+function pcalSchedPseudoEvents(dateIso,idx){
+  const APP=window.APP||{};
+  const getLog=APP.getLog?APP.getLog.bind(APP):()=>null;
+  const log=getLog(dateIso);
+  const done=!!(log&&log.completed);
+  const isPast=dateIso<iso(TODAY);
+  const out=[];
+  (idx.schedByDate.get(dateIso)||[]).forEach(s=>{
+    const {name,detail}=pcalSessionLabel(s.sessionType, s.km!=null?s.km:null, s.zone, s.type, false);
+    out.push({
+      readOnly:true, id:'sched-'+dateIso+'-'+s.sessionType, title:name, detail,
+      color:pcalSessionColor(s.sessionType,s.type||null),
+      state:done?'completed':(isPast?'missed':null)
+    });
+  });
+  (idx.replByDate.get(dateIso)||[]).forEach(r=>{
+    const km=r.makeupKm!=null?r.makeupKm:r.plannedKm;
+    const {name,detail}=pcalSessionLabel(r.baseSessionType, km, r.zone, null, true);
+    out.push({readOnly:true, id:'sched-repl-'+dateIso+'-'+r.baseSessionType, title:name, detail, color:'var(--warning)', state:'replacement'});
+  });
+  return out;
+}
+
+/* ── Pill / block markup ─────────────────────────────────────────── */
+function pcalPillHtml(p){
+  if(p.readOnly){
+    const stateCls=p.state?` pcal-sched-${p.state}`:'';
+    return `<div class="pcal-pill pcal-sched${stateCls}" style="border-left-color:${p.color}" onclick="event.stopPropagation();pcalOpenSchedEvent('${p.id}')" title="${pcalEsc(p.title)}">
+      <span class="pcal-pill-title">${pcalEsc(p.title)}</span>
+      ${p.detail?`<span class="pcal-pill-detail">${pcalEsc(p.detail)}</span>`:''}
+    </div>`;
+  }
+  const doneCount=p.todos.filter(t=>t.done).length;
+  const badge=p.todos.length?`<span class="pcal-pill-badge">${doneCount}/${p.todos.length}</span>`:'';
+  return `<div class="pcal-pill" data-pcal-color="${p.color}" draggable="true"
+      ondragstart="pcalPillDragStart(event,'${p.id}')"
+      onclick="event.stopPropagation();pcalOpenEvent('${p.id}')" title="${pcalEsc(p.title)}">
+    <span class="pcal-pill-title">${pcalEsc(p.title)}</span>
+    ${p.detail?`<span class="pcal-pill-detail">${pcalEsc(p.detail)}</span>`:''}
+    ${badge}
+  </div>`;
+}
+function pcalTimedBlockHtml(ev){
+  const startMin=pcalTimeToMin(ev.startTime), endMin=Math.max(pcalTimeToMin(ev.endTime),startMin+15);
+  const hourPx=pcalHourPx();
+  const top=(startMin/60-PCAL_DAY_START)*hourPx;
+  const h=Math.max((endMin-startMin)/60*hourPx-2,18);
+  const doneCount=(ev.todos||[]).filter(t=>t.done).length;
+  const badge=(ev.todos&&ev.todos.length)?`<span class="pcal-pill-badge">${doneCount}/${ev.todos.length}</span>`:'';
+  return `<div class="pcal-timed-block" data-pcal-color="${ev.color||'other'}" data-ev-id="${ev.id}" style="top:${top}px;height:${h}px" draggable="true"
+      ondragstart="pcalPillDragStart(event,'${ev.id}')" onclick="event.stopPropagation();pcalOpenEvent('${ev.id}')">
+    <div class="pcal-resize-handle pcal-resize-top" onmousedown="pcalResizeStart(event,'${ev.id}','start')" ontouchstart="pcalResizeStart(event,'${ev.id}','start')"></div>
+    <div class="pcal-timed-title">${pcalEsc(ev.title)}</div>
+    <div class="pcal-timed-sub"><span class="pcal-timed-time">${ev.startTime}–${ev.endTime}</span>${badge}</div>
+    <div class="pcal-resize-handle pcal-resize-bottom" onmousedown="pcalResizeStart(event,'${ev.id}','end')" ontouchstart="pcalResizeStart(event,'${ev.id}','end')"></div>
+  </div>`;
+}
+function pcalNowLineHtml(){
+  const n=new Date();
+  const hourFloat=n.getHours()+n.getMinutes()/60;
+  if(hourFloat<PCAL_DAY_START||hourFloat>PCAL_DAY_END) return '';
+  const top=(hourFloat-PCAL_DAY_START)*pcalHourPx();
+  return `<div class="pcal-now-line" style="top:${top}px"></div>`;
+}
+
+/* ── Toolbar ──────────────────────────────────────────────────────── */
+function pcalMonthLabel(a){ const d=pcalParse(a); return PCAL_MON[d.getUTCMonth()]+' '+d.getUTCFullYear(); }
+function pcalWeekLabel(a){
+  const start=pcalWeekStart(a), end=pcalShift(start,6);
+  const sd=pcalParse(start), ed=pcalParse(end);
+  const sM=PCAL_MON[sd.getUTCMonth()].slice(0,3), eM=PCAL_MON[ed.getUTCMonth()].slice(0,3);
+  return sM===eM ? `${sM} ${sd.getUTCDate()}–${ed.getUTCDate()}, ${ed.getUTCFullYear()}` : `${sM} ${sd.getUTCDate()} – ${eM} ${ed.getUTCDate()}, ${ed.getUTCFullYear()}`;
+}
+function pcalToolbarHtml(){
+  const views=[['month','Month'],['week','Week'],['day','Day'],['list','List']];
+  const label = pcalView==='month' ? pcalMonthLabel(pcalAnchor)
+    : pcalView==='week' ? pcalWeekLabel(pcalAnchor)
+    : pcalView==='day' ? fmtDate(pcalAnchor)
+    : 'Upcoming';
+  return `
+  <div class="pcal-toolbar">
+    <div class="pcal-toolbar-top">
+      <div class="pcal-nav-group">
+        <button type="button" class="pcal-nav-btn" onclick="pcalNav(-1)" aria-label="Previous"><i data-lucide="chevron-left"></i></button>
+        <button type="button" class="pcal-today-btn" onclick="pcalGoToToday()">Today</button>
+        <button type="button" class="pcal-nav-btn" onclick="pcalNav(1)" aria-label="Next"><i data-lucide="chevron-right"></i></button>
+      </div>
+      <div class="pcal-period-lbl">${label}</div>
+      <div class="pcal-toolbar-actions">
+        <label class="pcal-date-jump-btn" aria-label="Jump to date">
+          <i data-lucide="calendar"></i>
+          <input type="date" value="${pcalAnchor}" onchange="pcalJumpToDate(this.value)">
+        </label>
+        <button type="button" class="pcal-add-btn" onclick="pcalQuickCreate('${pcalView==='month'?pcalAnchor:iso(TODAY)}')" aria-label="New event"><i data-lucide="plus"></i></button>
+      </div>
+    </div>
+    <div class="pcal-view-switch">
+      ${views.map(([v,l])=>`<button type="button" class="pcal-view-btn${pcalView===v?' active':''}" onclick="pcalSetView('${v}')">${l}</button>`).join('')}
+    </div>
+  </div>`;
+}
+
+/* ── Nav ──────────────────────────────────────────────────────────── */
+function pcalNav(dir){
+  if(pcalView==='month'){ const d=pcalParse(pcalAnchor); d.setUTCMonth(d.getUTCMonth()+dir); pcalAnchor=pcalFmt(d); }
+  else if(pcalView==='week') pcalAnchor=pcalShift(pcalAnchor,7*dir);
+  else if(pcalView==='day') pcalAnchor=pcalShift(pcalAnchor,dir);
+  else pcalAnchor=pcalShift(pcalAnchor,dir*30);
+  pcalRender();
+}
+function pcalGoToToday(){ pcalAnchor=iso(TODAY); pcalRender(); }
+function pcalJumpToDate(v){ if(!v) return; pcalAnchor=v; pcalRender(); }
+function pcalSetView(v){ pcalView=v; pcalRender(); }
+function pcalOpenDayFromHeader(d){ pcalAnchor=d; pcalView='day'; pcalRender(); }
+
+/* ── View renderers ───────────────────────────────────────────────── */
+function pcalRenderMonth(idx){
+  const monStart=pcalMonthStart(pcalAnchor);
+  const d0=pcalParse(monStart);
+  const dow=(d0.getUTCDay()+6)%7;
+  const gridStart=pcalShift(monStart,-dow);
+  const monthNum=d0.getUTCMonth();
+  const todayIso=iso(TODAY);
+  let html=`<div class="pcal-dow-row">${PCAL_WD_SHORT.map(w=>`<div class="pcal-dow-cell">${w}</div>`).join('')}</div><div class="pcal-month-grid">`;
+  for(let i=0;i<42;i++){
+    const dateIso=pcalShift(gridStart,i);
+    const dObj=pcalParse(dateIso);
+    const inMonth=dObj.getUTCMonth()===monthNum;
+    const isToday=dateIso===todayIso;
+    const real=getEventsForDate(dateIso).map(pcalPillDescFromEvent);
+    const sched=pcalSchedPseudoEvents(dateIso,idx);
+    const all=[...sched,...real];
+    const shown=all.slice(0,3);
+    const overflow=all.length-shown.length;
+    html+=`<div class="pcal-month-cell${isToday?' pcal-today':''}${inMonth?'':' pcal-outside'}"
+        data-date="${dateIso}" ondragover="pcalDayDragOver(event)" ondrop="pcalDayDrop(event,'${dateIso}')"
+        onclick="pcalCellClick(event,'${dateIso}')">
+      <div class="pcal-month-daynum">${dObj.getUTCDate()}</div>
+      <div class="pcal-month-pills">
+        ${shown.map(p=>pcalPillHtml(p)).join('')}
+        ${overflow>0?`<button type="button" class="pcal-more-btn" onclick="event.stopPropagation();pcalOpenDayOverflow('${dateIso}')">+${overflow} more</button>`:''}
+      </div>
+    </div>`;
+  }
+  html+=`</div>`;
+  return html;
+}
+function pcalRenderWeek(idx){
+  const start=pcalWeekStart(pcalAnchor);
+  const days=[...Array(7)].map((_,i)=>pcalShift(start,i));
+  const todayIso=iso(TODAY);
+  const hourPx=pcalHourPx();
+  const gridH=(PCAL_DAY_END-PCAL_DAY_START)*hourPx;
+
+  let html=`<div class="pcal-week-hdr-row"><div class="pcal-gutter-spacer"></div>`;
+  days.forEach(d=>{
+    const dObj=pcalParse(d), isToday=d===todayIso;
+    html+=`<div class="pcal-week-hdr-cell${isToday?' pcal-today':''}" onclick="pcalOpenDayFromHeader('${d}')">
+      <span class="pcal-week-hdr-dow">${PCAL_WD_SHORT[(dObj.getUTCDay()+6)%7]}</span>
+      <span class="pcal-week-hdr-date">${dObj.getUTCDate()}</span>
+    </div>`;
+  });
+  html+=`</div><div class="pcal-allday-row"><div class="pcal-gutter-spacer pcal-allday-lbl">All-day</div>`;
+  days.forEach(d=>{
+    const dayEvents=getEventsForDate(d);
+    const real=dayEvents.filter(e=>e.allDay||e.date!==e.endDate).map(pcalPillDescFromEvent);
+    const sched=pcalSchedPseudoEvents(d,idx);
+    const all=[...sched,...real];
+    html+=`<div class="pcal-allday-cell" ondragover="pcalDayDragOver(event)" ondrop="pcalDayDrop(event,'${d}')" onclick="pcalCellClick(event,'${d}')">
+      ${all.map(p=>pcalPillHtml(p)).join('')}
+    </div>`;
+  });
+  html+=`</div><div class="pcal-timegrid-scroll" id="pcal-timegrid-scroll"><div class="pcal-timegrid" style="height:${gridH}px">
+    <div class="pcal-hour-gutter">`;
+  for(let h=PCAL_DAY_START;h<=PCAL_DAY_END;h++) html+=`<div class="pcal-hour-lbl" style="top:${(h-PCAL_DAY_START)*hourPx}px">${String(h).padStart(2,'0')}:00</div>`;
+  html+=`</div>`;
+  days.forEach(d=>{
+    const timed=getEventsForDate(d).filter(e=>!e.allDay && e.date===e.endDate && e.startTime && e.endTime);
+    html+=`<div class="pcal-day-col" data-date="${d}" ondragover="pcalColDragOver(event)" ondrop="pcalColDrop(event,'${d}')" onclick="pcalColClick(event,'${d}')">`;
+    timed.forEach(ev=>{ html+=pcalTimedBlockHtml(ev); });
+    if(d===todayIso) html+=pcalNowLineHtml();
+    html+=`</div>`;
+  });
+  html+=`</div></div>`;
+  return html;
+}
+function pcalRenderDay(idx){
+  const d=pcalAnchor;
+  const todayIso=iso(TODAY);
+  const hourPx=pcalHourPx();
+  const gridH=(PCAL_DAY_END-PCAL_DAY_START)*hourPx;
+  const dayEvents=getEventsForDate(d);
+  const allDayReal=dayEvents.filter(e=>e.allDay||e.date!==e.endDate).map(pcalPillDescFromEvent);
+  const timedReal=dayEvents.filter(e=>!e.allDay && e.date===e.endDate && e.startTime && e.endTime);
+  const sched=pcalSchedPseudoEvents(d,idx);
+  const bannerItems=[...sched,...allDayReal];
+
+  let html=`<div class="pcal-day-hdr">
+    <span class="pcal-day-hdr-dow">${PCAL_WD_SHORT[(pcalParse(d).getUTCDay()+6)%7]}</span>
+    <span class="pcal-day-hdr-date${d===todayIso?' pcal-today':''}">${fmtDate(d)}</span>
+  </div>`;
+  if(bannerItems.length){
+    html+=`<div class="pcal-allday-row pcal-allday-row-day"><div class="pcal-allday-cell" ondragover="pcalDayDragOver(event)" ondrop="pcalDayDrop(event,'${d}')" onclick="pcalCellClick(event,'${d}')">
+      ${bannerItems.map(p=>pcalPillHtml(p)).join('')}
+    </div></div>`;
+  }
+  html+=`<div class="pcal-timegrid-scroll" id="pcal-timegrid-scroll"><div class="pcal-timegrid" style="height:${gridH}px">
+    <div class="pcal-hour-gutter">`;
+  for(let h=PCAL_DAY_START;h<=PCAL_DAY_END;h++) html+=`<div class="pcal-hour-lbl" style="top:${(h-PCAL_DAY_START)*hourPx}px">${String(h).padStart(2,'0')}:00</div>`;
+  html+=`</div><div class="pcal-day-col pcal-day-col-single" data-date="${d}" ondragover="pcalColDragOver(event)" ondrop="pcalColDrop(event,'${d}')" onclick="pcalColClick(event,'${d}')">`;
+  timedReal.forEach(ev=>{ html+=pcalTimedBlockHtml(ev); });
+  if(d===todayIso) html+=pcalNowLineHtml();
+  html+=`</div></div></div>`;
+  return html;
+}
+function pcalRenderList(){
+  const startIso=pcalAnchor<iso(TODAY)?pcalAnchor:iso(TODAY);
+  const endIso=pcalShift(startIso,120);
+  const real=getEventsInRange(startIso,endIso);
+  const byDate=new Map();
+  real.forEach(ev=>{
+    expandRecurring(ev,startIso,endIso).forEach(od=>{
+      if(od<startIso) return;
+      const l=byDate.get(od)||[]; l.push(ev); byDate.set(od,l);
+    });
+  });
+  ((window.APP&&window.APP.SCHEDULE)||[]).forEach(week=>{
+    (week.sessions||[]).forEach(s=>{
+      if(s.date<startIso||s.date>endIso) return;
+      const l=byDate.get(s.date)||[]; l.push({__sched:true,session:s}); byDate.set(s.date,l);
+    });
+  });
+  const dates=[...byDate.keys()].sort();
+  if(!dates.length) return `<div class="pcal-empty">No upcoming events. Tap + to add one.</div>`;
+  let html='';
+  dates.forEach(d=>{
+    html+=`<div class="pcal-list-date-hdr">${fmtDate(d)}</div>`;
+    byDate.get(d).forEach(item=>{
+      if(item.__sched){
+        const s=item.session;
+        const {name,detail}=pcalSessionLabel(s.sessionType, s.km!=null?s.km:null, s.zone, s.type, false);
+        html+=`<div class="pcal-list-row pcal-sched" style="border-left-color:${pcalSessionColor(s.sessionType,s.type||null)}" onclick="pcalOpenSchedEvent('sched-${d}-${s.sessionType}')">
+          <div class="pcal-list-row-title">${pcalEsc(name)}</div>
+          <div class="pcal-list-row-sub">${pcalEsc(detail)}</div>
+        </div>`;
+      } else {
+        const doneCount=(item.todos||[]).filter(t=>t.done).length;
+        const badge=item.todos&&item.todos.length?`<span class="pcal-pill-badge">${doneCount}/${item.todos.length}</span>`:'';
+        const time=item.allDay?'All day':(item.startTime?item.startTime+(item.endTime?'–'+item.endTime:''):'');
+        html+=`<div class="pcal-list-row" data-pcal-color="${item.color||'other'}" onclick="pcalOpenEvent('${item.id}')">
+          <div class="pcal-list-row-title">${pcalEsc(item.title)}${badge}</div>
+          <div class="pcal-list-row-sub">${time}</div>
+        </div>`;
+      }
+    });
+  });
+  return html;
+}
+
+function pcalRender(){
+  const root=document.getElementById('pcal-root');
+  if(!root) return;
+  const idx=pcalBuildScheduleIndex();
+  let body='';
+  if(pcalView==='month') body=pcalRenderMonth(idx);
+  else if(pcalView==='week') body=pcalRenderWeek(idx);
+  else if(pcalView==='day') body=pcalRenderDay(idx);
+  else body=pcalRenderList();
+  root.innerHTML=pcalToolbarHtml()+`<div class="pcal-view-body">${body}</div>`;
+  _createIcons();
+  if(pcalView==='week'||pcalView==='day') pcalScrollToNow();
+}
+function pcalRenderBackground(){ pcalRender(); }
+function pcalScrollToNow(){
+  const box=document.getElementById('pcal-timegrid-scroll');
+  if(!box) return;
+  const n=new Date();
+  const hourFloat=Math.min(Math.max(n.getHours()+n.getMinutes()/60,PCAL_DAY_START),PCAL_DAY_END);
+  const top=(hourFloat-PCAL_DAY_START)*pcalHourPx();
+  box.scrollTop=Math.max(top-box.clientHeight/2,0);
+}
+/* ── Cell / column interaction ───────────────────────────────────── */
+function pcalCellClick(e,dateIso){
+  if(e.target.closest('.pcal-pill')) return;
+  pcalQuickCreate(dateIso);
+}
+function pcalColClick(e,dateIso){
+  if(e.target.closest('.pcal-timed-block')) return;
+  const rect=e.currentTarget.getBoundingClientRect();
+  const y=e.clientY-rect.top;
+  let hourFloat=PCAL_DAY_START+y/pcalHourPx();
+  hourFloat=Math.round(hourFloat*4)/4;
+  const min=Math.max(0,Math.round(hourFloat*60));
+  pcalQuickCreate(dateIso,pcalMinToTime(min));
+}
+
+/* ── Drag-and-drop: move an event to another day/time ────────────── */
+function pcalPillDragStart(e,eventId){
+  pcalDragEventId=eventId;
+  e.dataTransfer.effectAllowed='move';
+  e.dataTransfer.setData('text/plain',eventId);
+}
+function pcalDayDragOver(e){ if(pcalDragEventId){ e.preventDefault(); e.dataTransfer.dropEffect='move'; } }
+function pcalDayDrop(e,dateIso){
+  e.preventDefault();
+  const id=pcalDragEventId||e.dataTransfer.getData('text/plain');
+  pcalDragEventId=null;
+  if(!id) return;
+  const ev=AppState.events.find(x=>x.id===id); if(!ev) return;
+  const span=Math.round((pcalParse(ev.endDate||ev.date)-pcalParse(ev.date))/86400000);
+  updateEvent(id,{date:dateIso,endDate:pcalShift(dateIso,span)});
+  pcalRender();
+  showToast('Event moved');
+}
+function pcalColDragOver(e){ if(pcalDragEventId){ e.preventDefault(); e.dataTransfer.dropEffect='move'; } }
+function pcalColDrop(e,dateIso){
+  e.preventDefault();
+  const id=pcalDragEventId||e.dataTransfer.getData('text/plain');
+  pcalDragEventId=null;
+  if(!id) return;
+  const ev=AppState.events.find(x=>x.id===id); if(!ev) return;
+  const rect=e.currentTarget.getBoundingClientRect();
+  const y=Math.max(0,e.clientY-rect.top);
+  let hourFloat=PCAL_DAY_START+y/pcalHourPx();
+  hourFloat=Math.round(hourFloat*4)/4;
+  const patch={date:dateIso,endDate:dateIso};
+  if(!ev.allDay && ev.startTime && ev.endTime){
+    const durMin=pcalTimeToMin(ev.endTime)-pcalTimeToMin(ev.startTime);
+    const startMin=Math.max(0,Math.round(hourFloat*60));
+    patch.startTime=pcalMinToTime(startMin);
+    patch.endTime=pcalMinToTime(startMin+Math.max(durMin,15));
+  }
+  updateEvent(id,patch);
+  pcalRender();
+  showToast('Event moved');
+}
+
+/* ── Resize: drag the top/bottom edge of a timed block ───────────── */
+function pcalResizeStart(e,eventId,edge){
+  e.preventDefault(); e.stopPropagation();
+  const col=e.target.closest('.pcal-day-col'); if(!col) return;
+  pcalResizeState={eventId,edge,col};
+  document.addEventListener('mousemove',pcalResizeMove);
+  document.addEventListener('mouseup',pcalResizeEnd);
+  document.addEventListener('touchmove',pcalResizeMove,{passive:false});
+  document.addEventListener('touchend',pcalResizeEnd);
+}
+function pcalResizeMove(e){
+  if(!pcalResizeState) return;
+  e.preventDefault();
+  const pt=e.touches?e.touches[0]:e;
+  const rect=pcalResizeState.col.getBoundingClientRect();
+  const y=Math.min(Math.max(pt.clientY-rect.top,0),rect.height);
+  let hourFloat=PCAL_DAY_START+y/pcalHourPx();
+  hourFloat=Math.round(hourFloat*4)/4;
+  const min=Math.round(hourFloat*60);
+  const ev=AppState.events.find(x=>x.id===pcalResizeState.eventId); if(!ev) return;
+  if(pcalResizeState.edge==='start'){
+    const endMin=pcalTimeToMin(ev.endTime);
+    ev.startTime=pcalMinToTime(Math.min(min,endMin-15));
+  } else {
+    const startMin=pcalTimeToMin(ev.startTime);
+    ev.endTime=pcalMinToTime(Math.max(min,startMin+15));
+  }
+  const block=pcalResizeState.col.querySelector(`.pcal-timed-block[data-ev-id="${pcalResizeState.eventId}"]`);
+  if(block){
+    const hourPx=pcalHourPx();
+    const startMin=pcalTimeToMin(ev.startTime), endMin=Math.max(pcalTimeToMin(ev.endTime),startMin+15);
+    block.style.top=((startMin/60-PCAL_DAY_START)*hourPx)+'px';
+    block.style.height=Math.max((endMin-startMin)/60*hourPx-2,18)+'px';
+    const timeSpan=block.querySelector('.pcal-timed-time');
+    if(timeSpan) timeSpan.textContent=ev.startTime+'–'+ev.endTime;
+  }
+}
+function pcalResizeEnd(){
+  if(!pcalResizeState) return;
+  pcalResizeState=null;
+  document.removeEventListener('mousemove',pcalResizeMove);
+  document.removeEventListener('mouseup',pcalResizeEnd);
+  document.removeEventListener('touchmove',pcalResizeMove);
+  document.removeEventListener('touchend',pcalResizeEnd);
+  saveState();
+  pcalRender();
+}
+
+/* ── Day overflow popover ("+N more") ────────────────────────────── */
+function pcalOpenDayOverflow(dateIso){
+  const idx=pcalBuildScheduleIndex();
+  const real=getEventsForDate(dateIso).map(pcalPillDescFromEvent);
+  const sched=pcalSchedPseudoEvents(dateIso,idx);
+  const all=[...sched,...real];
+  const rows=all.map(p=>p.readOnly
+    ? `<div class="pcal-list-row pcal-sched" style="border-left-color:${p.color}" onclick="closeSheet();pcalOpenSchedEvent('${p.id}')">
+         <div class="pcal-list-row-title">${pcalEsc(p.title)}</div>
+         <div class="pcal-list-row-sub">${pcalEsc(p.detail||'')}</div>
+       </div>`
+    : `<div class="pcal-list-row" data-pcal-color="${p.color}" onclick="closeSheet();pcalOpenEvent('${p.id}')">
+         <div class="pcal-list-row-title">${pcalEsc(p.title)}</div>
+         <div class="pcal-list-row-sub">${p.allDay?'All day':(p.startTime||'')}</div>
+       </div>`).join('');
+  openSheet(`<div class="sh-ttl">${fmtDate(dateIso)}</div>
+    <div class="pcal-daylist">${rows||'<div class="pcal-empty">Nothing scheduled.</div>'}</div>
+    <button type="button" class="btn btn-secondary btn-full" style="margin-top:14px" onclick="closeSheet();pcalQuickCreate('${dateIso}')"><i data-lucide="plus"></i> New event</button>`);
+}
+
+/* ── Quick-create popover ────────────────────────────────────────── */
+function pcalColorSwatchesHtml(selected,name,eventId){
+  name=name||'pcal-color';
+  return `<div class="pcal-swatch-row">
+    ${PCAL_COLORS.filter(c=>c!=='other').map(c=>`<button type="button" class="pcal-swatch${c===selected?' active':''}" data-pcal-color="${c}"
+      title="${PCAL_COLOR_LABEL[c]}" onclick="pcalPickColor(this,'${name}'${eventId?",'"+eventId+"'":''})"></button>`).join('')}
+    <input type="hidden" id="${name}-val" value="${selected}">
+  </div>`;
+}
+function pcalPickColor(btn,name,eventId){
+  btn.parentElement.querySelectorAll('.pcal-swatch').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  const val=btn.getAttribute('data-pcal-color');
+  const hidden=document.getElementById(name+'-val'); if(hidden) hidden.value=val;
+  if(eventId) pcalSaveDetailField(eventId,'color',val);
+}
+function pcalRecurrenceSelectHtml(selected,name,onchange){
+  name=name||'pcqc-recur';
+  const oc=onchange?` onchange="${onchange}"`:'';
+  const opts=[['none','Does not repeat'],['daily','Daily'],['weekly','Weekly'],['monthly','Monthly']];
+  return `<select class="fi" id="${name}"${oc}>${opts.map(([v,l])=>`<option value="${v}"${v===selected?' selected':''}>${l}</option>`).join('')}</select>`;
+}
+function pcalQuickCreate(dateIso,timeStr){
+  openSheet(`
+    <div class="sh-ttl">New event</div>
+    <div class="fg"><input class="fi" id="pcqc-title" type="text" placeholder="Event title"></div>
+    <div class="pcal-qc-row">
+      <div class="fg" style="flex:1"><label class="fl">Date</label><input class="fi" id="pcqc-date" type="date" value="${dateIso}"></div>
+      <div class="fg" style="flex:1"><label class="fl">Time</label><input class="fi" id="pcqc-time" type="time" value="${timeStr||''}"></div>
+    </div>
+    <div id="pcqc-more" style="display:none">
+      <div class="pcal-qc-row">
+        <div class="fg" style="flex:1"><label class="fl">End date</label><input class="fi" id="pcqc-enddate" type="date" value="${dateIso}"></div>
+        <div class="fg" style="flex:1"><label class="fl">End time</label><input class="fi" id="pcqc-endtime" type="time"></div>
+      </div>
+      <div class="fg"><label style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text-2)"><input type="checkbox" id="pcqc-allday"> All-day</label></div>
+      <div class="fg"><label class="fl">Color</label>${pcalColorSwatchesHtml('other')}</div>
+      <div class="fg"><label class="fl">Location</label><input class="fi" id="pcqc-loc" type="text" placeholder="Optional"></div>
+      <div class="fg"><label class="fl">Repeats</label>${pcalRecurrenceSelectHtml('none','pcqc-recur')}</div>
+      <div class="fg"><label class="fl">Notes</label><textarea class="fi" id="pcqc-notes" rows="2"></textarea></div>
+    </div>
+    <button type="button" class="sec-link" style="margin-bottom:12px" onclick="document.getElementById('pcqc-more').style.display='block';this.style.display='none'">More options</button>
+    <button type="button" class="btn btn-primary btn-full" onclick="pcalSubmitQuickCreate()">Create event</button>
+  `);
+}
+function pcalSubmitQuickCreate(){
+  const title=($('#pcqc-title')?.value||'').trim();
+  if(!title){ showToast('Title required'); return; }
+  const date=$('#pcqc-date')?.value||pcalAnchor;
+  const time=$('#pcqc-time')?.value||'';
+  const moreEl=document.getElementById('pcqc-more');
+  const expanded=!!(moreEl&&moreEl.style.display!=='none');
+  const allDay=expanded?!!document.getElementById('pcqc-allday')?.checked:!time;
+  const endDate=expanded?(document.getElementById('pcqc-enddate')?.value||date):date;
+  const endTime=expanded?(document.getElementById('pcqc-endtime')?.value||''):'';
+  const color=expanded?(document.getElementById('pcal-color-val')?.value||'other'):'other';
+  const location=expanded?(document.getElementById('pcqc-loc')?.value||''):'';
+  const recurrence=expanded?(document.getElementById('pcqc-recur')?.value||'none'):'none';
+  const notes=expanded?(document.getElementById('pcqc-notes')?.value||''):'';
+  createEvent({title,date,endDate:endDate<date?date:endDate,allDay,startTime:allDay?null:(time||null),endTime:allDay?null:(endTime||null),color,location,recurrence,notes});
+  closeSheet();
+  pcalRender();
+  showToast('Event created');
+}
+
+/* ── Detail / edit panel ─────────────────────────────────────────── */
+function pcalTodoRowHtml(eventId,t){
+  return `<div class="pcal-todo-row" data-todo-drag-id="${t.id}">
+    <button type="button" class="pcal-todo-drag-handle tsk-drag-handle" aria-label="Reorder"><i data-lucide="grip-vertical"></i></button>
+    <input type="checkbox" class="pcal-todo-cb" ${t.done?'checked':''} onchange="pcalTodoToggleUI('${eventId}','${t.id}')">
+    <span class="pcal-todo-text${t.done?' done':''}" contenteditable="true"
+      onblur="pcalTodoEditUI('${eventId}','${t.id}',this.textContent)"
+      onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur();}">${pcalEsc(t.text)}</span>
+    <button type="button" class="pcal-todo-del" onclick="pcalTodoDeleteUI('${eventId}','${t.id}')" aria-label="Delete"><i data-lucide="x"></i></button>
+  </div>`;
+}
+function pcalDetailHtml(ev){
+  const doneCount=ev.todos.filter(t=>t.done).length;
+  return `
+    <div class="pcal-detail-hdr">
+      <input class="fi pcal-detail-title" id="pced-title" type="text" value="${pcalEsc(ev.title)}" onchange="pcalSaveDetailField('${ev.id}','title',this.value)">
+    </div>
+    <div class="pcal-qc-row">
+      <div class="fg" style="flex:1"><label class="fl">Date</label><input class="fi" id="pced-date" type="date" value="${ev.date}" onchange="pcalSaveDetailField('${ev.id}','date',this.value)"></div>
+      <div class="fg" style="flex:1"><label class="fl">End date</label><input class="fi" id="pced-enddate" type="date" value="${ev.endDate||ev.date}" onchange="pcalSaveDetailField('${ev.id}','endDate',this.value)"></div>
+    </div>
+    <div class="fg"><label style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text-2)">
+      <input type="checkbox" id="pced-allday" ${ev.allDay?'checked':''} onchange="pcalToggleAllDay('${ev.id}',this.checked)"> All-day</label>
+    </div>
+    <div class="pcal-qc-row" id="pced-time-row" style="${ev.allDay?'display:none':''}">
+      <div class="fg" style="flex:1"><label class="fl">Start</label><input class="fi" id="pced-start" type="time" value="${ev.startTime||''}" onchange="pcalSaveDetailField('${ev.id}','startTime',this.value)"></div>
+      <div class="fg" style="flex:1"><label class="fl">End</label><input class="fi" id="pced-end" type="time" value="${ev.endTime||''}" onchange="pcalSaveDetailField('${ev.id}','endTime',this.value)"></div>
+    </div>
+    <div class="fg"><label class="fl">Color</label>${pcalColorSwatchesHtml(ev.color||'other','pced-color',ev.id)}</div>
+    <div class="fg"><label class="fl">Location</label><input class="fi" id="pced-loc" type="text" value="${pcalEsc(ev.location||'')}" onchange="pcalSaveDetailField('${ev.id}','location',this.value)"></div>
+    <div class="fg"><label class="fl">Repeats</label>${pcalRecurrenceSelectHtml(ev.recurrence||'none','pced-recur',"pcalSaveDetailField('"+ev.id+"','recurrence',this.value)")}</div>
+    <div class="fg"><label class="fl">Notes</label><textarea class="fi" id="pced-notes" rows="2" onchange="pcalSaveDetailField('${ev.id}','notes',this.value)">${pcalEsc(ev.notes||'')}</textarea></div>
+
+    <div class="pcal-todo-block">
+      <div class="pcal-todo-hdr"><span class="pcal-todo-count">${doneCount}/${ev.todos.length} done</span></div>
+      <div class="pcal-todo-add-row">
+        <input class="fi" id="pced-todo-input" type="text" placeholder="Add a to-do" onkeydown="if(event.key==='Enter'){event.preventDefault();pcalTodoAddFromInput('${ev.id}')}">
+        <button type="button" class="pcal-todo-add-btn" onclick="pcalTodoAddFromInput('${ev.id}')" aria-label="Add"><i data-lucide="plus"></i></button>
+      </div>
+      <div class="pcal-todo-list" id="pcal-todo-list">
+        ${ev.todos.slice().sort((a,b)=>a.order-b.order).map(t=>pcalTodoRowHtml(ev.id,t)).join('')}
+      </div>
+    </div>
+
+    <div class="pcal-detail-actions">
+      <button type="button" class="btn btn-secondary" onclick="pcalDuplicateEvent('${ev.id}')"><i data-lucide="copy"></i> Duplicate</button>
+      <button type="button" class="pcal-delete-btn" onclick="pcalDeleteEventConfirm('${ev.id}')"><i data-lucide="trash-2"></i> Delete</button>
+    </div>
+  `;
+}
+function pcalOpenEvent(id){
+  const ev=AppState.events.find(e=>e.id===id); if(!ev) return;
+  openSheet(pcalDetailHtml(ev));
+  pcalInitTodoDrag(id);
+}
+function pcalSaveDetailField(id,field,value){
+  updateEvent(id,{[field]:value});
+  pcalRenderBackground();
+}
+function pcalToggleAllDay(id,checked){
+  const patch={allDay:checked};
+  if(checked){ patch.startTime=null; patch.endTime=null; }
+  updateEvent(id,patch);
+  const row=document.getElementById('pced-time-row');
+  if(row) row.style.display=checked?'none':'';
+  pcalRenderBackground();
+}
+function pcalRefreshTodoList(eventId){
+  const ev=AppState.events.find(e=>e.id===eventId); if(!ev) return;
+  const list=document.getElementById('pcal-todo-list');
+  if(list) list.innerHTML=ev.todos.slice().sort((a,b)=>a.order-b.order).map(t=>pcalTodoRowHtml(eventId,t)).join('');
+  const cnt=document.querySelector('.pcal-todo-count');
+  if(cnt) cnt.textContent=`${ev.todos.filter(t=>t.done).length}/${ev.todos.length} done`;
+  _createIcons();
+  pcalInitTodoDrag(eventId);
+}
+function pcalTodoAddFromInput(eventId){
+  const inp=document.getElementById('pced-todo-input'); if(!inp) return;
+  if(!inp.value||!inp.value.trim()) return;
+  addTodo(eventId,inp.value);
+  inp.value='';
+  pcalRefreshTodoList(eventId);
+  pcalRenderBackground();
+}
+function pcalTodoToggleUI(eventId,todoId){ toggleTodo(eventId,todoId); pcalRefreshTodoList(eventId); pcalRenderBackground(); }
+function pcalTodoEditUI(eventId,todoId,text){ editTodo(eventId,todoId,text); pcalRefreshTodoList(eventId); }
+function pcalTodoDeleteUI(eventId,todoId){ deleteTodo(eventId,todoId); pcalRefreshTodoList(eventId); pcalRenderBackground(); }
+function pcalInitTodoDrag(eventId){
+  const c=document.getElementById('pcal-todo-list');
+  _tskDragEngine(c,'.pcal-todo-row[data-todo-drag-id]','data-todo-drag-id',(from,to)=>{
+    reorderTodos(eventId,from,to);
+    pcalRefreshTodoList(eventId);
+    pcalRenderBackground();
+  });
+}
+function pcalDeleteEventConfirm(id){
+  const ev=AppState.events.find(e=>e.id===id); if(!ev) return;
+  openSheet(`
+    <div class="sh-ttl">Delete "${pcalEsc(ev.title)}"?</div>
+    <div style="font-size:13px;color:var(--text-2);margin-bottom:18px">This can't be undone${ev.todos.length?` — its ${ev.todos.length} to-do${ev.todos.length===1?'':'s'} will be deleted too`:''}.</div>
+    <button type="button" class="pcal-delete-btn btn-full" style="margin-bottom:8px" onclick="pcalConfirmDelete('${id}')"><i data-lucide="trash-2"></i> Delete event</button>
+    <button type="button" class="btn btn-secondary btn-full" onclick="pcalOpenEvent('${id}')">Cancel</button>
+  `);
+}
+function pcalConfirmDelete(id){
+  deleteEvent(id);
+  closeSheet();
+  pcalRender();
+  showToast('Event deleted');
+}
+function pcalDuplicateEvent(id){
+  const ev=AppState.events.find(e=>e.id===id); if(!ev) return;
+  const copy=createEvent({
+    title:ev.title+' (copy)', date:ev.date, endDate:ev.endDate, allDay:ev.allDay,
+    startTime:ev.startTime, endTime:ev.endTime, color:ev.color, notes:ev.notes,
+    location:ev.location, recurrence:ev.recurrence
+  });
+  copy.todos=ev.todos.map(t=>({id:pcalTodoId(),text:t.text,done:false,order:t.order}));
+  saveState();
+  pcalOpenEvent(copy.id);
+  pcalRenderBackground();
+  showToast('Event duplicated');
+}
+
+/* ── Read-only training-session sheet ────────────────────────────── */
+function pcalOpenSchedEvent(pseudoId){
+  const isRepl=pseudoId.startsWith('sched-repl-');
+  const rest=pseudoId.replace(/^sched-(repl-)?/,'');
+  const dateIso=rest.slice(0,10);
+  const typeKey=rest.slice(11);
+  const idx=pcalBuildScheduleIndex();
+  const item=isRepl
+    ? (idx.replByDate.get(dateIso)||[]).find(r=>r.baseSessionType===typeKey)
+    : (idx.schedByDate.get(dateIso)||[]).find(s=>s.sessionType===typeKey);
+  if(!item){ showToast('Session not found'); return; }
+  const APP=window.APP||{};
+  const log=APP.getLog?APP.getLog(dateIso):null;
+  const done=!!(log&&log.completed);
+  const label=isRepl
+    ? pcalSessionLabel(item.baseSessionType, item.makeupKm!=null?item.makeupKm:item.plannedKm, item.zone, null, true)
+    : pcalSessionLabel(item.sessionType, item.km!=null?item.km:null, item.zone, item.type, false);
+  openSheet(`
+    <div class="sh-ttl">${pcalEsc(label.name)}</div>
+    <div style="font-size:13px;color:var(--text-2);margin-bottom:4px">${fmtDate(dateIso)}</div>
+    ${label.detail?`<div style="font-size:13px;color:var(--text);margin-bottom:16px">${pcalEsc(label.detail)}</div>`:''}
+    <div style="font-size:11px;color:var(--text-3);margin-bottom:18px">From your training plan · read-only</div>
+    <label style="display:flex;align-items:center;gap:10px;padding:10px 0;border-top:1px solid var(--border);cursor:pointer">
+      <input type="checkbox" ${done?'checked':''} style="width:18px;height:18px;accent-color:var(--accent)" onchange="pcalToggleSchedComplete('${dateIso}',this.checked)">
+      <span style="font-size:14px;color:var(--text)">Mark as done</span>
+    </label>
+  `);
+}
+function pcalToggleSchedComplete(dateIso,checked){
+  const APP=window.APP||{};
+  if(checked&&APP.markComplete) APP.markComplete(dateIso);
+  else if(!checked&&APP.markIncomplete) APP.markIncomplete(dateIso);
+  saveState();
+  showToast(checked?'Session marked complete ✓':'Marked incomplete');
+  closeSheet();
+  pcalRender();
+}
+
 function markPlanDone(id,type){
   const pool=type==='calisthenics'?AppState.calPlan:AppState.plan;
   const item=pool.find(p=>p.id===id); if(!item)return;
@@ -10101,68 +10786,6 @@ function openPrehabSheet(planId){
     </button>
   `);
 }
-
-function renderMonthCal(){
-  const yr=planMo.getFullYear(), mo=planMo.getMonth();
-  const lbl=$('#cal-mo-lbl'); if(lbl) lbl.textContent=planMo.toLocaleDateString('en-US',{month:'long',year:'numeric'});
-  const first=new Date(yr,mo,1).getDay();
-  const dim=new Date(yr,mo+1,0).getDate();
-  const off=(first+6)%7;
-  const grid=$('#cal-grid'); if(!grid)return;
-  let html='';
-  for(let i=0;i<off;i++) html+=`<div class="cal-day empty"></div>`;
-  for(let d=1;d<=dim;d++){
-    const ds=`${yr}-${String(mo+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-    const isT=ds===iso(TODAY);
-    const acts=getActsForDate(ds);
-    const plan=AppState.plan.find(p=>p.date===ds);
-    let bg='transparent', dotC=null;
-    if(acts.length){
-      const run=acts.find(a=>a.type==='run'), str=acts.find(a=>a.type==='strength');
-      const wt=run?run.run_type:'Strength';
-      bg=(WK_COLORS[wt]||'var(--text-3)')+'2a'; dotC=WK_COLORS[wt]||'var(--text-3)';
-    } else if(plan&&plan.workout_type!=='Rest'){
-      bg=(WK_COLORS[plan.workout_type]||'var(--bg-3)')+'1a';
-      dotC=(WK_COLORS[plan.workout_type]||'var(--text-3)')+'88';
-    }
-    html+=`<div class="cal-day${isT?' today':''}" style="background:${bg}" onclick="showPlanDay('${ds}')">
-      <span class="cal-day-n" style="color:${isT?'var(--accent)':'var(--text)'}">${d}</span>
-      ${dotC?`<div class="cal-day-dot" style="background:${dotC}"></div>`:''}
-    </div>`;
-  }
-  grid.innerHTML=html;
-}
-
-function planPrev(){ planMo.setMonth(planMo.getMonth()-1); renderMonthCal(); }
-function planNext(){ planMo.setMonth(planMo.getMonth()+1); renderMonthCal(); }
-
-function showPlanDay(d){
-  const plan=AppState.plan.find(p=>p.date===d), acts=getActsForDate(d);
-  let html=`<div class="sh-ttl">${fmtDate(d)}</div>`;
-  if(plan){
-    const c=WK_COLORS[plan.workout_type]||'var(--text-3)';
-    html+=`<div style="margin-bottom:12px">
-      <div style="display:flex;align-items:center;gap:7px;margin-bottom:8px">
-        <div style="width:9px;height:9px;border-radius:2px;background:${c}"></div>
-        <div style="font-size:15px;font-weight:700;color:var(--text)">${plan.workout_type}</div>
-        <div style="font-size:11px;color:var(--text-3)">· ${plan.phase}</div>
-      </div>
-      ${plan.target_distance_km>0?`<div style="font-size:12px;color:var(--text-2);margin-bottom:6px"><strong>Target:</strong> ${plan.target_distance_km} km</div>`:''}
-      ${(plan.target_pace_zone||plan.target_pace_range)?`<div style="font-size:12px;color:var(--text-2);margin-bottom:4px"><strong>Pace:</strong> ${plan.target_pace_zone}${plan.target_pace_range?' · '+plan.target_pace_range:''}</div>`:''}
-      ${plan.target_hr_range?`<div style="font-size:12px;color:var(--text-2);margin-bottom:4px"><strong>HR:</strong> ${plan.target_hr_range}</div>`:''}
-      ${plan.intensity_model?`<div style="margin-bottom:8px"><span class="badge" style="background:rgba(232,71,10,.12);color:var(--accent);font-size:10px">${plan.phase} · ${plan.intensity_model.charAt(0).toUpperCase()+plan.intensity_model.slice(1)}</span></div>`:''}
-      <div style="font-size:13px;color:var(--text);line-height:1.6;margin-bottom:7px">${plan.instructions}</div>
-      <div style="font-size:11px;color:var(--text-3);font-style:italic">${plan.rationale}</div>
-    </div>`;
-  }
-  if(acts.length){
-    html+=`<div class="divider"></div><div style="font-size:10px;font-weight:600;color:var(--text-3);margin-bottom:7px">Completed</div>`;
-    acts.forEach(a=>html+=actCard(a));
-  }
-  if(!plan&&!acts.length) html+=`<div style="font-size:13px;color:var(--text-2)">Nothing planned or logged for this day.</div>`;
-  openSheet(html);
-}
-
 
 /* ═══════════════════════════════════════════════════
    TASKS
@@ -12562,253 +13185,24 @@ window.APP={PLAN_START,RACE_DATE,WEEK_COUNT,SCHEDULE,LOG,getWeekForDate,markComp
 
 <script>
 /* ═══════════════════════════════════════════════════
-   window.APP — Marathon Calendar UI
-   Prompt 1 Step 4: no km/zone form  |  Prompt 2: fully tokenised, PLAN_PILL_COLORS
+   window.APP — Plan Calendar UI bridge
+   The Month/Week/Day/List calendar UI itself lives in the main script next
+   to renderPlan (search "PLAN CALENDAR"). This IIFE only keeps the
+   window.APP.renderCalendar / refreshDay / scrollToCurrentWeek contract
+   that navigate() and markPlanDone() call by name.
 ═══════════════════════════════════════════════════ */
 (function(){
 'use strict';
-const APP=window.APP||{};
-const SCHEDULE=APP.SCHEDULE||[];
-const getLog=APP.getLog?APP.getLog.bind(APP):function(d){return(APP.LOG||{})[d]||null;};
-const MS=86400000;
-const WEEK_META=[];
-const DATE_TO_WD=Object.create(null);
-const SESS_BY_DATE=new Map();
-const REPL_BY_DATE=new Map();
-const MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-const WD=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
-
-/* ── Prompt 2 Step 3: border-left colours per session type ── */
-const PLAN_PILL_COLORS={
-  LR:'#6E8390',
-  SR_Easy:'var(--success)',
-  'SR_Easy+Strides':'var(--success)',
-  SR_Tempo:'var(--accent)',
-  SR_Intervals:'#C99C89',
-  SR_RacePace:'var(--accent)',
-  SR_Shakeout:'var(--success)',
-  PP:'var(--accent)',
-  RACE:'var(--accent)',
+window.APP=window.APP||{};
+window.APP.renderCalendar=function(){
+  if(typeof pcalRender==='function') pcalRender();
 };
-function pillColor(sessionType,srType){
-  if(sessionType==='SR'&&srType){
-    // Try exact key first, then prefix-match on first word
-    const exact='SR_'+srType;
-    if(PLAN_PILL_COLORS[exact])return PLAN_PILL_COLORS[exact];
-    const word='SR_'+srType.split('+')[0];
-    return PLAN_PILL_COLORS[word]||'var(--text-3)';
-  }
-  return PLAN_PILL_COLORS[sessionType]||'var(--text-3)';
-}
-
-function pISO(s){const p=s.split('-').map(Number);return new Date(Date.UTC(p[0],p[1]-1,p[2]));}
-function tISO(d){return d.getUTCFullYear()+'-'+String(d.getUTCMonth()+1).padStart(2,'0')+'-'+String(d.getUTCDate()).padStart(2,'0');}
-function shft(d,n){return new Date(d.getTime()+n*MS);}
-function todayISO(){const n=new Date();return n.getFullYear()+'-'+String(n.getMonth()+1).padStart(2,'0')+'-'+String(n.getDate()).padStart(2,'0');}
-
-const TODAY_ISO=todayISO();
-const TODAY_D=pISO(TODAY_ISO);
-
-function buildIndexes(){
-  SCHEDULE.forEach(function(week,wi){
-    const sess=Array.isArray(week.sessions)?week.sessions:[];
-    sess.forEach(function(s){if(!s||!s.date)return;const l=SESS_BY_DATE.get(s.date)||[];l.push(s);SESS_BY_DATE.set(s.date,l);});
-    if(!sess.length)return;
-    let first=sess[0];
-    for(let i=1;i<sess.length;i++){if(sess[i].date<first.date)first=sess[i];}
-    const mon=shft(pISO(first.date),-(typeof first.dayIndex==='number'?first.dayIndex:0));
-    const meta={wi,week,mon,startIso:tISO(mon),endIso:tISO(shft(mon,6))};
-    WEEK_META[wi]=meta;
-    for(let d=0;d<7;d++){DATE_TO_WD[tISO(shft(mon,d))]={wi,di:d};}
-  });
-}
-
-function buildRepls(){
-  if(!APP.detectMissedSessions)return;
-  (APP.detectMissedSessions(TODAY_ISO)||[]).forEach(function(m){
-    const act=m.replacementAction||{};
-    if(!act.action||act.action.indexOf('MAKEUP')!==0||typeof act.day!=='number')return;
-    const loc=DATE_TO_WD[m.date];if(!loc)return;
-    const meta=WEEK_META[loc.wi];if(!meta)return;
-    const iso=tISO(shft(meta.mon,act.day));
-    const baseKm=typeof m.plannedKm==='number'?m.plannedKm:null;
-    const mkm=typeof act.makeupKm==='number'?act.makeupKm:(baseKm!==null&&typeof act.distanceScale==='number'?Math.round(baseKm*act.distanceScale*10)/10:null);
-    const l=REPL_BY_DATE.get(iso)||[];
-    l.push({baseSessionType:m.sessionType,plannedKm:baseKm,zone:act.zone||m.plannedZone||null,makeupKm:mkm});
-    REPL_BY_DATE.set(iso,l);
-  });
-}
-
-function fmtRange(s,e){
-  const sd=pISO(s),ed=pISO(e);
-  const sM=MON[sd.getUTCMonth()],eM=MON[ed.getUTCMonth()];
-  return sM===eM?sM+' '+sd.getUTCDate()+'\u2013'+ed.getUTCDate():sM+' '+sd.getUTCDate()+' \u2013 '+eM+' '+ed.getUTCDate();
-}
-function fmtShort(iso){const d=pISO(iso);return MON[d.getUTCMonth()]+' '+d.getUTCDate();}
-
-function pillLabel(type,km,zone,srType,isRepl){
-  // Returns [name, detail] for stacked pill display
-  var name='',detail='';
-  var kmStr=km!=null?km+' km':'';
-  if(type==='LR'){
-    name='Long Run';
-    detail=[kmStr,zone].filter(Boolean).join(' · ');
-  } else if(type==='SR'){
-    name='Short Run & Prehab';
-    detail=[kmStr,srType,zone].filter(Boolean).join(' · ');
-  } else if(type==='PP'){
-    name='Pull & Push';
-    detail='';
-  } else if(type==='RACE'){
-    name='Race Day 🏁';
-    detail=[kmStr?kmStr+' km':'42.2 km',zone].filter(Boolean).join(' · ');
-  } else {
-    name=type||'Session';
-    detail=[kmStr,srType,zone].filter(Boolean).join(' · ');
-  }
-  if(isRepl) name='↩ '+name;
-  return [name,detail];
-}
-
-function makePill(name,detail,color,state){
-  const el=document.createElement('div');
-  el.className='arc-session-pill'+(state?' arc-'+state:'');
-  el.style.borderLeftColor=color;
-  el.innerHTML='<span class="arc-pill-name">'+name+'</span>'
-    +(detail?'<span class="arc-pill-detail">'+detail+'</span>':'');
-  return el;
-}
-
-function renderDayInto(cell,iso){
-  const dObj=pISO(iso);
-  const isPast=dObj.getTime()<TODAY_D.getTime();
-  const sessions=SESS_BY_DATE.get(iso)||[];
-  const repls=REPL_BY_DATE.get(iso)||[];
-  const log=getLog(iso);
-  const done=!!(log&&log.completed);
-  const body=cell.querySelector('.arc-day-body');
-  const foot=cell.querySelector('.arc-day-footer');
-  if(!body||!foot)return;
-  body.innerHTML='';foot.innerHTML='';
-
-  if(!sessions.length&&!repls.length){
-    const r=document.createElement('div');r.className='arc-rest-label';r.textContent='Rest';
-    body.appendChild(r);return;
-  }
-
-  const state=done?'completed':isPast?'missed':null;
-
-  sessions.forEach(function(s){
-    const col=pillColor(s.sessionType,s.type||null);
-    const nd=pillLabel(s.sessionType,s.km!=null?s.km:null,s.zone,s.type,false);
-    body.appendChild(makePill(nd[0],nd[1],col,state));
-  });
-
-  repls.forEach(function(r){
-    const col=pillColor(r.baseSessionType,null);
-    const km=r.makeupKm!=null?r.makeupKm:r.plannedKm;
-    const nd=pillLabel(r.baseSessionType,km,r.zone,null,true);
-    body.appendChild(makePill(nd[0],nd[1],col,'replacement'));
-  });
-
-  /* ── Checkbox only (P1 Step 4: no km/zone form) ── */
-  const cid='arc-chk-'+iso;
-  foot.innerHTML='<label for="'+cid+'" style="display:inline-flex;align-items:center;gap:5px;'
-    +'font-size:12px;color:var(--text-2);cursor:pointer;font-family:var(--font-ui)">'
-    +'<input type="checkbox" id="'+cid+'" class="arc-chk" data-date="'+iso+'"'
-    +(done?' checked':'')
-    +' style="width:15px;height:15px;accent-color:var(--accent);cursor:pointer">'
-    +'<span>Done</span></label>';
-}
-
-/* ── Prompt 2 Step 4: NO app-header; Prompt 2 Step 5: NO legend ── */
-function renderCalendar(){
-  const root=document.getElementById('calendar-root');
-  if(!root)return;
-  root.innerHTML='';
-  const list=document.createElement('div');
-  list.className='arc-calendar-list';
-
-  WEEK_META.forEach(function(meta,wi){
-    if(!meta)return;
-    const wk=meta.week;
-    const phase=wk.phase||'';
-    const pCls=phase==='BASE'?'arc-phase-base':phase==='BUILD'?'arc-phase-build':
-                phase==='PEAK'?'arc-phase-peak':phase==='TAPER'?'arc-phase-taper':'';
-    const card=document.createElement('section');
-    card.className='arc-week-card';
-    card.setAttribute('data-week-index',String(wi));
-
-    /* header */
-    const hdr=document.createElement('div');hdr.className='arc-week-hdr';
-    hdr.innerHTML='<div class="arc-week-title-group">'
-      +'<div class="arc-week-title">Week '+(wk.week||(wi+1))+'</div>'
-      +'<div class="arc-week-dates">'+fmtRange(meta.startIso,meta.endIso)+'</div>'
-      +'</div>'
-      +'<div class="arc-week-badges">'
-      +'<span class="arc-badge arc-badge-phase '+pCls+'">'+phase+'</span>'
-      +(wk.deload?'<span class="arc-badge arc-badge-deload">Deload</span>':'')
-      +(wk.raceWeek?'<span class="arc-badge arc-badge-race">Race Week</span>':'')
-      +'</div>';
-    card.appendChild(hdr);
-
-    /* day grid */
-    const grid=document.createElement('div');grid.className='arc-day-grid';
-    for(let d=0;d<7;d++){
-      const iso=tISO(shft(meta.mon,d));
-      const cell=document.createElement('div');
-      cell.className='arc-day-cell'+(iso===TODAY_ISO?' arc-today':'');
-      cell.setAttribute('data-date',iso);
-      cell.innerHTML='<div class="arc-day-hdr">'
-        +'<span class="arc-day-name">'+WD[d]+'</span>'
-        +'<span class="arc-day-date">'+fmtShort(iso)+'</span>'
-        +'</div>'
-        +'<div class="arc-day-body"></div>'
-        +'<div class="arc-day-footer"></div>';
-      renderDayInto(cell,iso);
-      grid.appendChild(cell);
-    }
-    card.appendChild(grid);
-    list.appendChild(card);
-  });
-  root.appendChild(list);
-}
-
-function refreshDay(iso){
-  const cell=document.querySelector('.arc-day-cell[data-date="'+iso+'"]');
-  if(cell)renderDayInto(cell,iso);
-}
-
-function scrollToCurrentWeek(){
-  const loc=DATE_TO_WD[TODAY_ISO];
-  let idx=loc?loc.wi:0;
-  if(!loc){for(let i=0;i<WEEK_META.length;i++){const m=WEEK_META[i];if(m&&TODAY_D>=m.mon&&TODAY_D<=shft(m.mon,6)){idx=i;break;}}}
-  const card=document.querySelector('.arc-week-card[data-week-index="'+idx+'"]');
-  if(card)card.scrollIntoView({behavior:'smooth',block:'start'});
-}
-
-/* checkbox handler — simplified (P1 Step 4) */
-document.addEventListener('change',function(e){
-  const t=e.target;
-  if(!t.classList.contains('arc-chk'))return;
-  const iso=t.getAttribute('data-date');
-  if(t.checked){
-    if(typeof APP.markComplete==='function')APP.markComplete(iso);
-    if(typeof saveState==='function')saveState();
-    if(typeof showToast==='function')showToast('Session marked complete ✓');
-  } else {
-    if(typeof APP.markIncomplete==='function')APP.markIncomplete(iso);
-    if(typeof saveState==='function')saveState();
-  }
-  refreshDay(iso);
-});
-
-buildIndexes();
-buildRepls();
-APP.renderCalendar=renderCalendar;
-APP.refreshDay=refreshDay;
-APP.scrollToCurrentWeek=scrollToCurrentWeek;
-window.APP=APP;
+window.APP.refreshDay=function(){
+  if(typeof pcalRender==='function') pcalRender();
+};
+window.APP.scrollToCurrentWeek=function(){
+  if(typeof pcalGoToToday==='function') pcalGoToToday();
+};
   // ── Re-render home on first load ─────────────────────────────────────────
   // scripts [4-6] may execute asynchronously when served in an iframe,
   // meaning renderHome() ran before SCHEDULE was ready. Re-render now that
